@@ -9,13 +9,6 @@
 		"48": "icons/48.png"
 	},
 
-	"permissions": [
-		"<all_urls>",
-		"tabs",
-		"storage"
-	],
-	"contentaccessible": "yes",
-
 	"content_scripts": [
 		{
 			"matches": [
