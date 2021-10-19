@@ -1,6 +1,7 @@
 var imgclass = "lnXdpd";
 var imgpos = 0;
-var replacementurl = "https://upload.wikimedia.org/wikipedia/commons/3/3e/Google_2011_logo.png";
+var replacementurl = chrome.extension.getURL('resources/logo.png');
+var favicon = chrome.extension.getURL('resources/favicon.ico');
 
 var img;
 var page = location.pathname;
@@ -16,3 +17,11 @@ if(page == "/" || page == "/webhp") {
 } else {
 	console.log("[Old Google] Page is not known. Will not replace any images.");
 }
+
+var link = document.querySelector("link[rel~='icon']");
+if (!link) {
+	link = document.createElement('link');
+	link.rel = 'icon';
+	document.getElementsByTagName('head')[0].appendChild(link);
+}
+link.href = favicon;
