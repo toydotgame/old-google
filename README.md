@@ -15,7 +15,7 @@ Replaces the logo on `google.com` and on the Google search page to that of [the 
 ### Steps
 1. Clone the GitHub repo:
 	```sh
-	git clone https://github.com/toydotgame/old-google-logo.git
+	git clone https://github.com/toydotgame/old-google.git
 	cd old-google-logo/
 	```
 2. Build the code:
