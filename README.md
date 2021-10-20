@@ -24,4 +24,6 @@ Replaces the logo on `google.com` and on the Google search page to that of [the 
 	```
 3. Install the addon temporarily in Firefox:
 	* In Firefox, go to `about:debugging`, to _This Firefox_, then under the _Temporary Extensions_ heading, click _Load Temporary Add-on..._.
-	* After that, navigate to wherever you cloned the repo, then inside that `old-google-logo/` folder, find `web-ext-artifacts/`, and in that, double-click to open `old_google_logo-x.x.zip` (with `x.x` being the version number, like _1.0_).
+	* After that, navigate to wherever you cloned the repo, then inside that `old-google-logo/` folder, find `web-ext-artifacts/`, and in that, double-click to open `old_google_logo-x.x.zip` (with `x.x` being the version number, such as _1.0_).
+
+This way of installing the extension will cause it to be removed after you close the browser window, or when you press _Remove_ (at the bottom of the extension details box in the `about:debugging` page we were just on).
