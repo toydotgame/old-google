@@ -4,7 +4,7 @@ Replaces the logo on `google.com` and on the Google search page to that of [the 
 ## Goals
 * [x] Make boilerplate code at least somewhat easily update-able.
 * [x] Implement favicon replacement.
-* [ ] Allow plugin to only run on `www.google` and `images.google` subdomains, just in case other subdomains use similar IDs and the code is run on the wrong images unintentionally (which could potentially cause graphical errors in webpage rendering).
+* [x] Allow extension to only run on `www.google` and `images.google` subdomains, just in case other subdomains use similar IDs and the code is run on the wrong images unintentionally (which could potentially cause graphical errors in webpage rendering).
 * [ ] Sign, package, and distribute this extension on [AMO (`addons.mozilla.org`)](https://addons.mozilla.org/).
 
 ## Compiling for Testing
