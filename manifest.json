@@ -8,6 +8,10 @@
 		"32": "icons/32.png",
 		"48": "icons/48.png"
 	},
+	
+	"web_accessible_resources": [
+		"resources/favicon.ico"
+	],
 
 	"content_scripts": [
 		{

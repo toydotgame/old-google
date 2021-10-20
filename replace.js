@@ -1,7 +1,7 @@
 var imgclass = "lnXdpd";
 var imgpos = 0;
 var replacementurl = chrome.extension.getURL('resources/logo.png');
-//var favicon = chrome.extension.getURL('resources/favicon.ico');
+var favicon = chrome.extension.getURL('resources/favicon.ico');
 
 var img;
 var page = location.pathname;
@@ -18,10 +18,5 @@ if(page == "/" || page == "/webhp") {
 	console.log("[Old Google] Page is not known. Will not replace any images.");
 }
 
-/*var link = document.querySelector("link[rel~='icon']");
-if (!link) {
-	link = document.createElement('link');
-	link.rel = 'icon';
-	document.getElementsByTagName('head')[0].appendChild(link);
-}
-link.href = favicon;*/
+document.getElementsByTagName("head")[0].innerHTML += '<link rel="icon" href="' + favicon + '">'; // Although this looks like boilerplate code, it isn't. There's only ever one `<head>` element. `.innerHTML +=` appends the text inside the element.
+
