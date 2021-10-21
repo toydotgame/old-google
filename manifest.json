@@ -216,7 +216,7 @@
 				"*://www.google.tt/*",
 				"*://www.google.vg/*",
 				"*://www.google.vu/*",
-				"*://www.google.ws/*",
+				"*://www.google.ws/*"
 			],
 			"js": ["replace.js"]
 		}
