@@ -8,7 +8,7 @@ if(page == "/" || page == "/webhp") {
 	img.srcset = "";
 	img.src = replacementurl;
 } else if(page == "/search") { // Seperate code needs to be run for the search page, as the image is used in a completely different way by Google.
-	img = document.getElementsByTagName("img")[0];
+	var img = document.getElementsByTagName("img")[0];
 	img.src = replacementurl;
 }
 
