@@ -14,9 +14,9 @@ if(page == "/" || page == "/webhp") {
 		var img = document.getElementsByTagName("img")[0];
 		img.src = replacementurl;
 	} else {
-		headerbg.remove();
 		var img = document.getElementsByTagName("img")[1];
 		img.src = replacementurl;
+		headerbg.remove();
 	}
 }
 
