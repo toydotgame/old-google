@@ -5,7 +5,7 @@ var replacementurl = chrome.extension.getURL('resources/logo.png');
 var favicon = chrome.extension.getURL('resources/favicon.ico');
 
 var page = location.pathname; // Putting `location.pathname` in the `if()` causes a reload. Declaring it seperately does not cause a reload.
-if(page == "/" || page == "/webhp") {
+if(page == "/" || page == "/webhp" || page == "/imghp") {
 	var img = document.getElementsByClassName(imgclass)[0];
 	if(img == null) {
 		img = document.getElementsByClassName(homedoodleclass)[0];
