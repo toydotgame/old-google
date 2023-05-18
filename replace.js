@@ -21,8 +21,11 @@ if(page == "/" || page == "/webhp" || page == "/imghp") {
 	if(headerbg != null) {
 		headerbg.remove();
 	}
+	
+	// Replace svg logo used on the image search page.
 	document.getElementsByTagName("svg")[0].outerHTML = '<img class="jfN4p" src="logo" style="background:none" alt="Google" data-atf="1" data-frt="0" width="92" height="30">';
 	
+	// Change logo's image source
 	var img = document.getElementsByTagName("img")[0];
 	img.src = replacementurl;
 }
