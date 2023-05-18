@@ -4,6 +4,8 @@ var homedoodleclass = "ddlsv-svCta_";
 var replacementurl = chrome.extension.getURL('resources/logo.png');
 var favicon = chrome.extension.getURL('resources/favicon.ico');
 
+document.getElementsByTagName("head")[0].innerHTML += '<link rel="icon" href="' + favicon + '">'; // Appends a HTML-based favicon to the `<head>` element.
+
 var page = location.pathname; // Putting `location.pathname` in the `if()` causes a reload. Declaring it seperately does not cause a reload.
 if(page == "/" || page == "/webhp" || page == "/imghp") {
 	var img = document.getElementsByClassName(imgclass)[0];
@@ -19,9 +21,8 @@ if(page == "/" || page == "/webhp" || page == "/imghp") {
 	if(headerbg != null) {
 		headerbg.remove();
 	}
-
+	document.getElementsByTagName("svg")[0].outerHTML = '<img class="jfN4p" src="logo" style="background:none" alt="Google" data-atf="1" data-frt="0" width="92" height="30">';
+	
 	var img = document.getElementsByTagName("img")[0];
 	img.src = replacementurl;
 }
-
-document.getElementsByTagName("head")[0].innerHTML += '<link rel="icon" href="' + favicon + '">'; // Appends a HTML-based favicon to the `<head>` element.
