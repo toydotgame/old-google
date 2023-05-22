@@ -5,21 +5,29 @@
  */
 
 var logourl = chrome.extension.getURL('resources/logo.png');
+var mapslogourl = chrome.extension.getURL('resources/mapslogo.png');
 var favicon = chrome.extension.getURL('resources/favicon.ico');
+var favicon2 = chrome.extension.getURL('resources/favicon2.ico');
 
 var hplogo = "lnXdpd";
 var gschlogo = "jfN4p";
 var ischlogo = "TYpZOd";
 var hplogodiv = "k1zIA";
+var mapslogo = "lmygoc";
 var sharediv = "SuUcIb";
-
-document.getElementsByTagName("head")[0].innerHTML += '<link rel="icon" href="' + favicon + '">';
 
 var subdomain = window.location.host.split('.')[0];
 var page = "/" + location.pathname.split('/')[1]; // Get root-most page in a backwards-compatible-with-`location.pathname` fashion.
 var isch = false;
 if(new URLSearchParams(window.location.search).get('tbm') == "isch") { // Query string `&tbm=isch` only present on Images results.
 	isch = true;
+}
+
+// Replaces favicon, different one for Google Maps.
+if(page == "/maps") {
+	document.getElementsByTagName("head")[0].innerHTML += '<link rel="icon" href="' + favicon2 + '">';
+} else {
+	document.getElementsByTagName("head")[0].innerHTML += '<link rel="icon" href="' + favicon + '">';
 }
 
 switch(page) {
@@ -30,6 +38,8 @@ switch(page) {
 		break;
 	case "/search":
 		SchLogoSwap();
+	case "/maps":
+		MapsLogoSwap();
 	
 }
 
@@ -71,3 +81,11 @@ function SchLogoSwap() {
 	document.getElementsByClassName(ischlogo)[0].src = logourl;
 }
 
+/*
+ * void MapsLogoSwap()
+ * Replaces logo on left popout and bottom middle watermark on Google Maps.
+ */
+function MapsLogoSwap() {
+	document.getElementsByClassName("watermark")[0].src = logourl;
+	document.getElementsByClassName(mapslogo)[0].src = mapslogourl;
+}
