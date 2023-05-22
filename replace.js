@@ -11,7 +11,6 @@ var hplogo = "lnXdpd";
 var gschlogo = "jfN4p";
 var ischlogo = "TYpZOd";
 var hplogodiv = "k1zIA";
-var doodlestyle = "LLD4me";
 var sharediv = "SuUcIb";
 
 document.getElementsByTagName("head")[0].innerHTML += '<link rel="icon" href="' + favicon + '">';
@@ -42,13 +41,12 @@ switch(page) {
 function HpLogoSwap() {
 	console.log("hplogo");
 	if(!(page == "/imghp" || subdomain == "images")) {
-		document.getElementsByClassName(hplogodiv)[0].outerHTML = '<img class="' + hplogo + '">';
+		document.getElementsByClassName(hplogodiv)[0].outerHTML = '<div style="margin-top:auto; max-height:92px;"><img class="' + hplogo + '"></div>';
 	}
 	
 	document.getElementsByClassName(hplogo)[0].src = logourl;
 	document.getElementsByClassName(hplogo)[0].srcset = ""; // Clear override.
 	// Override Doodle size styles:
-	document.getElementsByClassName(doodlestyle)[0].classList.remove(doodlestyle);
 	document.getElementsByClassName(hplogo)[0].width = "272";
 	document.getElementsByClassName(hplogo)[0].height = "92";
 	// Remove Doodle share button:
