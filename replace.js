@@ -17,7 +17,7 @@ var sharediv = "SuUcIb";
 document.getElementsByTagName("head")[0].innerHTML += '<link rel="icon" href="' + favicon + '">';
 
 var subdomain = window.location.host.split('.')[0];
-var page = location.pathname;
+var page = "/" + location.pathname.split('/')[1]; // Get root-most page in a backwards-compatible-with-`location.pathname` fashion.
 var isch = false;
 if(new URLSearchParams(window.location.search).get('tbm') == "isch") { // Query string `&tbm=isch` only present on Images results.
 	isch = true;
