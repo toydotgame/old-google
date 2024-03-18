@@ -37,13 +37,11 @@ switch(page) {
 		break;
 	case "/search":
 		SchLogoSwap();
-	
 }
 
 /*
  * void HpLogoSwap()
  * Replaces Google Doodles and the regular logo image with the old logo on the Google homepages.
- * Throws TypeError (on non-Doodle days) as it tries to replace Doodles without validation.
  */
 function HpLogoSwap() {
 	if(!(page == "/imghp" || subdomain == "images")) {
