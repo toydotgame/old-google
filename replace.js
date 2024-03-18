@@ -55,8 +55,10 @@ function HpLogoSwap() {
 	// Override Doodle size styles:
 	document.getElementsByClassName(hplogo)[0].width = "272";
 	document.getElementsByClassName(hplogo)[0].height = "92";
-	// Remove Doodle share button:
-	document.getElementsByClassName(sharediv)[0].remove();
+	// Remove share button (only present on Doodles):
+	try {
+		document.getElementsByClassName(sharediv)[0].remove();
+	} catch(TypeError) {}
 }
 
 /*
