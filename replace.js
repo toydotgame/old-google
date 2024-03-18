@@ -39,7 +39,6 @@ switch(page) {
  * Throws TypeError (on non-Doodle days) as it tries to replace Doodles without validation.
  */
 function HpLogoSwap() {
-	console.log("hplogo");
 	if(!(page == "/imghp" || subdomain == "images")) {
 		document.getElementsByClassName(hplogodiv)[0].outerHTML = '<div style="margin-top:auto; max-height:92px;"><img class="' + hplogo + '"></div>';
 	}
@@ -59,13 +58,11 @@ function HpLogoSwap() {
  * TODO: Doodle compatibility.
  */
 function SchLogoSwap() {
-	console.log("splogo")
 	if(!isch) {
 		document.getElementsByClassName(gschlogo)[0].src = logourl;
 		return;
 	}
 	
-	console.log("isch running");
 	document.getElementsByClassName(ischlogo)[0].outerHTML = document.getElementsByClassName(ischlogo)[0].outerHTML.replace(/svg/g, "img");
 	document.getElementsByClassName(ischlogo)[0].height = "30"; // SVG proportions are 34px for some reason so override here.
 	document.getElementsByClassName(ischlogo)[0].src = logourl;
