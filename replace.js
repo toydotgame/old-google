@@ -4,8 +4,15 @@
  * Main replacement script that handles boilerplate classes.
  */
 
-var logourl = chrome.extension.getURL('resources/logo.png');
-var favicon = chrome.extension.getURL('resources/favicon.ico');
+// This extension can be run in the console when `debug = true`, with the caveat that logo loading is slower.
+var debug = true;
+if(debug) {
+	var logourl = "https://upload.wikimedia.org/wikipedia/commons/3/3e/Google_2011_logo.png";
+	var favicon = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Google_Icon_%282010-2015%29.svg/512px-Google_Icon_%282010-2015%29.svg.png";
+} else {
+	var logourl = chrome.extension.getURL('resources/logo.png');
+	var favicon = chrome.extension.getURL('resources/favicon.ico');
+}
 
 var hplogo = "lnXdpd";
 var gschlogo = "jfN4p";
