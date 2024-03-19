@@ -11,6 +11,8 @@ I am open to PRs for help on features and improvements if you would like to help
 * [x] Google Images support.
 * [x] Google Doodle support.
 	* [ ] Google Doodle search page support.
+* [ ] Option for an old Googlebot UA switcher to get an older interface.
+	* [ ] Dark mode old UA support.
 
 ## Compiling for Testing
 ### Requirements:
