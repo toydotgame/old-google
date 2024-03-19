@@ -4,15 +4,10 @@
  * Main replacement script that handles boilerplate classes.
  */
 
-// This extension can be run in the console when `debug = true`, with the caveat that logo loading is slower.
-var debug = true;
-if(debug) {
-	var logourl = "https://upload.wikimedia.org/wikipedia/commons/3/3e/Google_2011_logo.png";
-	var favicon = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Google_Icon_%282010-2015%29.svg/512px-Google_Icon_%282010-2015%29.svg.png";
-} else {
-	var logourl = chrome.extension.getURL('resources/logo.png');
-	var favicon = chrome.extension.getURL('resources/favicon.ico');
-}
+//var logourl = "https://upload.wikimedia.org/wikipedia/commons/3/3e/Google_2011_logo.png";
+//var favicon = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Google_Icon_%282010-2015%29.svg/512px-Google_Icon_%282010-2015%29.svg.png";
+var logourl = chrome.extension.getURL('resources/logo.png');
+var favicon = chrome.extension.getURL('resources/favicon.ico');
 
 var hplogo = "lnXdpd";
 var gschlogo = "jfN4p";
@@ -20,7 +15,13 @@ var ischlogo = "TYpZOd";
 var hplogodiv = "k1zIA";
 var sharediv = "SuUcIb";
 
-//document.getElementsByTagName("head")[0].innerHTML += '<link rel="icon" href="' + favicon + '">';
+const favicon_obs = new MutationObserver(function (mutations, mutationInstance) {
+	if (document.getElementsByTagName("head")[0]) {
+		document.getElementsByTagName("head")[0].innerHTML += '<link rel="icon" href="' + favicon + '">';
+		mutationInstance.disconnect();
+	}
+});
+favicon_obs.observe(document, {childList: true, subtree: true});
 
 var subdomain = window.location.host.split('.')[0];
 var page = "/" + location.pathname.split('/')[1]; // Get root-most page in a backwards-compatible-with-`location.pathname` fashion.
@@ -29,7 +30,7 @@ if(new URLSearchParams(window.location.search).get('tbm') == "isch") { // Query 
 	isch = true;
 }
 
-const observer = new MutationObserver(function (mutations, mutationInstance) {
+const logo_obs = new MutationObserver(function (mutations, mutationInstance) {
 	var obs_hplogo = document.getElementsByClassName(hplogodiv)[0];
 	var obs_gschlogo = document.getElementsByClassName(gschlogo)[0];
 	var obs_ischlogo = document.getElementsByClassName(ischlogo)[0];
@@ -38,8 +39,12 @@ const observer = new MutationObserver(function (mutations, mutationInstance) {
 		mutationInstance.disconnect();
 	}
 });
-observer.observe(document, {childList: true, subtree: true});
+logo_obs.observe(document, {childList: true, subtree: true});
 
+/*
+ * void Main()
+ * Only called once one of the logo divs is detected to have been loaded into DOM.
+ */
 function Main() {
 	switch(page) {
 		case "/":
