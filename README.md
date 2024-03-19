@@ -23,7 +23,7 @@ I am open to PRs for help on features and improvements if you would like to help
 1. Clone the GitHub repo:
 	```sh
 	git clone https://github.com/toydotgame/old-google.git
-	cd old-google-logo/
+	cd old-google/
 	```
 2. Build the code:
 	```sh
@@ -31,9 +31,8 @@ I am open to PRs for help on features and improvements if you would like to help
 	```
 3. Install the addon temporarily in Firefox:
 	* In Firefox, go to `about:debugging`, to _This Firefox_, then under the _Temporary Extensions_ heading, click _Load Temporary Add-on..._.
-	* After that, navigate to wherever you cloned the repo, then inside that `old-google-logo/` folder, find `web-ext-artifacts/`, and in that, double-click to open `old_google_logo-x.x.zip` (with `x.x` being the version number, such as _1.0_).
+	* After that, navigate to wherever you cloned the repo, then inside that `old-google/` folder, find `web-ext-artifacts/`, and in that, double-click to open `old_google-x.x.zip`.
 
-This way of installing the extension will cause it to be removed after you close the browser window, or when you press _Remove_ (at the bottom of the extension details box in the `about:debugging` page we were just on).
+This way of installing the extension will cause it to be removed after you close the browser window.
 
-Alternatively, you can just load the `replace.js` file into `about:debugging` to achieve the same functionality.
-
+Alternatively, you can just load the `manifest.json` file into `about:debugging` to achieve the same functionality.
