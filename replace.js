@@ -4,16 +4,17 @@
  * Main replacement script that handles boilerplate classes.
  */
 
-//var logourl = "https://upload.wikimedia.org/wikipedia/commons/3/3e/Google_2011_logo.png";
-//var favicon = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Google_Icon_%282010-2015%29.svg/512px-Google_Icon_%282010-2015%29.svg.png";
-var logourl = chrome.extension.getURL('resources/logo.png');
-var favicon = chrome.extension.getURL('resources/favicon.ico');
+var logourl = "https://upload.wikimedia.org/wikipedia/commons/3/3e/Google_2011_logo.png";
+var favicon = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Google_Icon_%282010-2015%29.svg/512px-Google_Icon_%282010-2015%29.svg.png";
+//var logourl = chrome.extension.getURL('resources/logo.png');
+//var favicon = chrome.extension.getURL('resources/favicon.ico');
 
 var hplogo = "lnXdpd";
 var gschlogo = "jfN4p";
 var ischlogo = "TYpZOd";
 var hplogodiv = "k1zIA";
 var sharediv = "SuUcIb";
+var randrow = ["zp6Lyf", "XtQzZd"]; // Classes of actual button div and then the navbar which is left too high.
 
 const favicon_obs = new MutationObserver(function (mutations, mutationInstance) {
 	if (document.getElementsByTagName("head")[0]) {
@@ -91,5 +92,9 @@ function SchLogoSwap() {
 	document.getElementsByClassName(ischlogo)[0].outerHTML = document.getElementsByClassName(ischlogo)[0].outerHTML.replace(/svg/g, "img");
 	document.getElementsByClassName(ischlogo)[0].height = "30"; // SVG proportions are 34px for some reason so override here.
 	document.getElementsByClassName(ischlogo)[0].src = logourl;
+
+	// Remove random bar of buttons Google thought'd be a good idea to add:
+	document.getElementsByClassName(randrow[0])[0].remove();
+	document.getElementsByClassName(randrow[1])[0].style.height = "57px";
 }
 
