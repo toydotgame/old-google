@@ -417,7 +417,7 @@
 				"*://images.google.ws/*"
 			],
 			"js": ["replace.js"],
-			"run_at": "document_end"
+			"run_at": "document_start"
 		}
 	]
 }

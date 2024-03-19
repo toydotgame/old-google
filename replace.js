@@ -20,7 +20,7 @@ var ischlogo = "TYpZOd";
 var hplogodiv = "k1zIA";
 var sharediv = "SuUcIb";
 
-document.getElementsByTagName("head")[0].innerHTML += '<link rel="icon" href="' + favicon + '">';
+//document.getElementsByTagName("head")[0].innerHTML += '<link rel="icon" href="' + favicon + '">';
 
 var subdomain = window.location.host.split('.')[0];
 var page = "/" + location.pathname.split('/')[1]; // Get root-most page in a backwards-compatible-with-`location.pathname` fashion.
@@ -29,14 +29,27 @@ if(new URLSearchParams(window.location.search).get('tbm') == "isch") { // Query 
 	isch = true;
 }
 
-switch(page) {
-	case "/":
-	case "/webhp":
-	case "/imghp":
-		HpLogoSwap();
-		break;
-	case "/search":
-		SchLogoSwap();
+const observer = new MutationObserver(function (mutations, mutationInstance) {
+	var obs_hplogo = document.getElementsByClassName(hplogodiv)[0];
+	var obs_gschlogo = document.getElementsByClassName(gschlogo)[0];
+	var obs_ischlogo = document.getElementsByClassName(ischlogo)[0];
+	if (obs_hplogo || (obs_gschlogo && obs_ischlogo)) {
+		Main();
+		mutationInstance.disconnect();
+	}
+});
+observer.observe(document, {childList: true, subtree: true});
+
+function Main() {
+	switch(page) {
+		case "/":
+		case "/webhp":
+		case "/imghp":
+			HpLogoSwap();
+			break;
+		case "/search":
+			SchLogoSwap();
+	}
 }
 
 /*
@@ -47,7 +60,7 @@ function HpLogoSwap() {
 	if(!(page == "/imghp" || subdomain == "images")) {
 		document.getElementsByClassName(hplogodiv)[0].outerHTML = '<div style="margin-top:auto; max-height:92px;"><img class="' + hplogo + '"></div>';
 	}
-	
+
 	document.getElementsByClassName(hplogo)[0].src = logourl;
 	document.getElementsByClassName(hplogo)[0].srcset = ""; // Clear override.
 	// Override Doodle size styles:
