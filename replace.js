@@ -33,7 +33,7 @@ const observer = new MutationObserver(function (mutations, mutationInstance) {
 	var obs_hplogo = document.getElementsByClassName(hplogodiv)[0];
 	var obs_gschlogo = document.getElementsByClassName(gschlogo)[0];
 	var obs_ischlogo = document.getElementsByClassName(ischlogo)[0];
-	if (obs_hplogo || (obs_gschlogo && obs_ischlogo)) {
+	if (obs_hplogo || obs_gschlogo || obs_ischlogo) {
 		Main();
 		mutationInstance.disconnect();
 	}
