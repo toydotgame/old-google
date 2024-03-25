@@ -4,15 +4,16 @@
  * Main replacement script that handles boilerplate classes
  */
 
-var logoUrl = "https://upload.wikimedia.org/wikipedia/commons/3/3e/Google_2011_logo.png";
-var favicon = "https://www.w3schools.com/favicon.ico";
-//var logoUrl = chrome.extension.getURL('resources/logo.png');
-//var favicon = chrome.extension.getURL('resources/favicon.ico');
+//var logoUrl = "https://upload.wikimedia.org/wikipedia/commons/3/3e/Google_2011_logo.png";
+//var favicon = "https://www.w3schools.com/favicon.ico";
+var logoUrl = chrome.extension.getURL('resources/logo.png');
+var favicon = chrome.extension.getURL('resources/favicon.ico');
 
 var homepageLogo = ["lnXdpd", "k1zIA", "SuUcIb"]; // Homepage logo, its container, and the Doodle share button
 var searchLogo = ["jfN4p", "TYpZOd"]; // PNG and SVG (respectively) results page logos
 var randRow = ["zp6Lyf", "XtQzZd"]; // Classes of actual button div and then the navbar which is left too high
 
+console.log("Running when ready...");
 RunWhenReady([document.getElementsByTagName("head")[0]], function(elements) {
 	elements[0].innerHTML += '<link rel="icon" href="' + favicon + '">';
 });
@@ -94,12 +95,16 @@ function SwapSearchLogo() {
  * TODO: Asynchronously create a new thread to run this code.
  */
 function RunWhenReady(elements, code) {
-	console.log(code);
+	console.log("RunWhenReady() triggered.\n"
+	+ "code: ```\n" + code + "\n```\n"
+	+ "Running on elements (" + elements.length + "): ```\n" + elements.toString() + "\n```");
 	var observer = new MutationObserver(function (mutations, mutationInstance) {
-		if (objects.some(obj => obj)) {
+		if(elements.some(obj => document.contains(obj))) {
+			console.log("Targeted element loaded.");
 			code(elements);
 			mutationInstance.disconnect();
 		}
 	});
+	console.log("Triggering observer.");
 	observer.observe(document, {childList: true, subtree: true});
 }
