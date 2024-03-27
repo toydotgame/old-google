@@ -14,7 +14,7 @@ var searchLogo = [".jfN4p", ".TYpZOd"]; // PNG and SVG (respectively) results pa
 var randRow = [".zp6Lyf", ".XtQzZd"]; // Classes of actual button div and then the navbar which is left too high
 
 RunWhenReady(["head"], function(loadedElement) {
-	loadedElement.innerHTML += '<link rel="icon" href="' + favicon + '">';
+	loadedElement.append(Object.assign(document.createElement("link"),{rel:"icon", href:favicon}));
 });
 
 var subdomain = window.location.host.split(".")[0];
