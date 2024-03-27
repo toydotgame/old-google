@@ -15,9 +15,8 @@ var homepageLogo = [".lnXdpd", ".k1zIA", ".SuUcIb"];
 var searchLogo = [".jfN4p", ".TYpZOd"];
 // Classes of actual button div and then the navbar which is left too high
 var randRow = [".IUOThf", ".XtQzZd"];
-// Homepage search box, search suggestions dropdown, suggestions dropdown buttons container
-// Results search box
-var searchBox = [".RNNXgb", ".aajZCb", ".lJ9FBc", ".RNNXgb"];
+// Search box, search suggestions dropdown, suggestions dropdown buttons container
+var searchBox = [".RNNXgb", ".aajZCb", ".lJ9FBc"];
 
 RunWhenReady(["head"], function(loadedElement) {
 	loadedElement.append(Object.assign(document.createElement("link"),{rel:"icon", href:favicon}));
@@ -65,7 +64,6 @@ function SwapHomepageLogo() {
 
 	document.querySelector(searchBox[0]).style.borderRadius = "2px";
 	document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
-	document.querySelector(searchBox[2]).style.height = null;
 
 	// Override Doodle size styles:
 	document.querySelector(homepageLogo[0]).width = "272";
@@ -88,7 +86,7 @@ function SwapResultsLogo() {
 		document.querySelector(randRow[1]).style.height = "57px";
 	});
 
-	document.querySelector(searchBox[3]).style.borderRadius = "2px";
+	document.querySelector(searchBox[0]).style.borderRadius = "2px";
 	document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
 
 	if(!isImageSearch) {
