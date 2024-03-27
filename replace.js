@@ -89,20 +89,19 @@ function SwapSearchLogo() {
 /*
  * void RunWhenReady(String[] selectors, function code)
  * Takes code and runs it when at least one of the input querySelectors is detected.
- * Returns a DOMObject `loadedElement`.
+ * Returns a DOMObject `loadedElement`, corresponding to the earliest loaded element
+ * that matches a selector.
  * TODO: Asynchronously create a new thread to run this code.
  */
 function RunWhenReady(selectors, code) {
 	var loadedElement;
 	var observer = new MutationObserver(function (mutations, mutationInstance) {
 		for(var i = 0; i < selectors.length; i++) {
-			console.log("Mutation detected. Selector element loaded = " + (document.querySelector(selectors[i]) != null));
 			if(document.querySelector(selectors[i]) != null) {
 				loadedElement = document.querySelector(selectors[i]);
-				console.log("loadedElement = " + loadedElement.toString());
 				code(loadedElement);
 				mutationInstance.disconnect();
-				break; // Not bothered returning an array so I'll return one object as loadedElement.
+				break; // Not bothered returning an array so I'll return one object as loadedElement
 			}
 		}
 	});
