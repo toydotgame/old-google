@@ -6,8 +6,8 @@
 
 //var logoUrl = "https://upload.wikimedia.org/wikipedia/commons/3/3e/Google_2011_logo.png";
 //var favicon = "https://www.w3schools.com/favicon.ico";
-var logoUrl = chrome.extension.getURL('resources/logo.png');
-var favicon = chrome.extension.getURL('resources/favicon.ico');
+var logoUrl = browser.runtime.getURL('resources/logo.png');
+var favicon = browser.runtime.getURL('resources/favicon.ico');
 
 var homepageLogo = [".lnXdpd", ".k1zIA", ".SuUcIb"]; // Homepage logo, its container, and the Doodle share button
 var searchLogo = [".jfN4p", ".TYpZOd"]; // PNG and SVG (respectively) results page logos
