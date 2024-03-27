@@ -9,9 +9,15 @@
 var logoUrl = browser.runtime.getURL('resources/logo.png');
 var favicon = browser.runtime.getURL('resources/favicon.ico');
 
-var homepageLogo = [".lnXdpd", ".k1zIA", ".SuUcIb"]; // Homepage logo, its container, and the Doodle share button
-var searchLogo = [".jfN4p", ".TYpZOd"]; // PNG and SVG (respectively) results page logos
-var randRow = [".IUOThf", ".XtQzZd"]; // Classes of actual button div and then the navbar which is left too high
+// Homepage logo, its container, and the Doodle share button
+var homepageLogo = [".lnXdpd", ".k1zIA", ".SuUcIb"];
+// PNG and SVG (respectively) results page logos
+var searchLogo = [".jfN4p", ".TYpZOd"];
+// Classes of actual button div and then the navbar which is left too high
+var randRow = [".IUOThf", ".XtQzZd"];
+// Homepage search box, search suggestions dropdown, suggestions dropdown buttons container
+// Results search box
+var searchBox = [".RNNXgb", ".aajZCb", ".lJ9FBc", ".RNNXgb"];
 
 RunWhenReady(["head"], function(loadedElement) {
 	loadedElement.append(Object.assign(document.createElement("link"),{rel:"icon", href:favicon}));
@@ -54,9 +60,13 @@ function SwapHomepageLogo() {
 	if(!(page == "/imghp" || subdomain == "images")) {
 		document.querySelector(homepageLogo[1]).outerHTML = '<div style="margin-top:auto; max-height:92px;"><img class="' + homepageLogo[0].split(".")[1] + '"></div>';
 	}
-
 	document.querySelector(homepageLogo[0]).src = logoUrl;
 	document.querySelector(homepageLogo[0]).srcset = ""; // Clear override
+
+	document.querySelector(searchBox[0]).style.borderRadius = "2px";
+	document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
+	document.querySelector(searchBox[2]).style.height = null;
+
 	// Override Doodle size styles:
 	document.querySelector(homepageLogo[0]).width = "272";
 	document.querySelector(homepageLogo[0]).height = "92";
@@ -77,6 +87,9 @@ function SwapResultsLogo() {
 		document.querySelector(randRow[0]).remove();
 		document.querySelector(randRow[1]).style.height = "57px";
 	});
+
+	document.querySelector(searchBox[3]).style.borderRadius = "2px";
+	document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
 
 	if(!isImageSearch) {
 		document.querySelector(searchLogo[0]).src = logoUrl;
