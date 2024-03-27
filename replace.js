@@ -17,10 +17,10 @@ RunWhenReady(["head"], function(loadedElement) {
 	loadedElement.innerHTML += '<link rel="icon" href="' + favicon + '">';
 });
 
-var subdomain = window.location.host.split('.')[0];
-var page = "/" + location.pathname.split('/')[1];
+var subdomain = window.location.host.split(".")[0];
+var page = "/" + location.pathname.split("/")[1];
 var isImageSearch = false;
-if(new URLSearchParams(window.location.search).get('tbm') == "isch") { // Query string `&tbm=isch` only present on Images results, where the logo is an SVG
+if(new URLSearchParams(window.location.search).get("tbm") == "isch") { // Query string `&tbm=isch` only present on Images results, where the logo is an SVG
 	isImageSearch = true;
 }
 
@@ -52,17 +52,17 @@ function Main() {
  */
 function SwapHomepageLogo() {
 	if(!(page == "/imghp" || subdomain == "images")) {
-		document.getElementsByClassName(homepageLogo[1])[0].outerHTML = '<div style="margin-top:auto; max-height:92px;"><img class="' + homepageLogo[0] + '"></div>';
+		document.querySelector(homepageLogo[1]).outerHTML = '<div style="margin-top:auto; max-height:92px;"><img class="' + homepageLogo[0].split(".")[1] + '"></div>';
 	}
 
-	document.getElementsByClassName(homepageLogo[0])[0].src = logoUrl;
-	document.getElementsByClassName(homepageLogo[0])[0].srcset = ""; // Clear override
+	document.querySelector(homepageLogo[0]).src = logoUrl;
+	document.querySelector(homepageLogo[0]).srcset = ""; // Clear override
 	// Override Doodle size styles:
-	document.getElementsByClassName(homepageLogo[0])[0].width = "272";
-	document.getElementsByClassName(homepageLogo[0])[0].height = "92";
+	document.querySelector(homepageLogo[0]).width = "272";
+	document.querySelector(homepageLogo[0]).height = "92";
 	// Remove share button (only present on Doodles):
 	try {
-		document.getElementsByClassName(homepageLogo[2])[0].remove();
+		document.querySelector(homepageLogo[2]).remove();
 	} catch(TypeError) {}
 }
 
@@ -73,17 +73,17 @@ function SwapHomepageLogo() {
  */
 function SwapSearchLogo() {
 	if(!isImageSearch) {
-		document.getElementsByClassName(searchLogo[0])[0].src = logoUrl;
+		document.querySelector(searchLogo[0]).src = logoUrl;
 		return;
 	}
 	
-	document.getElementsByClassName(searchLogo[1])[0].outerHTML = document.getElementsByClassName(searchLogo[1])[0].outerHTML.replace(/svg/g, "img");
-	document.getElementsByClassName(searchLogo[1])[0].height = "30"; // SVG proportions are 34px for some reason so override here
-	document.getElementsByClassName(searchLogo[1])[0].src = logoUrl;
+	document.querySelector(searchLogo[1]).outerHTML = document.querySelector(searchLogo[1]).outerHTML.replace(/svg/g, "img");
+	document.querySelector(searchLogo[1]).height = "30"; // SVG proportions are 34px for some reason so override here
+	document.querySelector(searchLogo[1]).src = logoUrl;
 
 	// Remove random bar of buttons Google thought'd be a good idea to add:
-	document.getElementsByClassName(randRow[0])[0].remove();
-	document.getElementsByClassName(randRow[1])[0].style.height = "57px";
+	document.querySelector(randRow[0]).remove();
+	document.querySelector(randRow[1]).style.height = "57px";
 }
 
 /*
