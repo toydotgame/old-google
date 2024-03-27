@@ -97,7 +97,6 @@ function SwapResultsLogo() {
  * TODO: Asynchronously create a new thread to run this code.
  */
 function RunWhenReady(selectors, code) {
-	console.log("RunWhenReady(" + selectors.toString() + ", `\n" + code + "\n`)");
 	var loadedElement;
 	var observer = new MutationObserver(function (mutations, mutationInstance) {
 		for(var i = 0; i < selectors.length; i++) {
