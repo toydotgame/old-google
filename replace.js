@@ -11,7 +11,7 @@ var favicon = browser.runtime.getURL('resources/favicon.ico');
 
 var homepageLogo = [".lnXdpd", ".k1zIA", ".SuUcIb"]; // Homepage logo, its container, and the Doodle share button
 var searchLogo = [".jfN4p", ".TYpZOd"]; // PNG and SVG (respectively) results page logos
-var randRow = [".zp6Lyf", ".XtQzZd"]; // Classes of actual button div and then the navbar which is left too high
+var randRow = [".IUOThf", ".XtQzZd"]; // Classes of actual button div and then the navbar which is left too high
 
 RunWhenReady(["head"], function(loadedElement) {
 	loadedElement.append(Object.assign(document.createElement("link"),{rel:"icon", href:favicon}));
@@ -42,7 +42,7 @@ function Main() {
 			SwapHomepageLogo();
 			break;
 		case "/search":
-			SwapSearchLogo();
+			SwapResultsLogo();
 	}
 }
 
@@ -67,23 +67,26 @@ function SwapHomepageLogo() {
 }
 
 /*
- * void SwapSearchLogo()
+ * void SwapResultsLogo()
  * Replaces small logo on search pages
  * TODO: Doodle compatibility
  */
-function SwapSearchLogo() {
+function SwapResultsLogo() {
+	// Remove random bar of buttons Google thought'd be a good idea to add:
+	RunWhenReady([randRow[0]], function (loadedElement) {
+		document.querySelector(randRow[0]).remove();
+		document.querySelector(randRow[1]).style.height = "57px";
+	});
+
 	if(!isImageSearch) {
 		document.querySelector(searchLogo[0]).src = logoUrl;
 		return;
 	}
-	
+
+	// Image search results logo:
 	document.querySelector(searchLogo[1]).outerHTML = document.querySelector(searchLogo[1]).outerHTML.replace(/svg/g, "img");
 	document.querySelector(searchLogo[1]).height = "30"; // SVG proportions are 34px for some reason so override here
 	document.querySelector(searchLogo[1]).src = logoUrl;
-
-	// Remove random bar of buttons Google thought'd be a good idea to add:
-	document.querySelector(randRow[0]).remove();
-	document.querySelector(randRow[1]).style.height = "57px";
 }
 
 /*
@@ -94,6 +97,7 @@ function SwapSearchLogo() {
  * TODO: Asynchronously create a new thread to run this code.
  */
 function RunWhenReady(selectors, code) {
+	console.log("RunWhenReady(" + selectors.toString() + ", `\n" + code + "\n`)");
 	var loadedElement;
 	var observer = new MutationObserver(function (mutations, mutationInstance) {
 		for(var i = 0; i < selectors.length; i++) {
