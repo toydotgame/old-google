@@ -9,13 +9,12 @@
 var logoUrl = chrome.extension.getURL('resources/logo.png');
 var favicon = chrome.extension.getURL('resources/favicon.ico');
 
-var homepageLogo = ["lnXdpd", "k1zIA", "SuUcIb"]; // Homepage logo, its container, and the Doodle share button
-var searchLogo = ["jfN4p", "TYpZOd"]; // PNG and SVG (respectively) results page logos
-var randRow = ["zp6Lyf", "XtQzZd"]; // Classes of actual button div and then the navbar which is left too high
+var homepageLogo = [".lnXdpd", ".k1zIA", ".SuUcIb"]; // Homepage logo, its container, and the Doodle share button
+var searchLogo = [".jfN4p", ".TYpZOd"]; // PNG and SVG (respectively) results page logos
+var randRow = [".zp6Lyf", ".XtQzZd"]; // Classes of actual button div and then the navbar which is left too high
 
-console.log("Running when ready...");
-RunWhenReady([document.getElementsByTagName("head")[0]], function(elements) {
-	elements[0].innerHTML += '<link rel="icon" href="' + favicon + '">';
+RunWhenReady(["head"], function(loadedElement) {
+	loadedElement.innerHTML += '<link rel="icon" href="' + favicon + '">';
 });
 
 var subdomain = window.location.host.split('.')[0];
@@ -26,10 +25,8 @@ if(new URLSearchParams(window.location.search).get('tbm') == "isch") { // Query 
 }
 
 RunWhenReady([
-	document.getElementsByClassName(homepageLogo[1])[0],
-	document.getElementsByClassName(searchLogo[0])[0],
-	document.getElementsByClassName(searchLogo[1])[0]
-], function(elements) {
+	homepageLogo[1], searchLogo[0], searchLogo[1]
+], function(loadedElement) {
 	Main();
 });
 
@@ -90,21 +87,24 @@ function SwapSearchLogo() {
 }
 
 /*
- * void RunWhenReady(Object[] elements, function code)
- * Takes code and runs it when at least one of the input DOM elements loads.
+ * void RunWhenReady(String[] selectors, function code)
+ * Takes code and runs it when at least one of the input querySelectors is detected.
+ * Returns a DOMObject `loadedElement`.
  * TODO: Asynchronously create a new thread to run this code.
  */
-function RunWhenReady(elements, code) {
-	console.log("RunWhenReady() triggered.\n"
-	+ "code: ```\n" + code + "\n```\n"
-	+ "Running on elements (" + elements.length + "): ```\n" + elements.toString() + "\n```");
+function RunWhenReady(selectors, code) {
+	var loadedElement;
 	var observer = new MutationObserver(function (mutations, mutationInstance) {
-		if(elements.some(obj => document.contains(obj))) {
-			console.log("Targeted element loaded.");
-			code(elements);
-			mutationInstance.disconnect();
+		for(var i = 0; i < selectors.length; i++) {
+			console.log("Mutation detected. Selector element loaded = " + (document.querySelector(selectors[i]) != null));
+			if(document.querySelector(selectors[i]) != null) {
+				loadedElement = document.querySelector(selectors[i]);
+				console.log("loadedElement = " + loadedElement.toString());
+				code(loadedElement);
+				mutationInstance.disconnect();
+				break; // Not bothered returning an array so I'll return one object as loadedElement.
+			}
 		}
 	});
-	console.log("Triggering observer.");
 	observer.observe(document, {childList: true, subtree: true});
 }
