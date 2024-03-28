@@ -9,6 +9,9 @@
 var logoUrl = browser.runtime.getURL('resources/logo.png');
 var favicon = browser.runtime.getURL('resources/favicon.ico');
 
+// TODO: Settings popup window
+var modifyResultsPage = true;
+
 // Homepage logo, its container, and the Doodle share button
 var homepageLogo = [".lnXdpd", ".k1zIA", ".SuUcIb"];
 // PNG and SVG (respectively) results page logos
@@ -88,6 +91,22 @@ function SwapResultsLogo() {
 
 	document.querySelector(searchBox[0]).style.borderRadius = "2px";
 	document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
+
+	if(modifyResultsPage) {
+		var resultsStyles = document.createElement("style");
+		resultsStyles.appendChild(document.createTextNode(`
+			.tF2Cxc.asEBEc, .vt6azd, .hlcw0c, .g {
+				margin-bottom: 0 !important;
+			}
+			.MjjYud {
+				margin-bottom: 16px;
+			}
+			.yG4QQe.TBC9ub, .ULSxyf, .cUnQKe {
+				display: none;
+			}
+		`));
+		document.head.append(resultsStyles);
+	}
 
 	if(!isImageSearch) {
 		document.querySelector(searchLogo[0]).src = logoUrl;
