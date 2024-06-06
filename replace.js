@@ -121,8 +121,6 @@ async function ModifyResultsPage() {
 		`));
 		document.head.append(greenUrlsStyle);
 		
-		// TODO: Wait till DOM load complete to run this
-		// (this needs to be run for every result and they take the longest to load)
 		document.addEventListener("DOMContentLoaded", function() {
 			var resultUrls = document.querySelectorAll(".ylgVCe.ob9lvb");
 			for(var i = 0; i < resultUrls.length; i++) {
