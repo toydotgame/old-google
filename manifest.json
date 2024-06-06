@@ -3,17 +3,25 @@
 	"name": "Old Google",
 	"version": "2.1.2",
 	"description": "Replaces the current Google logo on google.com and the search page to use the old 2010-2013 logo.",
-
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "old-google@toydotgame.net",
+			"strict_min_version": "53.0"
+		}
+	},
 	"icons": {
 		"32": "icons/32.png",
 		"48": "icons/48.png",
 		"96": "icons/96.png"
 	},
-	
 	"web_accessible_resources": [
 		"resources/favicon.ico"
 	],
-
+	"browser_action": {
+		"default_icon": "icons/vector.svg",
+		"default_popup": "config/popup.html"
+	},
+	"permissions": ["storage"],
 	"content_scripts": [
 		{
 			"matches": [

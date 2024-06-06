@@ -9,16 +9,7 @@
 var logoUrl = browser.runtime.getURL('resources/logo.png');
 var favicon = browser.runtime.getURL('resources/favicon.ico');
 
-// TODO: Settings popup window
-var modifyResultsPage = true;
-/* TODO: User config import from some kind of data storage file
- * Add options for:
- * - Green url text on result
- * - Removal of unrelated tags randrow
- * - square search box on results/hp
- * - less results padding
- * - remove "people also searched for"
- */
+var config;
 
 // Homepage logo, its container, and the Doodle share button
 var homepageLogo = [".lnXdpd", ".k1zIA", ".SuUcIb"];
@@ -104,22 +95,43 @@ function SwapResultsLogo() {
 }
 
 /*
- * void ModifyResultsPage()
- * Run in the scope of a search results page only,
+ * async void ModifyResultsPage()
+ * Run in the scope of a search results page only, fetches config before running,
  * each segment of code can be toggled to the user's preference.
  */
-function ModifyResultsPage() {
-	// Related search tags row of meaningless unrelated nonsense:
-	RunWhenReady([randRow[0]], function (loadedElement) {
-		document.querySelector(randRow[0]).remove();
-		document.querySelector(randRow[1]).style.height = "57px";
+async function ModifyResultsPage() {
+	config = await browser.storage.sync.get().then((result) => {
+		var values = Object.entries(result);
+		for(var i = 0; i < values.length; i++) {
+			values[i][1] = values[i][1][0];
+		}
+		return values;
 	});
+	// Create all-true config if it doesn't exist (bodged from configurator.js):
+	if(config == null || config.length == 0) {
+		browser.storage.sync.set({
+			greenUrls: [true],
+			padding: [true],
+			peopleAlsoSearchedFor: [true],
+			removeRandRow: [true],
+			squareBox: [true]
+		});
+		config = [
+			["greenUrls", true],
+			["padding", true],
+			["peopleAlsoSearchedFor", true],
+			["removeRandRow", true],
+			["squareBox", true]
+		];
+	}
+	
+	// Green URLs and proper URL text:
+	if(CheckConfigKey("greenUrls")) {
 
-	// Square search box:
-	document.querySelector(searchBox[0]).style.borderRadius = "2px";
-	document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
-
-	if(modifyResultsPage) {
+	}
+	
+	// Slim padding between results:
+	if(CheckConfigKey("padding")) {
 		var resultsStyles = document.createElement("style");
 		resultsStyles.appendChild(document.createTextNode(`
 			.tF2Cxc.asEBEc, .vt6azd, .hlcw0c, .g {
@@ -133,6 +145,25 @@ function ModifyResultsPage() {
 			}
 		`));
 		document.head.append(resultsStyles);
+	}
+
+	// Remove "People also search for":
+	if(CheckConfigKey("peopleAlsoSearchedFor")) {
+
+	}
+
+	// Related search tags row of meaningless unrelated nonsense:
+	if(CheckConfigKey("removeRandRow")) {
+		RunWhenReady([randRow[0]], function (loadedElement) {
+			document.querySelector(randRow[0]).remove();
+			document.querySelector(randRow[1]).style.height = "57px";
+		});
+	}
+
+	// Square search box:
+	if(CheckConfigKey("squareBox")) {
+		document.querySelector(searchBox[0]).style.borderRadius = "2px";
+		document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
 	}
 }
 
@@ -156,4 +187,17 @@ function RunWhenReady(selectors, code) {
 		}
 	});
 	observer.observe(document, {childList: true, subtree: true});
+}
+
+/*
+ * void CheckConfigKey(String key)
+ * Returns true/false based on input key. If key does not exist, returns false
+ */
+function CheckConfigKey(key) {
+	for(var i = 0; i < config.length; i++) {
+		if(config[i][0] == key) {
+			return config[i][1];
+		}
+	}
+	return false;
 }

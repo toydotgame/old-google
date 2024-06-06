@@ -1,0 +1,32 @@
+/*
+ * AUTHOR: toydotgame
+ * CREATED ON: 2024-06-06
+ * Basic as Hell styles for the config window
+ */
+
+body {
+	font-family: "Arial", sans-serif;
+	background-image: linear-gradient(aliceblue, lightskyblue);
+}
+
+#title {
+	text-align: center;
+}
+
+h1 {
+	display: inline;
+	font-size: 32px;
+	color: #666;
+}
+
+img {
+	display: inline;
+	vertical-align: middle;
+	height: 32px;
+}
+
+#config {
+	margin: 7px;
+	padding: 7px;
+	border: 1px solid black;
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<!--
+	AUTHOR: toydotgame
+	CREATED ON: 2024-06-06
+	Config window popup document
+-->
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<div id="title"><h1>Old <img src="/resources/logo.png" /></h1></div>
+		<div id="config">
+			<input type="checkbox" id="greenUrls" />
+			<label for="greenUrls">Change URLs in results to green proper URLs</label><br>
+			<input type="checkbox" id="removeRandRow" />
+			<label for="removeRandRow">Remove the row of unrelated tags at the top of the results page</label><br>
+			<input type="checkbox" id="squareBox" />
+			<label for="squareBox">Make search boxes square</label><br>
+			<input type="checkbox" id="padding" />
+			<label for="padding">Slim padding between search results</label><br>
+			<input type="checkbox" id="peopleAlsoSearchedFor" />
+			<label for="peopleAlsoSearchedFor">Remove "People also searched for"</label>
+		</div>
+		<!-- Must call event listener after element specification -->
+		<script src="configurator.js"></script>
+	</body>
+</html>
