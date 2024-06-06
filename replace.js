@@ -10,6 +10,7 @@ var logoUrl = browser.runtime.getURL('resources/logo.png');
 var favicon = browser.runtime.getURL('resources/favicon.ico');
 
 var config;
+LoadConfig(); // Balling it and hoping this async completes before Main() call
 
 // Homepage logo, its container, and the Doodle share button
 var homepageLogo = [".lnXdpd", ".k1zIA", ".SuUcIb"];
@@ -84,6 +85,10 @@ function SwapHomepageLogo() {
  */
 function SwapResultsLogo() {
 	if(!isImageSearch) {
+		if(CheckConfigKey("udm14")) {
+			// TODO: `&udm=14` redirect
+		}
+
 		document.querySelector(searchLogo[0]).src = logoUrl;
 		return;
 	}
@@ -99,32 +104,7 @@ function SwapResultsLogo() {
  * Run in the scope of a search results page only, fetches config before running,
  * each segment of code can be toggled to the user's preference.
  */
-async function ModifyResultsPage() {
-	config = await browser.storage.sync.get().then((result) => {
-		var values = Object.entries(result);
-		for(var i = 0; i < values.length; i++) {
-			values[i][1] = values[i][1][0];
-		}
-		return values;
-	});
-	// Create all-true config if it doesn't exist (bodged from configurator.js):
-	if(config == null || config.length == 0) {
-		browser.storage.sync.set({
-			greenUrls: [true],
-			padding: [true],
-			peopleAlsoSearchedFor: [true],
-			removeRandRow: [true],
-			squareBox: [true]
-		});
-		config = [
-			["greenUrls", true],
-			["padding", true],
-			["peopleAlsoSearchedFor", true],
-			["removeRandRow", true],
-			["squareBox", true]
-		];
-	}
-	
+async function ModifyResultsPage() {	
 	// Green URLs and proper URL text:
 	if(CheckConfigKey("greenUrls")) {
 		var greenUrlsStyle = document.createElement("style");
@@ -165,7 +145,16 @@ async function ModifyResultsPage() {
 
 	// Remove "People also search for":
 	if(CheckConfigKey("peopleAlsoSearchedFor")) {
-
+		var pasfStyle = document.createElement("style");
+		pasfStyle.appendChild(document.createTextNode(`
+			#bres, .cUnQKe, .TzHB6b.cLjAic { /* PASF buttons, People also searched for, PASF (button edition) (also removes other search gimmicks potentially) */
+				display: none;
+			}
+			.hlcw0c { /* Always the result just before a results gimmick */
+				margin-bottom: 0 !important;
+			}
+		`));
+		document.head.append(pasfStyle);
 	}
 
 	// Related search tags row of meaningless unrelated nonsense:
@@ -203,6 +192,39 @@ function RunWhenReady(selectors, code) {
 		}
 	});
 	observer.observe(document, {childList: true, subtree: true});
+}
+
+/* async void LoadConfig()
+ * Loads the plugin config into the previously declared `config` array. Bodges in defaults if
+ * no config is found
+ */
+async function LoadConfig() {
+	config = await browser.storage.sync.get().then((result) => {
+		var values = Object.entries(result);
+		for(var i = 0; i < values.length; i++) {
+			values[i][1] = values[i][1][0];
+		}
+		return values;
+	});
+	// Create all-true config if it doesn't exist (bodged from configurator.js):
+	if(config == null || config.length == 0) {
+		browser.storage.sync.set({
+			greenUrls: [true],
+			padding: [true],
+			peopleAlsoSearchedFor: [true],
+			removeRandRow: [true],
+			squareBox: [true],
+			udm14: [true]
+		});
+		config = [
+			["greenUrls", true],
+			["padding", true],
+			["peopleAlsoSearchedFor", true],
+			["removeRandRow", true],
+			["squareBox", true],
+			["udm14", true]
+		];
+	}
 }
 
 /*
