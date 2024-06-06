@@ -152,11 +152,12 @@ async function ModifyResultsPage() {
 			.tF2Cxc.asEBEc, .vt6azd, .hlcw0c, .g {
 				margin-bottom: 0 !important;
 			}
-			.MjjYud {
-				margin-bottom: 16px;
+			.MjjYud, .cUnQKe { /* General containers, People also searched for */
+				margin-bottom: 16px !important;
 			}
-			.yG4QQe.TBC9ub, .ULSxyf, .cUnQKe {
+			.ULSxyf:nth-child(2), #appbar { /* Top result extract */
 				display: none;
+				/* .yG4QQe.TBC9ub used to be display:none'd but until I find out what it is again I'm not going to add it */
 			}
 		`));
 		document.head.append(paddingStyle);
