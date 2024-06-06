@@ -34,7 +34,7 @@ RunWhenReady(["head"], function(loadedElement) {
 });
 
 RunWhenReady([
-	homepageLogo[1], searchLogo[0], searchLogo[1]
+	homepageLogo[1], searchLogo[0], searchLogo[1], ".logowrap", ".lockup-logo"
 ], function(loadedElement) {
 	Main();
 });
@@ -44,16 +44,24 @@ RunWhenReady([
  * Calls either function depending on what page is loaded right now
  */
 function Main() {
-	switch(page) {
-		case "/":
-		case "/webhp":
-		case "/imghp":
-		case "/videohp":
-			SwapHomepageLogo();
+	switch(subdomain) {
+		case "patents":
+			SpecialHpLogo();
 			break;
-		case "/search":
-			SwapResultsLogo();
-			ModifyResultsPage();
+		case "www":
+		case "images":
+		default:
+			switch(page) {
+				case "/":
+				case "/webhp":
+				case "/imghp":
+				case "/videohp":
+					SwapHomepageLogo();
+					break;
+				case "/search":
+					SwapResultsLogo();
+					ModifyResultsPage();
+			}
 	}
 }
 
@@ -180,6 +188,49 @@ async function ModifyResultsPage() {
 			}
 		`));
 		document.head.append(resultsFaviconStyle);
+	}
+}
+
+/*
+ * void SpecialHpLogo()
+ * Runs arbitrary code based on what subdomain of specialty Google search is being loaded
+ */
+function SpecialHpLogo() {
+	switch(subdomain) {
+		case "patents":
+			/* This is a messy thing. Google Patents doesn't have a dedicated search page
+			 * so we have to set up a MutationObserver to observe when the page changes and
+			 * check if the query strings (window.location.href) have changed at all. If they
+			 * have, then we run patentsTryReplacing(), a general catch-all bodge replacement
+			 * that can run safely on the hp and search page. The MutationObserver won't do
+			 * anything on the initial page load, however—so we call patentsTryReplacing()
+			 * directly after it is defined also.
+			 * Hours wasted counter: 1
+			 */
+			function patentsTryReplacing() {
+				try {
+					document.querySelector(".logowrap > img").src = browser.runtime.getURL("resources/patents.png");
+					document.querySelector("h1.style-scope.landing-page").innerHTML = null;
+				} catch(TypeError) {}
+				
+				try {
+					document.querySelector(".lockup-logo").style.backgroundImage = "url('" + browser.runtime.getURL("resources/logo.png") + "')";
+					document.querySelector(".lockup-logo").style.marginRight = "2px";
+				} catch(TypeError) {}
+			}
+			patentsTryReplacing(); // Needs to be run first time manually because MutationObserver won't
+
+			var initialUrl = window.location.href;
+			var domChangeObserver = new MutationObserver(function(mutations) {
+				if(window.location.href != initialUrl) { // Page changed
+					initialUrl = window.location.href;
+					RunWhenReady([".logowrap > img", ".lockup-logo"], function (loadedElement) {
+						patentsTryReplacing();
+					});
+				}
+			});
+			domChangeObserver.observe(document, {childList: true, subtree: true});
+			break;
 	}
 }
 
