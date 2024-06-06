@@ -18,8 +18,8 @@ var homepageLogo = [".lnXdpd", ".k1zIA", ".SuUcIb"];
 var searchLogo = [".jfN4p", ".TYpZOd"];
 // Classes of actual button div and then the navbar which is left too high
 var randRow = [".IUOThf", ".XtQzZd"];
-// Search box, search suggestions dropdown, suggestions dropdown buttons container
-var searchBox = [".RNNXgb", ".aajZCb", ".lJ9FBc"];
+// Search box, search suggestions dropdown, results favicons
+var searchBox = [".RNNXgb", ".aajZCb"];
 
 RunWhenReady(["head"], function(loadedElement) {
 	loadedElement.append(Object.assign(document.createElement("link"),{rel:"icon", href:favicon}));
@@ -66,8 +66,10 @@ function SwapHomepageLogo() {
 	document.querySelector(homepageLogo[0]).src = logoUrl;
 	document.querySelector(homepageLogo[0]).srcset = ""; // Clear override
 
-	document.querySelector(searchBox[0]).style.borderRadius = "2px";
-	document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
+	if(CheckConfigKey("squareBox")) {
+		document.querySelector(searchBox[0]).style.borderRadius = "2px";
+		document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
+	}
 
 	// Override Doodle size styles:
 	document.querySelector(homepageLogo[0]).width = "272";
@@ -169,6 +171,13 @@ async function ModifyResultsPage() {
 	if(CheckConfigKey("squareBox")) {
 		document.querySelector(searchBox[0]).style.borderRadius = "2px";
 		document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
+		var resultsFaviconStyle = document.createElement("style");
+		resultsFaviconStyle.appendChild(document.createTextNode(`
+			.H9lube, .UnOTSe img { /* Two styles of results favicon */
+				border-radius: 2px !important;
+			}
+		`));
+		document.head.append(resultsFaviconStyle);
 	}
 }
 
