@@ -83,6 +83,16 @@ function SwapHomepageLogo() {
  * TODO: Doodle compatibility
  */
 function SwapResultsLogo() {
+	if(!isImageSearch) {
+		document.querySelector(searchLogo[0]).src = logoUrl;
+		return;
+	}
+
+	// Image search results logo:
+	document.querySelector(searchLogo[1]).outerHTML = document.querySelector(searchLogo[1]).outerHTML.replace(/svg/g, "img");
+	document.querySelector(searchLogo[1]).height = "30"; // SVG proportions are 34px for some reason so override here
+	document.querySelector(searchLogo[1]).src = logoUrl;
+
 	// Remove random bar of buttons Google thought'd be a good idea to add:
 	RunWhenReady([randRow[0]], function (loadedElement) {
 		document.querySelector(randRow[0]).remove();
@@ -107,16 +117,6 @@ function SwapResultsLogo() {
 		`));
 		document.head.append(resultsStyles);
 	}
-
-	if(!isImageSearch) {
-		document.querySelector(searchLogo[0]).src = logoUrl;
-		return;
-	}
-
-	// Image search results logo:
-	document.querySelector(searchLogo[1]).outerHTML = document.querySelector(searchLogo[1]).outerHTML.replace(/svg/g, "img");
-	document.querySelector(searchLogo[1]).height = "30"; // SVG proportions are 34px for some reason so override here
-	document.querySelector(searchLogo[1]).src = logoUrl;
 }
 
 /*
