@@ -127,13 +127,26 @@ async function ModifyResultsPage() {
 	
 	// Green URLs and proper URL text:
 	if(CheckConfigKey("greenUrls")) {
-
+		var greenUrlsStyle = document.createElement("style");
+		greenUrlsStyle.appendChild(document.createTextNode(`
+			cite, .ylgVCe.ob9lvb {
+				color: #093;
+			}
+		`));
+		document.head.append(greenUrlsStyle);
+		
+		// TODO: Wait till DOM load complete to run this
+		// (this needs to be run for every result and they take the longest to load)
+		var resultUrls = document.querySelectorAll(".ylgVCe.ob9lvb");
+		for(var i = 0; i < resultUrls.length; i++) {
+			resultUrls[i].innerHTML = resultUrls[i].innerHTML.replace(/ › /g, "/");
+		}
 	}
-	
+
 	// Slim padding between results:
 	if(CheckConfigKey("padding")) {
-		var resultsStyles = document.createElement("style");
-		resultsStyles.appendChild(document.createTextNode(`
+		var paddingStyle = document.createElement("style");
+		paddingStyle.appendChild(document.createTextNode(`
 			.tF2Cxc.asEBEc, .vt6azd, .hlcw0c, .g {
 				margin-bottom: 0 !important;
 			}
@@ -144,7 +157,7 @@ async function ModifyResultsPage() {
 				display: none;
 			}
 		`));
-		document.head.append(resultsStyles);
+		document.head.append(paddingStyle);
 	}
 
 	// Remove "People also search for":
