@@ -11,6 +11,14 @@ var favicon = browser.runtime.getURL('resources/favicon.ico');
 
 // TODO: Settings popup window
 var modifyResultsPage = true;
+/* TODO: User config import from some kind of data storage file
+ * Add options for:
+ * - Green url text on result
+ * - Removal of unrelated tags randrow
+ * - square search box on results/hp
+ * - less results padding
+ * - remove "people also searched for"
+ */
 
 // Homepage logo, its container, and the Doodle share button
 var homepageLogo = [".lnXdpd", ".k1zIA", ".SuUcIb"];
@@ -51,6 +59,7 @@ function Main() {
 			break;
 		case "/search":
 			SwapResultsLogo();
+			ModifyResultsPage();
 	}
 }
 
@@ -92,13 +101,21 @@ function SwapResultsLogo() {
 	document.querySelector(searchLogo[1]).outerHTML = document.querySelector(searchLogo[1]).outerHTML.replace(/svg/g, "img");
 	document.querySelector(searchLogo[1]).height = "30"; // SVG proportions are 34px for some reason so override here
 	document.querySelector(searchLogo[1]).src = logoUrl;
+}
 
-	// Remove random bar of buttons Google thought'd be a good idea to add:
+/*
+ * void ModifyResultsPage()
+ * Run in the scope of a search results page only,
+ * each segment of code can be toggled to the user's preference.
+ */
+function ModifyResultsPage() {
+	// Related search tags row of meaningless unrelated nonsense:
 	RunWhenReady([randRow[0]], function (loadedElement) {
 		document.querySelector(randRow[0]).remove();
 		document.querySelector(randRow[1]).style.height = "57px";
 	});
 
+	// Square search box:
 	document.querySelector(searchBox[0]).style.borderRadius = "2px";
 	document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
 
