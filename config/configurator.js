@@ -7,43 +7,60 @@
 
 var inputs = document.querySelectorAll("input");
 
-/*
- * async void RestoreOptions()
- * Fetches user preferences from synced browser storage and sets the checkboxes
- * in the HTML accordingly
+/* 
+ * async void LoadConfig()
+ * Loads the plugin config into the previously declared `config` array. Bodges in defaults if
+ * no config is found
  */
-async function RestoreOptions() {
-	var config = await browser.storage.sync.get().then((result) => {
+async function LoadConfig() {
+	var config;
+	config = await browser.storage.sync.get().then((result) => {
 		var values = Object.entries(result);
 		for(var i = 0; i < values.length; i++) {
 			values[i][1] = values[i][1][0];
 		}
 		return values;
 	});
-	if(config == null || config.length == 0) { // Set all config options to true if no config exists
-		for(var i = 0; i < inputs.length; i++) {
-			document.querySelector("#" + inputs[i].id).checked = true;
-			browser.storage.sync.set({
-				[inputs[i].id]: [inputs[i].checked] // For whatever reason setting it to `true` doesn't work
-			});
-		}
-	} else { // If config exists, just set checked state of <input>s
+	// Create all-true config if it doesn't exist (bodged from configurator.js):
+	if(config == null || config.length == 0) {
+		browser.storage.sync.set({
+			greenUrls: [true],
+			padding: [true],
+			peopleAlsoSearchedFor: [true],
+			removeRandRow: [true],
+			squareBox: [true],
+			udm14: [false]
+		});
+		config = [
+			["greenUrls", true],
+			["padding", true],
+			["peopleAlsoSearchedFor", true],
+			["removeRandRow", true],
+			["squareBox", true],
+			["udm14", false]
+		];
+	}
+	return config;
+}
+
+if(window.location.protocol == "moz-extension:") { // Only run active code if its within the addon popup window
+	// Get inputs from config and set "checked" value on page load:
+	document.addEventListener("DOMContentLoaded", async function () {
+		var config = await LoadConfig();
+		
 		for(var i = 0; i < config.length; i++) {
 			if(config[i][1] == true) {
 				document.querySelector("#" + config[i][0]).checked = true;
 			}
 		}
-	}
-}
-
-// Get inputs from config and set "checked" value on page load:
-document.addEventListener("DOMContentLoaded", RestoreOptions);
-
-// Event listen for check changes and save to config:
-for(var i = 0; i < inputs.length; i++) {
-	inputs[i].addEventListener("change", function() {
-		browser.storage.sync.set({
-			[this.id]: [this.checked]
-		});
 	});
+
+	// Event listen for check changes and save to config:
+	for(var i = 0; i < inputs.length; i++) {
+		inputs[i].addEventListener("change", function() {
+			browser.storage.sync.set({
+				[this.id]: [this.checked]
+			});
+		});
+	}
 }

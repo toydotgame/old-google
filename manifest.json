@@ -424,7 +424,7 @@
 				"*://www.google.ws/*",
 				"*://images.google.ws/*"
 			],
-			"js": ["replace.js"],
+			"js": ["config/configurator.js", "replace.js"],
 			"run_at": "document_start"
 		}
 	]
