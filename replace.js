@@ -9,11 +9,6 @@
 var logoUrl = browser.runtime.getURL('resources/logo.png');
 var favicon = browser.runtime.getURL('resources/favicon.ico');
 
-var config;
-(async () => {
-	config = await LoadConfig();
-})();
-
 // Homepage logo, its container, and the Doodle share button
 var homepageLogo = [".lnXdpd", ".k1zIA", ".SuUcIb"];
 // PNG and SVG (respectively) results page logos
@@ -23,16 +18,20 @@ var randRow = [".IUOThf", ".XtQzZd"];
 // Search box, search suggestions dropdown, results favicons
 var searchBox = [".RNNXgb", ".aajZCb"];
 
-RunWhenReady(["head"], function(loadedElement) {
-	loadedElement.append(Object.assign(document.createElement("link"),{rel:"icon", href:favicon}));
-});
-
 var subdomain = window.location.host.split(".")[0];
 var page = "/" + location.pathname.split("/")[1];
 var isImageSearch = false;
 if(new URLSearchParams(window.location.search).get("tbm") == "isch") { // Query string `&tbm=isch` only present on Images results, where the logo is an SVG
 	isImageSearch = true;
 }
+
+var config;
+(async () => { // The remainder of replace.js is all async'd until EOF
+config = await LoadConfig();
+
+RunWhenReady(["head"], function(loadedElement) {
+	loadedElement.append(Object.assign(document.createElement("link"),{rel:"icon", href:favicon}));
+});
 
 RunWhenReady([
 	homepageLogo[1], searchLogo[0], searchLogo[1]
@@ -49,6 +48,7 @@ function Main() {
 		case "/":
 		case "/webhp":
 		case "/imghp":
+		case "/videohp":
 			SwapHomepageLogo();
 			break;
 		case "/search":
@@ -62,7 +62,7 @@ function Main() {
  * Replaces Google Doodles and the regular logo image with the old logo on the Google homepages
  */
 function SwapHomepageLogo() {
-	if(!(page == "/imghp" || subdomain == "images")) {
+	if(!(page == "/imghp" || subdomain == "images" || page == "/videohp")) {
 		document.querySelector(homepageLogo[1]).outerHTML = '<div style="margin-top:auto; max-height:92px;"><img class="' + homepageLogo[0].split(".")[1] + '"></div>';
 	}
 	document.querySelector(homepageLogo[0]).src = logoUrl;
@@ -217,3 +217,5 @@ function CheckConfigKey(key) {
 	}
 	return false;
 }
+
+})(); // End of async execution
