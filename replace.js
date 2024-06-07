@@ -50,7 +50,6 @@ function Main() {
 			break;
 		case "www":
 		case "images":
-		default:
 			switch(page) {
 				case "/":
 				case "/webhp":
