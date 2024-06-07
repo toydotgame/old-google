@@ -33,8 +33,10 @@ RunWhenReady(["head"], function(loadedElement) {
 	loadedElement.append(Object.assign(document.createElement("link"),{rel:"icon", href:favicon}));
 });
 
-RunWhenReady([
-	homepageLogo[1], searchLogo[0], searchLogo[1], ".logowrap", ".lockup-logo"
+RunWhenReady([ // Triggers when different search engines are detected:
+	homepageLogo[1], searchLogo[0], searchLogo[1], // Google Search, Google Images
+	".logowrap", ".lockup-logo", // Google Patents
+	"#gs_hdr_hp_lgo", "#gs_hdr_drw_lgo", "#gs_hdr_lgo", "#gs_ab_ico" // Google Scholar
 ], function(loadedElement) {
 	Main();
 });
@@ -46,6 +48,7 @@ RunWhenReady([
 function Main() {
 	switch(subdomain) {
 		case "patents":
+		case "scholar":
 			SpecialHpLogo();
 			break;
 		case "www":
@@ -209,7 +212,7 @@ function SpecialHpLogo() {
 			function patentsTryReplacing() {
 				try {
 					document.querySelector(".logowrap > img").src = browser.runtime.getURL("resources/patents.png");
-					document.querySelector("h1.style-scope.landing-page").innerHTML = null;
+					document.querySelector("h1.style-scope.landing-page").innerHTML = "";
 				} catch(TypeError) {}
 				
 				try {
@@ -229,6 +232,29 @@ function SpecialHpLogo() {
 				}
 			});
 			domChangeObserver.observe(document, {childList: true, subtree: true});
+			break;
+		case "scholar":
+			if(page == "/" || page == "/schhp") {
+				document.querySelector("#gs_hdr_hp_lgo").src = browser.runtime.getURL("resources/scholar.png");
+				document.querySelector("#gs_hdr_hp_lgo").srcset = "";
+				document.querySelector("#gs_hdr_hp_lgo").style = "width:276px";
+				document.querySelector("#gs_hdr_hp_lgow").style = "margin-bottom:36px";
+			} else if(page == "/scholar") {
+				var scholarSchLogoStyle = document.createElement("style");
+				scholarSchLogoStyle.appendChild(document.createTextNode(`
+					#gs_hdr_drw_lgo, #gs_hdr_lgo {
+						background: no-repeat url("` + browser.runtime.getURL("resources/scholar.png") + `") 0 50%;
+						background-size: contain;
+						width: 149px;
+						height: 63px;
+					}
+					#gs_ab_ico > .gs_ico {
+						background: no-repeat url("` + browser.runtime.getURL("resources/g.png") + `"); /* TODO: This just doesn't…load in??? */
+						background-size: contain;
+					}
+				`));
+				document.head.append(scholarSchLogoStyle);
+			}
 			break;
 	}
 }
