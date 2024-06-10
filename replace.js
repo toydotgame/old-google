@@ -274,7 +274,7 @@ function SpecialHpLogo() {
 				document.querySelector("#gs_hdr_hp_lgo").src = browser.runtime.getURL("resources/scholar.png");
 				document.querySelector("#gs_hdr_hp_lgo").srcset = "";
 				document.querySelector("#gs_hdr_hp_lgo").style = "width:276px";
-				//document.querySelector("#gs_hdr_hp_lgow").style = "margin-bottom:36px";
+				document.querySelector("#gs_hdr_hp_lgow").style = "margin-bottom:36px";
 			}
 			break;
 	}
@@ -307,7 +307,7 @@ function RunWhenReady(selectors, code) {
 			DebugLog("[RunWhenReady] \"" + selectors[i] + "\" loaded before MutationObserver could start. Running code.");
 			loadedElement = document.querySelector(selectors[i]);
 			code(loadedElement);
-			break;
+			return;
 		}
 	}
 	observer.observe(document, {childList: true, subtree: true});
@@ -327,7 +327,7 @@ function CheckConfigKey(key) {
 }
 
 /*
- * void Log(String message)
+ * void DebugLog(String message)
  * Sends a console log with the given message only if debug=true.
  */
 function DebugLog(message) {
