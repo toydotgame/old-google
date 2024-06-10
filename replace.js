@@ -40,7 +40,7 @@ RunWhenReady(["head"], function(loadedElement) {
 RunWhenReady([ // Triggers when different search engines are detected:
 	homepageLogo[1], searchLogo[0], searchLogo[1], // Google Search, Google Images
 	".logowrap", ".lockup-logo", // Google Patents
-	"#gs_hdr_hp_lgo", "#gs_hdr_drw_lgo", "#gs_hdr_lgo", "#gs_ab_ico" // Google Scholar
+	"#gs_hdr_hp_lgo", "#gs_hdr_hp_lgow", "#gs_hdr_drw_lgo", "#gs_hdr_lgo", "#gs_ab_ico" // Google Scholar
 ], function(loadedElement) {
 	Main();
 });
@@ -246,7 +246,7 @@ function SpecialHpLogo() {
 				if(window.location.href != initialUrl) { // Page changed
 					initialUrl = window.location.href;
 					RunWhenReady([".logowrap > img", ".lockup-logo"], function (loadedElement) {
-						DebugLog("[Patents] Page change detected logo found. Attempting replacement.");
+						DebugLog("[Patents] Mutation detected and logo loaded. Attempting replacement.");
 						patentsTryReplacing();
 					});
 				}
@@ -274,7 +274,7 @@ function SpecialHpLogo() {
 				document.querySelector("#gs_hdr_hp_lgo").src = browser.runtime.getURL("resources/scholar.png");
 				document.querySelector("#gs_hdr_hp_lgo").srcset = "";
 				document.querySelector("#gs_hdr_hp_lgo").style = "width:276px";
-				document.querySelector("#gs_hdr_hp_lgow").style = "margin-bottom:36px";
+				//document.querySelector("#gs_hdr_hp_lgow").style = "margin-bottom:36px";
 			}
 			break;
 	}
@@ -288,10 +288,12 @@ function SpecialHpLogo() {
  * TODO: Asynchronously create a new thread to run this code.
  */
 function RunWhenReady(selectors, code) {
+	DebugLog("RunWhenReady() run. Running on: [\"" + selectors.join("\", \"") + "\"], code = ```\n" + code + "\n```");
 	var loadedElement;
 	var observer = new MutationObserver(function (mutations, mutationInstance) {
 		for(var i = 0; i < selectors.length; i++) {
 			if(document.querySelector(selectors[i]) != null) {
+				DebugLog("[RunWhenReady] \"" + selectors[i] + "\" loaded. Running code.");
 				loadedElement = document.querySelector(selectors[i]);
 				code(loadedElement);
 				mutationInstance.disconnect();
@@ -299,6 +301,15 @@ function RunWhenReady(selectors, code) {
 			}
 		}
 	});
+
+	for(var i = 0; i < selectors.length; i++) { // Preemptive run of the MutationObserver's code in case the page loads too fast.
+		if(document.querySelector(selectors[i]) != null) {
+			DebugLog("[RunWhenReady] \"" + selectors[i] + "\" loaded before MutationObserver could start. Running code.");
+			loadedElement = document.querySelector(selectors[i]);
+			code(loadedElement);
+			break;
+		}
+	}
 	observer.observe(document, {childList: true, subtree: true});
 }
 
