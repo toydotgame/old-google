@@ -12,8 +12,8 @@ var favicon = browser.runtime.getURL('resources/favicon.ico');
 
 // Homepage logo, its container, and the Doodle share button
 var homepageLogo = [".lnXdpd", ".k1zIA", ".SuUcIb"];
-// PNG and SVG (respectively) results page logos
-var searchLogo = [".jfN4p", ".TYpZOd"];
+// PNG, Doodle day, and SVG (respectively) results page logos
+var searchLogo = [".jfN4p", ".logo.Ib7Efc > a > img", ".TYpZOd"];
 // Classes of actual button div and then the navbar which is left too high
 var randRow = [".IUOThf", ".XtQzZd"];
 // Search box, search suggestions dropdown, results favicons
@@ -29,10 +29,10 @@ if(new URLSearchParams(window.location.search).get("tbm") == "isch") { // Query 
 var config;
 (async () => { // The remainder of replace.js is all async'd until EOF
 config = await LoadConfig();
-DebugLog("Old Google initialised. Config loaded:\n" + config.join("\n").replace(/,/g, ": "));
+DebugLog("Welcome to Old Google! Copyright (c) 2021 toydotgame. Config loaded:\n" + config.join("\n").replace(/,/g, ": "));
 
 RunWhenReady([ // Triggers when different search engines are detected:
-	homepageLogo[1], searchLogo[0], searchLogo[1], // Google Search, Google Images
+	homepageLogo[1], searchLogo[0], searchLogo[1], searchLogo[2], // Google Search, Google Images
 	".logowrap", ".lockup-logo", // Google Patents
 	"#gs_hdr_hp_lgo", "#gs_hdr_hp_lgow", "#gs_hdr_drw_lgo", "#gs_hdr_lgo", "#gs_ab_ico", // Google Scholar
 	".lmygoc", ".watermark" // Google Maps
@@ -108,7 +108,6 @@ function SwapHomepageLogo() {
 /*
  * void SwapResultsLogo()
  * Replaces small logo on search pages
- * TODO: Doodle compatibility
  */
 function SwapResultsLogo() {
 	DebugLog("SwapResultsLogo() run. isImageSearch = " + isImageSearch);
@@ -119,14 +118,20 @@ function SwapResultsLogo() {
 			}
 		}
 
-		document.querySelector(searchLogo[0]).src = logoUrl;
+		try {
+			document.querySelector(searchLogo[0]).src = logoUrl;
+		} catch(TypeError) { // On Doodle days:
+			document.querySelector(".IormK").remove(); // Doodle backdrop
+			document.querySelector(searchLogo[1]).src = browser.runtime.getURL('resources/logo.png'); 
+			document.querySelector(searchLogo[1]).width = "96";
+		}
 		return;
 	}
 
 	// Image search results logo:
-	document.querySelector(searchLogo[1]).outerHTML = document.querySelector(searchLogo[1]).outerHTML.replace(/svg/g, "img");
-	document.querySelector(searchLogo[1]).height = "30"; // SVG proportions are 34px for some reason so override here
-	document.querySelector(searchLogo[1]).src = logoUrl;
+	document.querySelector(searchLogo[2]).outerHTML = document.querySelector(searchLogo[2]).outerHTML.replace(/svg/g, "img");
+	document.querySelector(searchLogo[2]).height = "30"; // SVG proportions are 34px for some reason so override here
+	document.querySelector(searchLogo[2]).src = logoUrl;
 }
 
 /*
