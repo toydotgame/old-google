@@ -36,7 +36,8 @@ RunWhenReady([ // Triggers when different search engines are detected:
 	homepageLogo[1], searchLogo[0], searchLogo[1], searchLogo[2], // Google Search, Google Images
 	".logowrap", ".lockup-logo", // Google Patents
 	"#gs_hdr_hp_lgo", "#gs_hdr_hp_lgow", "#gs_hdr_drw_lgo", "#gs_hdr_lgo", "#gs_ab_ico", // Google Scholar
-	".lmygoc", ".watermark" // Google Maps
+	".lmygoc", ".watermark", // Google Maps
+	"#oc-search-logo", ".gb_Oc.gb_Mc" // Google Books
 ], function(loadedElement) {
 	Main();
 });
@@ -305,6 +306,26 @@ function SpecialHpLogo() {
 			});
 			document.head.append(Object.assign(document.createElement("link"),{rel:"icon", href:browser.runtime.getURL('resources/maps.ico')}));
 			DebugLog("Favicon set.");
+			break;
+		case "books":
+			DebugLog("[Books] Running case.");
+			var booksHpLogoStyle = document.createElement("style");
+			booksHpLogoStyle.appendChild(document.createTextNode(`
+				#oc-search-image {
+					background: no-repeat url("` + browser.runtime.getURL('resources/books.png') + `");
+					background-size: contain;
+				}
+				.gb_Oc.gb_Mc {
+					background-image: url("` + browser.runtime.getURL('resources/logo.png') + `");
+					background-size: contain;
+					background-position: 0 0;
+					width: 96px;
+				}
+			`));
+			document.head.append(booksHpLogoStyle);
+			try {
+				document.querySelector("#oc-search-logo").remove();
+			} catch(TypeError) {}
 			break;
 	}
 }

@@ -17,6 +17,7 @@
 	"web_accessible_resources": [
 		"resources/favicon.ico",
 		"resources/maps.ico",
+		"resources/books.png",
 		"resources/g.png",
 		"resources/logo.png",
 		"resources/maps.png",
@@ -32,10 +33,8 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"*://*.google.com/*"
-			],
-			"include_globs": [
-				"*.google.*/*"
+				"*://*.google.com/*",
+				"*://*.google.com.au/*"
 			],
 			"js": ["config/configurator.js", "replace.js"],
 			"run_at": "document_start"
