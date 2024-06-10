@@ -21,7 +21,8 @@
 		"resources/g.png",
 		"resources/logo.png",
 		"resources/maps.png",
-		"resources/maps_watermark",
+		"resources/maps_watermark.png",
+		"resources/maps_watermark_mono.png",
 		"resources/patents.png",
 		"resources/scholar.png"
 	],

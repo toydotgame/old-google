@@ -299,8 +299,8 @@ function SpecialHpLogo() {
 			break;
 		case "maps":
 			DebugLog("[Maps] Running case.");
-			document.querySelectorAll(".watermark")[0].src = logoUrl;
-			document.querySelectorAll(".watermark")[1].src = browser.runtime.getURL('resources/maps_watermark.png');
+			document.querySelectorAll(".watermark")[0].src = browser.runtime.getURL('resources/maps_watermark.png');
+			document.querySelectorAll(".watermark")[1].src = browser.runtime.getURL('resources/maps_watermark_mono.png');
 			RunWhenReady([".lmygoc"], function(loadedElement) { // Hamburger menu logo isn't loaded 'till the user clicks it so we wait
 				document.querySelector(".lmygoc").src = browser.runtime.getURL('resources/maps.png');
 			});
