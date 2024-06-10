@@ -15,7 +15,9 @@
 		"96": "icons/96.png"
 	},
 	"web_accessible_resources": [
-		"resources/favicon.ico"
+		"resources/favicon.ico",
+		"resources/scholar.png",
+		"resources/g.png"
 	],
 	"browser_action": {
 		"default_icon": "icons/vector.svg",

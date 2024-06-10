@@ -4,8 +4,9 @@
  * Main replacement script that handles boilerplate classes
  */
 
-//var logoUrl = "https://upload.wikimedia.org/wikipedia/commons/3/3e/Google_2011_logo.png";
-//var favicon = "https://www.w3schools.com/favicon.ico";
+// For development only, not user accessible in production:
+var debug = true;
+
 var logoUrl = browser.runtime.getURL('resources/logo.png');
 var favicon = browser.runtime.getURL('resources/favicon.ico');
 
@@ -38,6 +39,7 @@ RunWhenReady([ // Triggers when different search engines are detected:
 	".logowrap", ".lockup-logo", // Google Patents
 	"#gs_hdr_hp_lgo", "#gs_hdr_drw_lgo", "#gs_hdr_lgo", "#gs_ab_ico" // Google Scholar
 ], function(loadedElement) {
+	console.log("Running main");
 	Main();
 });
 
@@ -234,26 +236,26 @@ function SpecialHpLogo() {
 			domChangeObserver.observe(document, {childList: true, subtree: true});
 			break;
 		case "scholar":
+			console.log("Scholar switch");
+			var scholarSchLogoStyle = document.createElement("style");
+			scholarSchLogoStyle.appendChild(document.createTextNode(`
+				#gs_hdr_drw_lgo, #gs_hdr_lgo {
+					background: no-repeat url("` + browser.runtime.getURL("resources/scholar.png") + `") 0 50%;
+					background-size: contain;
+					width: 149px;
+					height: 63px;
+				}
+				#gs_ab_ico > .gs_ico {
+					background: no-repeat url("` + browser.runtime.getURL("resources/g.png") + `"); /* TODO: This just doesn't…load in??? */
+					background-size: contain;
+				}
+			`));
+			document.head.append(scholarSchLogoStyle);
 			if(page == "/" || page == "/schhp") {
 				document.querySelector("#gs_hdr_hp_lgo").src = browser.runtime.getURL("resources/scholar.png");
 				document.querySelector("#gs_hdr_hp_lgo").srcset = "";
 				document.querySelector("#gs_hdr_hp_lgo").style = "width:276px";
 				document.querySelector("#gs_hdr_hp_lgow").style = "margin-bottom:36px";
-			} else if(page == "/scholar") {
-				var scholarSchLogoStyle = document.createElement("style");
-				scholarSchLogoStyle.appendChild(document.createTextNode(`
-					#gs_hdr_drw_lgo, #gs_hdr_lgo {
-						background: no-repeat url("` + browser.runtime.getURL("resources/scholar.png") + `") 0 50%;
-						background-size: contain;
-						width: 149px;
-						height: 63px;
-					}
-					#gs_ab_ico > .gs_ico {
-						background: no-repeat url("` + browser.runtime.getURL("resources/g.png") + `"); /* TODO: This just doesn't…load in??? */
-						background-size: contain;
-					}
-				`));
-				document.head.append(scholarSchLogoStyle);
 			}
 			break;
 	}
