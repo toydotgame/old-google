@@ -16,8 +16,11 @@
 	},
 	"web_accessible_resources": [
 		"resources/favicon.ico",
-		"resources/scholar.png",
-		"resources/g.png"
+		"resources/g.png",
+		"resources/logo.png",
+		"resources/maps.png",
+		"resources/patents.png",
+		"resources/scholar.png"
 	],
 	"browser_action": {
 		"default_icon": "icons/vector.svg",

@@ -40,7 +40,8 @@ RunWhenReady(["head"], function(loadedElement) {
 RunWhenReady([ // Triggers when different search engines are detected:
 	homepageLogo[1], searchLogo[0], searchLogo[1], // Google Search, Google Images
 	".logowrap", ".lockup-logo", // Google Patents
-	"#gs_hdr_hp_lgo", "#gs_hdr_hp_lgow", "#gs_hdr_drw_lgo", "#gs_hdr_lgo", "#gs_ab_ico" // Google Scholar
+	"#gs_hdr_hp_lgo", "#gs_hdr_hp_lgow", "#gs_hdr_drw_lgo", "#gs_hdr_lgo", "#gs_ab_ico", // Google Scholar
+	".lmygoc", ".watermark" // Google Maps
 ], function(loadedElement) {
 	Main();
 });
@@ -59,6 +60,10 @@ function Main() {
 		case "www":
 		case "images":
 			switch(page) {
+				case "/maps":
+					subdomain = "maps"; // (Not) Experimental quick hax
+					SpecialHpLogo();
+					break;
 				case "/":
 				case "/webhp":
 				case "/imghp":
@@ -226,14 +231,14 @@ function SpecialHpLogo() {
 			 */
 			function patentsTryReplacing() {
 				try {
-					document.querySelector(".logowrap > img").src = browser.runtime.getURL("resources/patents.png");
+					document.querySelector(".logowrap > img").src = browser.runtime.getURL('resources/patents.png');
 					document.querySelector("h1.style-scope.landing-page").innerHTML = "";
 				} catch(TypeError) {
 					DebugLog("[Patents] NO homepage logo found! Assuming it's the search page.");
 				}
 				
 				try {
-					document.querySelector(".lockup-logo").style.backgroundImage = "url('" + browser.runtime.getURL("resources/logo.png") + "')";
+					document.querySelector(".lockup-logo").style.backgroundImage = "url('" + browser.runtime.getURL('resources/logo.png') + "')";
 					document.querySelector(".lockup-logo").style.marginRight = "2px";
 				} catch(TypeError) {
 					DebugLog("[Patents] NO search page logo found! Assuming it's the homepage.");
@@ -258,24 +263,31 @@ function SpecialHpLogo() {
 			var scholarSchLogoStyle = document.createElement("style");
 			scholarSchLogoStyle.appendChild(document.createTextNode(`
 				#gs_hdr_drw_lgo, #gs_hdr_lgo {
-					background: no-repeat url("` + browser.runtime.getURL("resources/scholar.png") + `") 0 50%;
+					background: no-repeat url("` + browser.runtime.getURL('resources/scholar.png') + `") 0 50%;
 					background-size: contain;
 					width: 149px;
 					height: 63px;
 				}
 				#gs_ab_ico > .gs_ico {
-					background: no-repeat url("` + browser.runtime.getURL("resources/g.png") + `"); /* TODO: This just doesn't…load in??? */
+					background: no-repeat url("` + browser.runtime.getURL('resources/g.png') + `");
 					background-size: contain;
 				}
 			`));
 			document.head.append(scholarSchLogoStyle);
 			if(page == "/" || page == "/schhp") {
 				DebugLog("[Scholar] On the homepage.");
-				document.querySelector("#gs_hdr_hp_lgo").src = browser.runtime.getURL("resources/scholar.png");
+				document.querySelector("#gs_hdr_hp_lgo").src = browser.runtime.getURL('resources/scholar.png');
 				document.querySelector("#gs_hdr_hp_lgo").srcset = "";
 				document.querySelector("#gs_hdr_hp_lgo").style = "width:276px";
 				document.querySelector("#gs_hdr_hp_lgow").style = "margin-bottom:36px";
 			}
+			break;
+		case "maps":
+			DebugLog("[Maps] Running case.");
+			document.querySelector(".watermark").src = logoUrl;
+			RunWhenReady([".lmygoc"], function(loadedElement) { // Hamburger menu logo isn't loaded 'till the user clicks it so we wait
+				document.querySelector(".lmygoc").src = browser.runtime.getURL('resources/maps.png');
+			});
 			break;
 	}
 }
