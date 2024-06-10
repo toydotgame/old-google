@@ -61,10 +61,13 @@ function Main() {
 					subdomain = "maps"; // (Not) Experimental quick hax
 					SpecialHpLogo();
 					break;
+				case "/videohp":
+					subdomain = "videos";
+					SpecialHpLogo();
+					break;
 				case "/":
 				case "/webhp":
 				case "/imghp":
-				case "/videohp":
 					RunWhenReady(["head"], function(loadedElement) {
 						loadedElement.append(Object.assign(document.createElement("link"),{rel:"icon", href:favicon}));
 						DebugLog("Favicon set.");
@@ -88,13 +91,14 @@ function Main() {
  */
 function SwapHomepageLogo() {
 	DebugLog("SwapHomepageLogo() run.");
-	if(!(page == "/imghp" || subdomain == "images" || page == "/videohp")) {
+	if(!(page == "/imghp" || subdomain == "images")) {
 		document.querySelector(homepageLogo[1]).outerHTML = '<div style="margin-top:auto; max-height:92px;"><img class="' + homepageLogo[0].split(".")[1] + '"></div>';
 	}
 	document.querySelector(homepageLogo[0]).src = logoUrl;
 	document.querySelector(homepageLogo[0]).srcset = ""; // Clear override
 
 	if(CheckConfigKey("squareBox")) {
+		DebugLog("Running squareBox (homepage).");
 		document.querySelector(searchBox[0]).style.borderRadius = "2px";
 		document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
 		RunWhenReady([".Qwbd3"], function(loadedElement) {
@@ -213,7 +217,7 @@ async function ModifyResultsPage() {
 
 	// Square search box:
 	if(CheckConfigKey("squareBox")) {
-		DebugLog("Running squareBox.");
+		DebugLog("Running squareBox (search page).");
 		document.querySelector(searchBox[0]).style.borderRadius = "2px";
 		document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
 		var resultsFaviconStyle = document.createElement("style");
@@ -326,6 +330,17 @@ function SpecialHpLogo() {
 			try {
 				document.querySelector("#oc-search-logo").remove();
 			} catch(TypeError) {}
+			break;
+		case "videos":
+			DebugLog("[Videos] Running case.");
+			document.querySelector(homepageLogo[0]).src = browser.runtime.getURL('resources/videos.png');
+			document.querySelector(homepageLogo[0]).srcset = "";
+			document.querySelector(homepageLogo[0]).height = "96";
+			if(CheckConfigKey("squareBox")) {
+				document.querySelector(searchBox[0]).style.borderRadius = "2px";
+				document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
+			}
+			document.querySelector(".T8VaVe").remove();
 			break;
 	}
 }
