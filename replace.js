@@ -29,9 +29,12 @@ if(new URLSearchParams(window.location.search).get("tbm") == "isch") { // Query 
 var config;
 (async () => { // The remainder of replace.js is all async'd until EOF
 config = await LoadConfig();
+DebugLog("Old Google initialised. Config loaded:\n" + config.join("\n").replace(/,/g, ": "));
 
 RunWhenReady(["head"], function(loadedElement) {
+	// TODO: Different favicons for different sites.
 	loadedElement.append(Object.assign(document.createElement("link"),{rel:"icon", href:favicon}));
+	DebugLog("Favicon set.");
 });
 
 RunWhenReady([ // Triggers when different search engines are detected:
@@ -39,7 +42,6 @@ RunWhenReady([ // Triggers when different search engines are detected:
 	".logowrap", ".lockup-logo", // Google Patents
 	"#gs_hdr_hp_lgo", "#gs_hdr_drw_lgo", "#gs_hdr_lgo", "#gs_ab_ico" // Google Scholar
 ], function(loadedElement) {
-	console.log("Running main");
 	Main();
 });
 
@@ -48,6 +50,7 @@ RunWhenReady([ // Triggers when different search engines are detected:
  * Calls either function depending on what page is loaded right now
  */
 function Main() {
+	DebugLog("Valid logo element detected, running Main().\nsubdomain = \"" + subdomain + "\", page = \"" + page + "\"");
 	switch(subdomain) {
 		case "patents":
 		case "scholar":
@@ -74,6 +77,7 @@ function Main() {
  * Replaces Google Doodles and the regular logo image with the old logo on the Google homepages
  */
 function SwapHomepageLogo() {
+	DebugLog("SwapHomepageLogo() run.");
 	if(!(page == "/imghp" || subdomain == "images" || page == "/videohp")) {
 		document.querySelector(homepageLogo[1]).outerHTML = '<div style="margin-top:auto; max-height:92px;"><img class="' + homepageLogo[0].split(".")[1] + '"></div>';
 	}
@@ -100,6 +104,7 @@ function SwapHomepageLogo() {
  * TODO: Doodle compatibility
  */
 function SwapResultsLogo() {
+	DebugLog("SwapResultsLogo() run. isImageSearch = " + isImageSearch);
 	if(!isImageSearch) {
 		if(CheckConfigKey("udm14")) {
 			if(new URLSearchParams(window.location.search).get("udm") == null) {
@@ -122,9 +127,11 @@ function SwapResultsLogo() {
  * Run in the scope of a search results page only, fetches config before running,
  * each segment of code can be toggled to the user's preference.
  */
-async function ModifyResultsPage() {	
+async function ModifyResultsPage() {
+	DebugLog("ModifyResultsPage() run.");
 	// Green URLs and proper URL text:
 	if(CheckConfigKey("greenUrls")) {
+		DebugLog("Running greenUrls.");
 		var greenUrlsStyle = document.createElement("style");
 		greenUrlsStyle.appendChild(document.createTextNode(`
 			cite, .ylgVCe.ob9lvb {
@@ -143,6 +150,7 @@ async function ModifyResultsPage() {
 
 	// Slim padding between results:
 	if(CheckConfigKey("padding")) {
+		DebugLog("Running padding.");
 		var paddingStyle = document.createElement("style");
 		paddingStyle.appendChild(document.createTextNode(`
 			.tF2Cxc.asEBEc, .vt6azd, .hlcw0c, .g {
@@ -161,6 +169,7 @@ async function ModifyResultsPage() {
 
 	// Remove "People also search for":
 	if(CheckConfigKey("peopleAlsoSearchedFor")) {
+		DebugLog("Running peopleAlsoSearchedFor.");
 		var pasfStyle = document.createElement("style");
 		pasfStyle.appendChild(document.createTextNode(`
 			#bres, .cUnQKe, .TzHB6b.cLjAic { /* PASF buttons, People also searched for, PASF (button edition) (also removes other search gimmicks potentially) */
@@ -176,6 +185,7 @@ async function ModifyResultsPage() {
 	// Related search tags row of meaningless unrelated nonsense:
 	if(CheckConfigKey("removeRandRow")) {
 		RunWhenReady([randRow[0]], function (loadedElement) {
+			DebugLog("Running removeRandRow");
 			document.querySelector(randRow[0]).remove();
 			document.querySelector(randRow[1]).style.height = "57px";
 		});
@@ -183,6 +193,7 @@ async function ModifyResultsPage() {
 
 	// Square search box:
 	if(CheckConfigKey("squareBox")) {
+		DebugLog("Running squareBox.");
 		document.querySelector(searchBox[0]).style.borderRadius = "2px";
 		document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
 		var resultsFaviconStyle = document.createElement("style");
@@ -200,8 +211,10 @@ async function ModifyResultsPage() {
  * Runs arbitrary code based on what subdomain of specialty Google search is being loaded
  */
 function SpecialHpLogo() {
+	DebugLog("SpecialHpLogo() run.");
 	switch(subdomain) {
 		case "patents":
+			DebugLog("[Patents] Running case.");
 			/* This is a messy thing. Google Patents doesn't have a dedicated search page
 			 * so we have to set up a MutationObserver to observe when the page changes and
 			 * check if the query strings (window.location.href) have changed at all. If they
@@ -215,12 +228,16 @@ function SpecialHpLogo() {
 				try {
 					document.querySelector(".logowrap > img").src = browser.runtime.getURL("resources/patents.png");
 					document.querySelector("h1.style-scope.landing-page").innerHTML = "";
-				} catch(TypeError) {}
+				} catch(TypeError) {
+					DebugLog("[Patents] NO homepage logo found! Assuming it's the search page.");
+				}
 				
 				try {
 					document.querySelector(".lockup-logo").style.backgroundImage = "url('" + browser.runtime.getURL("resources/logo.png") + "')";
 					document.querySelector(".lockup-logo").style.marginRight = "2px";
-				} catch(TypeError) {}
+				} catch(TypeError) {
+					DebugLog("[Patents] NO search page logo found! Assuming it's the homepage.");
+				}
 			}
 			patentsTryReplacing(); // Needs to be run first time manually because MutationObserver won't
 
@@ -229,6 +246,7 @@ function SpecialHpLogo() {
 				if(window.location.href != initialUrl) { // Page changed
 					initialUrl = window.location.href;
 					RunWhenReady([".logowrap > img", ".lockup-logo"], function (loadedElement) {
+						DebugLog("[Patents] Page change detected logo found. Attempting replacement.");
 						patentsTryReplacing();
 					});
 				}
@@ -236,7 +254,7 @@ function SpecialHpLogo() {
 			domChangeObserver.observe(document, {childList: true, subtree: true});
 			break;
 		case "scholar":
-			console.log("Scholar switch");
+			DebugLog("[Scholar] Running case.");
 			var scholarSchLogoStyle = document.createElement("style");
 			scholarSchLogoStyle.appendChild(document.createTextNode(`
 				#gs_hdr_drw_lgo, #gs_hdr_lgo {
@@ -252,6 +270,7 @@ function SpecialHpLogo() {
 			`));
 			document.head.append(scholarSchLogoStyle);
 			if(page == "/" || page == "/schhp") {
+				DebugLog("[Scholar] On the homepage.");
 				document.querySelector("#gs_hdr_hp_lgo").src = browser.runtime.getURL("resources/scholar.png");
 				document.querySelector("#gs_hdr_hp_lgo").srcset = "";
 				document.querySelector("#gs_hdr_hp_lgo").style = "width:276px";
@@ -294,6 +313,20 @@ function CheckConfigKey(key) {
 		}
 	}
 	return false;
+}
+
+/*
+ * void Log(String message)
+ * Sends a console log with the given message only if debug=true.
+ */
+function DebugLog(message) {
+	if(debug) {
+		console.log("%c[%cOld Google%c]%c " + message,
+					"background-color:#4d90fe; color:#222",
+					"background-color:#4d90fe; color:#fff",
+					"background-color:#4d90fe; color:#222",
+					"color:reset; background-color:reset");
+	}
 }
 
 })(); // End of async execution
