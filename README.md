@@ -3,18 +3,18 @@
 
 Replaces the logo on Google, Google Images, and both their respective search pages to that of [the logo they had from 2010 to 2013](https://upload.wikimedia.org/wikipedia/commons/3/3e/Google_2011_logo.png), and also changes the favicon to that of [the 2012 one](https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Google_Icon_%282010-2015%29.svg/512px-Google_Icon_%282010-2015%29.svg.png). Dark theme compatible.
 
-## Goals
+## Goals/Project TODO
 I am open to PRs for help on features and improvements if you would like to help!
-* [x] Implement favicon replacement.
-* [x] Allow extension to only run on the `www.google` and `images.google` subdomains, in case of conflicts with other Google sites.
-	* [ ] Allow Old Google to run on TLDs other than .com. (Currently removed functionality)
+* [x] Favicon replacement.
+    * [ ] Favicon replacement based on specific site.
+* [ ] Allow Old Google to run on TLDs other than .com. (Currently removed functionality)
 * [x] Sign, package, and distribute this extension on [AMO](https://addons.mozilla.org/).
 * [x] Google Images support.
-* [ ] [Additional Google search engines support.](https://github.com/toydotgame/old-google/issues/10)
-* [x] Google Doodle support.
-	* [ ] Google Doodle search page support.
-* [ ] Option for an old Googlebot UA switcher to get an older interface.
-	* [ ] Dark mode old UA support.
+    * [ ] [Additional Google search engines support.](https://github.com/toydotgame/old-google/issues/10)
+    * [x] Google Doodle support.
+	    * [x] Google Doodle search page support.
+* [ ] Refactor.
+* [ ] Rename references to "random row" to "pills"—as Google likes to call them.
 
 ## Compiling for Testing
 ### Requirements:
