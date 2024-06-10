@@ -16,6 +16,7 @@
 	},
 	"web_accessible_resources": [
 		"resources/favicon.ico",
+		"resources/maps.ico",
 		"resources/g.png",
 		"resources/logo.png",
 		"resources/maps.png",

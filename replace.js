@@ -288,6 +288,7 @@ function SpecialHpLogo() {
 			RunWhenReady([".lmygoc"], function(loadedElement) { // Hamburger menu logo isn't loaded 'till the user clicks it so we wait
 				document.querySelector(".lmygoc").src = browser.runtime.getURL('resources/maps.png');
 			});
+			document.head.append(Object.assign(document.createElement("link"),{rel:"icon", href:browser.runtime.getURL('resources/maps.ico')}));
 			break;
 	}
 }
