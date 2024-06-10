@@ -14,7 +14,8 @@ I am open to PRs for help on features and improvements if you would like to help
     * [x] Google Doodle support.
 	    * [x] Google Doodle search page support.
 * [ ] Refactor.
-* [ ] Rename references to "random row" to "pills"—as Google likes to call them.
+    * [ ] Remove `&tbm=isch` for SVG google logo handling as Google has removed this search page.
+    * [ ] Rename references to "random row" to "pills"—as Google likes to call them.
 
 ## Compiling for Testing
 ### Requirements:
