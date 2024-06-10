@@ -7,6 +7,7 @@
 // For development only, not user accessible in production:
 var debug = true;
 
+// https://upload.wikimedia.org/wikipedia/commons/3/3e/Google_2011_logo.png
 var logoUrl = browser.runtime.getURL('resources/logo.png');
 var favicon = browser.runtime.getURL('resources/favicon.ico');
 
@@ -16,8 +17,8 @@ var homepageLogo = [".lnXdpd", ".k1zIA", ".SuUcIb"];
 var searchLogo = [".jfN4p", ".logo.Ib7Efc > a > img", ".TYpZOd"];
 // Classes of actual button div and then the navbar which is left too high
 var randRow = [".IUOThf", ".XtQzZd"];
-// Search box, search suggestions dropdown, results favicons
-var searchBox = [".RNNXgb", ".aajZCb"];
+// Search box, search suggestions dropdown, imghp upload container, upload container textarea, container search btn, container dark area
+var searchBox = [".RNNXgb", ".aajZCb", ".ea0Lbe", ".cB9M7", ".Qwbd3", ".gIYJUc"];
 
 var subdomain = window.location.host.split(".")[0];
 var page = "/" + location.pathname.split("/")[1];
@@ -49,6 +50,7 @@ function Main() {
 	switch(subdomain) {
 		case "patents":
 		case "scholar":
+		case "books":
 			SpecialHpLogo();
 			break;
 		case "www":
@@ -94,6 +96,11 @@ function SwapHomepageLogo() {
 	if(CheckConfigKey("squareBox")) {
 		document.querySelector(searchBox[0]).style.borderRadius = "2px";
 		document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
+		RunWhenReady([".Qwbd3"], function(loadedElement) {
+			for(var i = 2; i < 6; i++) { // searchBox[2–5]
+				document.querySelector(searchBox[i]).style.borderRadius = "2px";
+			}
+		});
 	}
 
 	// Override Doodle size styles:
