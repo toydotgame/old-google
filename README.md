@@ -7,8 +7,10 @@ Replaces the logo on Google, Google Images, and both their respective search pag
 I am open to PRs for help on features and improvements if you would like to help!
 * [x] Implement favicon replacement.
 * [x] Allow extension to only run on the `www.google` and `images.google` subdomains, in case of conflicts with other Google sites.
+	* [ ] Allow Old Google to run on TLDs other than .com. (Currently removed functionality)
 * [x] Sign, package, and distribute this extension on [AMO](https://addons.mozilla.org/).
 * [x] Google Images support.
+* [ ] [Additional Google search engines support.](https://github.com/toydotgame/old-google/issues/10)
 * [x] Google Doodle support.
 	* [ ] Google Doodle search page support.
 * [ ] Option for an old Googlebot UA switcher to get an older interface.
