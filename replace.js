@@ -31,12 +31,6 @@ var config;
 config = await LoadConfig();
 DebugLog("Old Google initialised. Config loaded:\n" + config.join("\n").replace(/,/g, ": "));
 
-RunWhenReady(["head"], function(loadedElement) {
-	// TODO: Different favicons for different sites.
-	loadedElement.append(Object.assign(document.createElement("link"),{rel:"icon", href:favicon}));
-	DebugLog("Favicon set.");
-});
-
 RunWhenReady([ // Triggers when different search engines are detected:
 	homepageLogo[1], searchLogo[0], searchLogo[1], // Google Search, Google Images
 	".logowrap", ".lockup-logo", // Google Patents
@@ -68,9 +62,17 @@ function Main() {
 				case "/webhp":
 				case "/imghp":
 				case "/videohp":
+					RunWhenReady(["head"], function(loadedElement) {
+						loadedElement.append(Object.assign(document.createElement("link"),{rel:"icon", href:favicon}));
+						DebugLog("Favicon set.");
+					});
 					SwapHomepageLogo();
 					break;
 				case "/search":
+					RunWhenReady(["head"], function(loadedElement) {
+						loadedElement.append(Object.assign(document.createElement("link"),{rel:"icon", href:favicon}));
+						DebugLog("Favicon set.");
+					});
 					SwapResultsLogo();
 					ModifyResultsPage();
 			}
@@ -289,6 +291,7 @@ function SpecialHpLogo() {
 				document.querySelector(".lmygoc").src = browser.runtime.getURL('resources/maps.png');
 			});
 			document.head.append(Object.assign(document.createElement("link"),{rel:"icon", href:browser.runtime.getURL('resources/maps.ico')}));
+			DebugLog("Favicon set.");
 			break;
 	}
 }
