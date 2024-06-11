@@ -4,29 +4,44 @@
  * Basic as Hell styles for the config window
  */
 
+@font-face {
+	font-family: "Open Sans";
+	src: url("Open Sans.ttf");
+}
+
 body {
-	font-family: "Arial", sans-serif;
 	background-image: linear-gradient(aliceblue, lightskyblue);
+	font-family: "Open Sans", "Arial", sans-serif;
+	font-weight: 450;
 }
 
 #title {
 	text-align: center;
+	text-shadow: 1.5px 1.5px 4px #000;
 }
 
 h1 {
 	display: inline;
 	font-size: 32px;
-	color: #666;
+	font-weight: 330;
+	color: #1639ba;
 }
 
 img {
 	display: inline;
 	vertical-align: middle;
-	height: 32px;
+	height: 42px;
+	filter: drop-shadow(1.5px 1.5px 4px #000);
 }
 
 #config {
 	margin: 7px;
 	padding: 7px;
-	border: 1px solid black;
+	border: 1px solid #666;
+	border-radius: 5px;
+	text-shadow: 1px 1px 3.5px #444;
+}
+
+input {
+	box-shadow: 1px 1px 3.5px #444;
 }
