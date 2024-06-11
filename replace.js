@@ -320,7 +320,7 @@ function SpecialHpLogo() {
 				document.querySelector(".lmygoc").src = browser.runtime.getURL('resources/maps.png');
 			});
 			document.head.append(Object.assign(document.createElement("link"),{rel:"icon", href:browser.runtime.getURL('resources/maps.ico')}));
-			DebugLog("Favicon set.");
+			DebugLog("[Maps] Favicon set.");
 			break;
 		case "books":
 			DebugLog("[Books] Running case.");
