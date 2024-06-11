@@ -27,7 +27,9 @@
 		"resources/scholar.png",
 		"resources/videos.png",
 		"resources/finance_left.png",
-		"resources/finance_right.png"
+		"resources/finance_right.png",
+		"resources/shopping_left.png",
+		"resources/shopping_right.png"
 	],
 	"browser_action": {
 		"default_icon": "icons/vector.svg",

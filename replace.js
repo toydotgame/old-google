@@ -38,7 +38,8 @@ RunWhenReady([ // Triggers when different search engines are detected:
 	"#gs_hdr_hp_lgo", "#gs_hdr_hp_lgow", "#gs_hdr_drw_lgo", "#gs_hdr_lgo", "#gs_ab_ico", // Google Scholar
 	".lmygoc", ".watermark", // Google Maps
 	"#oc-search-logo", ".gb_Oc.gb_Mc", // Google Books
-	".gb_Oc.gb_6d" // Google Finance
+	".gb_Oc.gb_6d", // Google Finance
+	".jmaXG" // Google Shopping
 ], function(loadedElement) {
 	Main();
 });
@@ -53,6 +54,7 @@ function Main() {
 		case "patents":
 		case "scholar":
 		case "books":
+		case "shopping":
 			SpecialHpLogo();
 			break;
 		case "www":
@@ -372,6 +374,29 @@ function SpecialHpLogo() {
 				}
 			`));
 			document.head.append(financeStyle);
+			break;
+		case "shopping":
+			DebugLog("[Shopping] Running case.");
+			// Border radius 2px: .
+			// Bottom radius 2px: .
+			var shoppingStyle = document.createElement("style");
+			shoppingStyle.appendChild(document.createTextNode(`
+				.uiDkff.FAZYFf > .Ws3Esf {
+					content: url("` + browser.runtime.getURL('resources/shopping_left.png') + `");
+					height: unset;
+				}
+				.jmaXG {
+					content: url("` + browser.runtime.getURL('resources/shopping_right.png') + `");
+					height: 32px;
+					padding-left: 0;
+				}
+			`));
+			document.head.append(shoppingStyle);
+			if(CheckConfigKey("squareBox")) {
+				DebugLog("Running squareBox (homepage).");
+				document.querySelector(".z86TMb").style.borderRadius = "2px";
+				document.querySelector(".fYz4Vc").style.borderRadius = "0 0 2px 2px";
+			}
 			break;
 	}
 }
