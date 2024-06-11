@@ -16,6 +16,7 @@ I am open to PRs for help on features and improvements if you would like to help
 * [ ] Refactor.
     * [ ] Remove `&tbm=isch` for SVG google logo handling as Google has removed this search page.
     * [ ] Rename references to "random row" to "pills"—as Google likes to call them.
+    * [ ] Rename references to green URL fixing to proper paths to say full URL instead of breadcrumbs.
     * [ ] Replace arrays of query selectors with some documentation of what means what. Keep array of `browser.runtime.getURL` objects for logos instead.
 
 ## Compiling for Testing
