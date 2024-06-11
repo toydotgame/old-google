@@ -302,7 +302,7 @@ function SpecialHpLogo() {
 				document.querySelector("#gs_hdr_hp_lgo").src = browser.runtime.getURL('resources/scholar.png');
 				document.querySelector("#gs_hdr_hp_lgo").srcset = "";
 				document.querySelector("#gs_hdr_hp_lgo").style = "width:276px";
-				document.querySelector("#gs_hdr_hp_lgow").style = "margin-bottom:36px";
+				document.querySelector("#gs_hdr_hp_lgow").style = "margin-bottom:40px";
 			}
 			break;
 		case "maps":
