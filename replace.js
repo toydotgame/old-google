@@ -96,6 +96,13 @@ function SwapHomepageLogo() {
 	}
 	document.querySelector(homepageLogo[0]).src = logoUrl;
 	document.querySelector(homepageLogo[0]).srcset = ""; // Clear override
+	// Override Doodle size styles:
+	document.querySelector(homepageLogo[0]).width = "272";
+	document.querySelector(homepageLogo[0]).height = "92";
+	// Remove share button (only present on Doodles):
+	try {
+		document.querySelector(homepageLogo[2]).remove();
+	} catch(TypeError) {}
 
 	if(CheckConfigKey("squareBox")) {
 		DebugLog("Running squareBox (homepage).");
@@ -107,14 +114,6 @@ function SwapHomepageLogo() {
 			}
 		});
 	}
-
-	// Override Doodle size styles:
-	document.querySelector(homepageLogo[0]).width = "272";
-	document.querySelector(homepageLogo[0]).height = "92";
-	// Remove share button (only present on Doodles):
-	try {
-		document.querySelector(homepageLogo[2]).remove();
-	} catch(TypeError) {}
 }
 
 /*
@@ -257,8 +256,10 @@ function SpecialHpLogo() {
 				}
 				
 				try {
-					document.querySelector(".lockup-logo").style.backgroundImage = "url('" + browser.runtime.getURL('resources/logo.png') + "')";
-					document.querySelector(".lockup-logo").style.marginRight = "2px";
+					document.querySelector(".lockup-logo").style.background = "no-repeat url('" + browser.runtime.getURL('resources/patents.png') + "')";
+					document.querySelector(".lockup-logo").style.backgroundSize = "contain";
+					//document.querySelector(".lockup-logo").style.marginRight = "2px";
+					document.querySelector(".lockup-brand.style-scope.search-header").remove();
 				} catch(TypeError) {
 					DebugLog("[Patents] NO search page logo found! Assuming it's the homepage.");
 				}
