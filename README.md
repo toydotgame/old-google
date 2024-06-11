@@ -11,6 +11,7 @@ I am open to PRs for help on features and improvements if you would like to help
 * [x] Sign, package, and distribute this extension on [AMO](https://addons.mozilla.org/).
 * [x] Google Images support.
     * [ ] [Additional Google search engines support.](https://github.com/toydotgame/old-google/issues/10)
+    * [ ] [Google Images proper old logo](https://upload.wikimedia.org/wikipedia/commons/archive/f/f1/20131002000807%21Google\_Images\_2012\_Logo.png) and similar to videohp algorithm.
     * [x] Google Doodle support.
 	    * [x] Google Doodle search page support.
 * [ ] Refactor.
