@@ -287,6 +287,9 @@ function SpecialHpLogo() {
 					background-size: contain;
 					width: 149px;
 					height: 63px;
+					box-sizing: border-box;
+					background-origin: content-box;
+					padding: 10px;
 				}
 				#gs_ab_ico > .gs_ico {
 					background: no-repeat url("` + browser.runtime.getURL('resources/g.png') + `");
