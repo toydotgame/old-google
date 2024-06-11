@@ -377,8 +377,6 @@ function SpecialHpLogo() {
 			break;
 		case "shopping":
 			DebugLog("[Shopping] Running case.");
-			// Border radius 2px: .
-			// Bottom radius 2px: .
 			var shoppingStyle = document.createElement("style");
 			shoppingStyle.appendChild(document.createTextNode(`
 				.uiDkff.FAZYFf > .Ws3Esf {
