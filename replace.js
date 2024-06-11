@@ -37,7 +37,8 @@ RunWhenReady([ // Triggers when different search engines are detected:
 	".logowrap", ".lockup-logo", // Google Patents
 	"#gs_hdr_hp_lgo", "#gs_hdr_hp_lgow", "#gs_hdr_drw_lgo", "#gs_hdr_lgo", "#gs_ab_ico", // Google Scholar
 	".lmygoc", ".watermark", // Google Maps
-	"#oc-search-logo", ".gb_Oc.gb_Mc" // Google Books
+	"#oc-search-logo", ".gb_Oc.gb_Mc", // Google Books
+	".gb_Oc.gb_6d" // Google Finance
 ], function(loadedElement) {
 	Main();
 });
@@ -63,6 +64,10 @@ function Main() {
 					break;
 				case "/videohp":
 					subdomain = "videos";
+					SpecialHpLogo();
+					break;
+				case "/finance":
+					subdomain = "finance";
 					SpecialHpLogo();
 					break;
 				case "/":
@@ -345,6 +350,28 @@ function SpecialHpLogo() {
 				document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
 			}
 			document.querySelector(".T8VaVe").remove();
+			break;
+		case "finance":
+			DebugLog("[Finance] Running case.");
+			var financeStyle = document.createElement("style");
+			financeStyle.appendChild(document.createTextNode(`
+				.gb_Oc.gb_6d, .ForAd > img {
+					content: url("` + browser.runtime.getURL('resources/finance_left.png') + `");
+					height: unset;
+				}
+				.gb_pd.gb_gd, .N27tdc {
+					content: url("` + browser.runtime.getURL('resources/finance_right.png') + `");
+					height: 32px;
+					padding-left: 0;
+				}
+				.ForAd > img {
+					height: 32px;
+				}
+				.N27tdc {
+					padding-top: 1px;
+				}
+			`));
+			document.head.append(financeStyle);
 			break;
 	}
 }

@@ -25,7 +25,9 @@
 		"resources/maps_watermark_mono.png",
 		"resources/patents.png",
 		"resources/scholar.png",
-		"resources/videos.png"
+		"resources/videos.png",
+		"resources/finance_left.png",
+		"resources/finance_right.png"
 	],
 	"browser_action": {
 		"default_icon": "icons/vector.svg",
