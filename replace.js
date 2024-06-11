@@ -296,7 +296,7 @@ function SpecialHpLogo() {
 					height: 63px;
 					box-sizing: border-box;
 					background-origin: content-box;
-					padding: 10px;
+					padding: 15px;
 				}
 				#gs_ab_ico > .gs_ico {
 					background: no-repeat url("` + browser.runtime.getURL('resources/g.png') + `");
