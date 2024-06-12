@@ -38,7 +38,7 @@ RunWhenReady([ // Triggers when different search engines are detected:
 	"#gs_hdr_hp_lgo", "#gs_hdr_hp_lgow", "#gs_hdr_drw_lgo", "#gs_hdr_lgo", "#gs_ab_ico", // Google Scholar
 	".lmygoc", ".watermark", // Google Maps
 	"#oc-search-logo", ".gb_Oc.gb_Mc", // Google Books
-	".gb_Oc.gb_6d", // Google Finance & Google News
+	".gb_Oc.gb_6d", // Google Finance, Google News, Google Travel
 	".jmaXG" // Google Shopping
 ], function(loadedElement) {
 	Main();
@@ -71,6 +71,10 @@ function Main() {
 					break;
 				case "/finance":
 					subdomain = "finance";
+					SpecialHpLogo();
+					break;
+				case "/travel":
+					subdomain = "travel";
 					SpecialHpLogo();
 					break;
 				case "/":
@@ -399,8 +403,8 @@ function SpecialHpLogo() {
 			break;
 		case "news":
 			DebugLog("[News] Running case.");
-			var financeStyle = document.createElement("style");
-			financeStyle.appendChild(document.createTextNode(`
+			var newsStyle = document.createElement("style");
+			newsStyle.appendChild(document.createTextNode(`
 				.gb_Oc.gb_6d {
 					content: url("` + browser.runtime.getURL('resources/news_left.png') + `");
 					height: unset;
@@ -411,7 +415,18 @@ function SpecialHpLogo() {
 					padding-left: 0;
 				}
 			`));
-			document.head.append(financeStyle);
+			document.head.append(newsStyle);
+			break;
+		case "travel":
+			DebugLog("[Travel] Running case.");
+			var newsStyle = document.createElement("style");
+			newsStyle.appendChild(document.createTextNode(`
+				.gb_Oc.gb_6d {
+					content: url("` + browser.runtime.getURL('resources/logo.png') + `");
+					height: unset;
+				}
+			`));
+			document.head.append(newsStyle);
 			break;
 	}
 }
