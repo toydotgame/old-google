@@ -209,7 +209,7 @@ async function ModifyResultsPage() {
 		DebugLog("Running peopleAlsoSearchedFor.");
 		var pasfStyle = document.createElement("style");
 		pasfStyle.appendChild(document.createTextNode(`
-			#bres, .cUnQKe, .TzHB6b.cLjAic { /* PASF buttons, People also searched for, PASF (button edition) (also removes other search gimmicks potentially) */
+			#bres, .cUnQKe, .oIk2Cb { /* PASF buttons, People also searched for, PASF (button edition) (also removes other search gimmicks potentially) */
 				display: none;
 			}
 			.hlcw0c { /* Always the result just before a results gimmick */
