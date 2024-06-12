@@ -1,17 +1,39 @@
 # Old Google
 ![Mozilla Add-on](https://img.shields.io/amo/users/old-google?label=Firefox%20Users) ![GitHub all releases](https://img.shields.io/github/downloads/toydotgame/old-google/total?color=blue&label=GitHub%20Downloads) ![GitHub repo size](https://img.shields.io/github/repo-size/toydotgame/old-google?label=Code%20Size) ![GitHub Release Date](https://img.shields.io/github/release-date/toydotgame/old-google?color=blue&label=Last%20Update)
 
-Replaces the logo on Google, Google Images, and both their respective search pages to that of [the logo they had from 2010 to 2013](https://upload.wikimedia.org/wikipedia/commons/3/3e/Google_2011_logo.png), and also changes the favicon to that of [the 2012 one](https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Google_Icon_%282010-2015%29.svg/512px-Google_Icon_%282010-2015%29.svg.png). Dark theme compatible.
+Replaces the logo on various Google search engines to that of [the logo they had from 2010 to 2013](https://upload.wikimedia.org/wikipedia/commons/3/3e/Google_2011_logo.png), and also changes the favicon to that of [the 2012 one](https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Google_Icon_%282010-2015%29.svg/512px-Google_Icon_%282010-2015%29.svg.png). Dark theme compatible.
+
+Additionally, it has some features to further age the look of your results:
+* Square search boxes
+* Square favicons in results
+* Denser results listing
+* Removal of pills row, results gimmicks, and _People also searched for_
+* Redirect automatically to [`&udm=14`](https://udm14.com/) results pages
+* Remove URL breadcrumbs in results and make the URL text green
+
+### Supported Search Engines
+* Google
+* Google Images
+* Google Videos
+* Google Scholar
+* Google Patents
+* Google Books
+	* Books Ngram Viewer
+* Google Maps
+* Google Finance
+* Google News
+* Google Shopping
+* Google Travel
+* Google Trends
 
 ## Goals/Project TODO
 I am open to PRs for help on features and improvements if you would like to help!
 * [x] Favicon replacement.
     * [ ] Favicon replacement based on specific site.
-* [ ] Allow Old Google to run on TLDs other than .com. (Currently removed functionality)
+* [x] Allow Old Google to run on TLDs other than .com. (Currently removed functionality)
 * [x] Sign, package, and distribute this extension on [AMO](https://addons.mozilla.org/).
 * [x] Google Images support.
-    * [ ] [Additional Google search engines support.](https://github.com/toydotgame/old-google/issues/10)
-    * [ ] [Google Images proper old logo](https://upload.wikimedia.org/wikipedia/commons/archive/f/f1/20131002000807%21Google\_Images\_2012\_Logo.png) and similar to videohp algorithm.
+    * [x] [Additional Google search engines support.](https://github.com/toydotgame/old-google/issues/10)
     * [x] Google Doodle support.
 	    * [x] Google Doodle search page support.
 * [ ] Refactor.
