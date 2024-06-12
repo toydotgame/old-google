@@ -270,7 +270,7 @@ function SpecialHpLogo() {
 				try {
 					document.querySelector(".lockup-logo").style.background = "no-repeat url('" + browser.runtime.getURL('resources/patents.png') + "')";
 					document.querySelector(".lockup-logo").style.backgroundSize = "contain";
-					//document.querySelector(".lockup-logo").style.marginRight = "2px";
+					document.querySelector(".layout.horizontal.leftheader.style-scope.search-header").style.width = "79px";
 					document.querySelector(".lockup-brand.style-scope.search-header").remove();
 				} catch(TypeError) {
 					DebugLog("[Patents] NO search page logo found! Assuming it's the homepage.");

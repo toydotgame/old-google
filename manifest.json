@@ -41,7 +41,8 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"*://*.google.com/*"
+				"*://*.google.com/*",
+				"*://*.google.com.au/*"
 			],
 			"js": ["config/configurator.js", "replace.js"],
 			"run_at": "document_start"
