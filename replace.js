@@ -40,7 +40,7 @@ RunWhenReady([ // Triggers when different search engines are detected:
 	"#oc-search-logo", ".gb_Oc.gb_Mc", // Google Books
 	".gb_Oc.gb_6d", // Google Finance, Google News, Google Travel, Google Trends
 	".jmaXG", // Google Shopping
-	".google-logo" // Google Trends
+	".google-logo" // Google Trends, Books Ngrams
 ], function(loadedElement) {
 	Main();
 });
@@ -331,6 +331,25 @@ function SpecialHpLogo() {
 			break;
 		case "books":
 			DebugLog("[Books] Running case.");
+
+			if(page == "/ngrams") {
+				DebugLog("[Books/Ngrams] Running case.");
+				var ngramsStyle = document.createElement("style");
+				ngramsStyle.appendChild(document.createTextNode(`
+					.google-logo {
+						content: url("` + browser.runtime.getURL('resources/books.png') + `");
+						height: unset;
+					}
+					.ngrams-logo {
+						color: #009925;
+						font-family: "Arial", sans-serif;
+					}
+				`));
+				document.head.append(ngramsStyle);
+				document.querySelector(".ngrams-logo").innerHTML = "&nbsp;   Ngram Viewer";
+				break;
+			}
+
 			var booksHpLogoStyle = document.createElement("style");
 			booksHpLogoStyle.appendChild(document.createTextNode(`
 				#oc-search-image {
