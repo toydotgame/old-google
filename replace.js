@@ -38,8 +38,9 @@ RunWhenReady([ // Triggers when different search engines are detected:
 	"#gs_hdr_hp_lgo", "#gs_hdr_hp_lgow", "#gs_hdr_drw_lgo", "#gs_hdr_lgo", "#gs_ab_ico", // Google Scholar
 	".lmygoc", ".watermark", // Google Maps
 	"#oc-search-logo", ".gb_Oc.gb_Mc", // Google Books
-	".gb_Oc.gb_6d", // Google Finance, Google News, Google Travel
-	".jmaXG" // Google Shopping
+	".gb_Oc.gb_6d", // Google Finance, Google News, Google Travel, Google Trends
+	".jmaXG", // Google Shopping
+	".google-logo" // Google Trends
 ], function(loadedElement) {
 	Main();
 });
@@ -56,6 +57,7 @@ function Main() {
 		case "books":
 		case "shopping":
 		case "news":
+		case "trends":
 			SpecialHpLogo();
 			break;
 		case "www":
@@ -419,14 +421,33 @@ function SpecialHpLogo() {
 			break;
 		case "travel":
 			DebugLog("[Travel] Running case.");
-			var newsStyle = document.createElement("style");
-			newsStyle.appendChild(document.createTextNode(`
+			var travelStyle = document.createElement("style");
+			travelStyle.appendChild(document.createTextNode(`
 				.gb_Oc.gb_6d {
 					content: url("` + browser.runtime.getURL('resources/logo.png') + `");
 					height: unset;
 				}
 			`));
-			document.head.append(newsStyle);
+			document.head.append(travelStyle);
+			break;
+		case "trends":
+			DebugLog("[Trends] Running case.");
+			var trendsStyle = document.createElement("style");
+			trendsStyle.appendChild(document.createTextNode(`
+				.gb_Oc.gb_6d {
+					content: url("` + browser.runtime.getURL('resources/trends.png') + `");
+					height: unset;
+				}
+				.gb_pd.gb_gd {
+					display:none;
+				}
+				.google-logo {
+					height: 32px;
+					background-image: url("` + browser.runtime.getURL('resources/trends.png') + `") !important;
+					background-size: contain;
+				}
+			`));
+			document.head.append(trendsStyle);
 			break;
 	}
 }

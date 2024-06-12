@@ -31,7 +31,8 @@
 		"resources/shopping_left.png",
 		"resources/shopping_right.png",
 		"resources/news_left.png",
-		"resources/news_right.png"
+		"resources/news_right.png",
+		"resources/trends.png"
 	],
 	"browser_action": {
 		"default_icon": "icons/vector.svg",
