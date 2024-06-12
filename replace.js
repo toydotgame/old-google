@@ -38,7 +38,7 @@ RunWhenReady([ // Triggers when different search engines are detected:
 	"#gs_hdr_hp_lgo", "#gs_hdr_hp_lgow", "#gs_hdr_drw_lgo", "#gs_hdr_lgo", "#gs_ab_ico", // Google Scholar
 	".lmygoc", ".watermark", // Google Maps
 	"#oc-search-logo", ".gb_Oc.gb_Mc", // Google Books
-	".gb_Oc.gb_6d", // Google Finance
+	".gb_Oc.gb_6d", // Google Finance & Google News
 	".jmaXG" // Google Shopping
 ], function(loadedElement) {
 	Main();
@@ -55,6 +55,7 @@ function Main() {
 		case "scholar":
 		case "books":
 		case "shopping":
+		case "news":
 			SpecialHpLogo();
 			break;
 		case "www":
@@ -395,6 +396,22 @@ function SpecialHpLogo() {
 				document.querySelector(".z86TMb").style.borderRadius = "2px";
 				document.querySelector(".fYz4Vc").style.borderRadius = "0 0 2px 2px";
 			}
+			break;
+		case "news":
+			DebugLog("[News] Running case.");
+			var financeStyle = document.createElement("style");
+			financeStyle.appendChild(document.createTextNode(`
+				.gb_Oc.gb_6d {
+					content: url("` + browser.runtime.getURL('resources/news_left.png') + `");
+					height: unset;
+				}
+				.gb_pd.gb_gd {
+					content: url("` + browser.runtime.getURL('resources/news_right.png') + `");
+					height: 32px;
+					padding-left: 0;
+				}
+			`));
+			document.head.append(financeStyle);
 			break;
 	}
 }
