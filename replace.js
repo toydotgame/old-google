@@ -106,7 +106,7 @@ function Main() {
 function SwapHomepageLogo() {
 	DebugLog("SwapHomepageLogo() run.");
 	if(!(page == "/imghp" || subdomain == "images")) {
-		document.querySelector(homepageLogo[1]).outerHTML = '<div style="margin-top:auto; max-height:92px;"><img class="' + homepageLogo[0].split(".")[1] + '"></div>';
+		document.querySelector(homepageLogo[1]).outerHTML = '<div style="margin-top:auto; max-height:92px;"><img class="' + homepageLogo[0].split(".")[1] + '"></div>'; // Unsafe assignment to OuterHTML
 	}
 	document.querySelector(homepageLogo[0]).src = logoUrl;
 	document.querySelector(homepageLogo[0]).srcset = ""; // Clear override
@@ -154,7 +154,7 @@ function SwapResultsLogo() {
 	}
 
 	// Image search results logo:
-	document.querySelector(searchLogo[2]).outerHTML = document.querySelector(searchLogo[2]).outerHTML.replace(/svg/g, "img");
+	document.querySelector(searchLogo[2]).outerHTML = document.querySelector(searchLogo[2]).outerHTML.replace(/svg/g, "img"); // Unsafe assignment to outerHTML
 	document.querySelector(searchLogo[2]).height = "30"; // SVG proportions are 34px for some reason so override here
 	document.querySelector(searchLogo[2]).src = logoUrl;
 }
@@ -180,7 +180,7 @@ async function ModifyResultsPage() {
 		document.addEventListener("DOMContentLoaded", function() {
 			var resultUrls = document.querySelectorAll(".ylgVCe.ob9lvb");
 			for(var i = 0; i < resultUrls.length; i++) {
-				resultUrls[i].innerHTML = resultUrls[i].innerHTML.replace(/ › /g, "/");
+				resultUrls[i].innerHTML = resultUrls[i].innerHTML.replace(/ › /g, "/"); // Unsafe assignment to innerHTML
 			}
 		});
 	}
