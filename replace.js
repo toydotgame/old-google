@@ -123,7 +123,7 @@ function SwapHomepageLogo() {
 	if(CheckConfigKey("squareBox")) {
 		DebugLog("Running squareBox (homepage).");
 		document.querySelector(searchBox[0]).style.borderRadius = "2px";
-		document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px";
+		document.querySelector(searchBox[1]).style.borderRadius = "0 0 2px 2px"; // Doesn't exist on page load, needs a MutationObserver wait
 		RunWhenReady([".Qwbd3"], function(loadedElement) {
 			for(var i = 2; i < 6; i++) { // searchBox[2–5]
 				document.querySelector(searchBox[i]).style.borderRadius = "2px";
