@@ -106,7 +106,9 @@ function Main() {
 function SwapHomepageLogo() {
 	DebugLog("SwapHomepageLogo() run.");
 	if(!(page == "/imghp" || subdomain == "images")) {
-		document.querySelector(homepageLogo[1]).outerHTML = '<div style="margin-top:auto; max-height:92px;"><img class="' + homepageLogo[0].split(".")[1] + '"></div>'; // Unsafe assignment to OuterHTML
+		try {
+			document.querySelector(homepageLogo[1]).outerHTML = '<div style="margin-top:auto; max-height:92px;"><img class="' + homepageLogo[0].split(".")[1] + '"></div>'; // Unsafe assignment to OuterHTML
+		} catch (TypeError) {} // homepageLogo[1] only exists on Doodle days iirc
 	}
 	document.querySelector(homepageLogo[0]).src = logoUrl;
 	document.querySelector(homepageLogo[0]).srcset = ""; // Clear override
