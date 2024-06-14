@@ -10,32 +10,34 @@
 		}
 	},
 	"icons": {
-		"32": "icons/32.png",
-		"48": "icons/48.png",
-		"96": "icons/96.png"
+		"32": "resources/addon/32.png",
+		"48": "resources/addon/48.png",
+		"96": "resources/addon/96.png"
 	},
 	"web_accessible_resources": [
-		"resources/favicon.ico",
-		"resources/maps.ico",
-		"resources/books.png",
-		"resources/g.png",
-		"resources/logo.png",
-		"resources/maps.png",
-		"resources/maps_watermark.png",
-		"resources/maps_watermark_mono.png",
-		"resources/patents.png",
-		"resources/scholar.png",
-		"resources/videos.png",
-		"resources/finance_left.png",
-		"resources/finance_right.png",
-		"resources/shopping_left.png",
-		"resources/shopping_right.png",
-		"resources/news_left.png",
-		"resources/news_right.png",
-		"resources/trends.png"
+		"resources/google/favicons/maps.ico",
+		"resources/google/favicons/search.ico",
+		"resources/google/logos/books.png",
+		"resources/google/logos/finance_left.png",
+		"resources/google/logos/finance_right.png",
+		"resources/google/logos/g.png",
+		"resources/google/logos/maps.png",
+		"resources/google/logos/maps_watermark_mono.png",
+		"resources/google/logos/maps_watermark.png",
+		"resources/google/logos/news_left.png",
+		"resources/google/logos/news.png",
+		"resources/google/logos/news_right.png",
+		"resources/google/logos/patents.png",
+		"resources/google/logos/scholar.png",
+		"resources/google/logos/search.png",
+		"resources/google/logos/shopping_left.png",
+		"resources/google/logos/shopping.png",
+		"resources/google/logos/shopping_right.png",
+		"resources/google/logos/trends.png",
+		"resources/google/logos/videos.png"
 	],
 	"browser_action": {
-		"default_icon": "icons/vector.svg",
+		"default_icon": "resources/addon/vector.svg",
 		"default_popup": "config/popup.html"
 	},
 	"permissions": ["storage"],
@@ -242,7 +244,7 @@
 				"*://*.google.vu/*",
 				"*://*.google.ws/*"
 			],
-			"js": ["config/configurator.js", "replace.js"],
+			"js": ["src/replace.js", "src/configurator.js", "src/main.js"],
 			"run_at": "document_start"
 		}
 	]
