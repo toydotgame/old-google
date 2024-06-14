@@ -5,7 +5,7 @@
  */
 
 // For development only, not user accessible in production:
-const debug = false;
+const debug = true;
 
 // https://upload.wikimedia.org/wikipedia/commons/3/3e/Google_2011_logo.png
 var logoUrl = browser.runtime.getURL('resources/logo.png');
