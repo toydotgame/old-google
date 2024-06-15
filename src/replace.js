@@ -216,6 +216,7 @@ function Replace_Maps() {
 	});
 }
 
+// No delay
 function Replace_Videos() {
 	DebugLog("Running replacement...");
 }
