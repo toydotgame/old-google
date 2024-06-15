@@ -102,8 +102,11 @@ function Main() {
 					case "/":
 					case "/webhp":
 					case "/imghp":
+						Replace_Search_Styles();
+						break;
 					case "/search":
-						Replace_Search();
+						Replace_Search_Styles();
+						Replace_Search_Results();
 						break;
 				}
 		}
@@ -111,8 +114,7 @@ function Main() {
 		DebugLog(
 			"ERROR: Fatal error; exiting!\n" +
 			e +
-			" (" + e.fileName.substring(e.fileName.lastIndexOf("/") + 1) + ":" + e.lineNumber + "," + e.columnNumber + ")"
-		);
+			" (" + e.fileName.substring(e.fileName.lastIndexOf("/") + 1) + ":" + e.lineNumber + "," + e.columnNumber + ")"		);
 	});
 }
 

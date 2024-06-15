@@ -229,6 +229,7 @@ function Replace_Videos() {
 		}
 	`);
 	if(GetConfig("squareBox")) {
+		DebugLog("Enabling squareBox...");
 		InjectCssAtHead(`
 			.RNNXgb { /* Search box */
 				border-radius: 2px !important;
@@ -272,6 +273,51 @@ function Replace_Travel() {
 	`);
 }
 
-function Replace_Search() {
+function Replace_Search_Styles() {
+	DebugLog("Running replacement...");
+	InjectCssAtHead(`
+		.k1zIA { /* Homepage logo container */
+			margin-top: auto;
+			max-height: 92px;
+		}
+		.lnXdpd { /* Homepage logo */
+			content: url("` + GetResource("search") + `");
+			width: 272px;
+			height: 92px;
+		}
+		.SuUcIb { /* Homepage doodle share button */
+			display: none;
+		}
+	`);
+
+	if(subdomain == "www" && (page == "/" || page == "/webhp")) {
+		var newLogo = Object.assign(
+			document.createElement("img"),
+			{className: "lnXdpd"}
+		);
+		RunWhenReady(".k1zIA", function(loadedElement) {
+			loadedElement.replaceChildren(newLogo);
+		});
+	}
+
+	if(GetConfig("squareBox")) {
+		DebugLog("Enabling squareBox...");
+		InjectCssAtHead(`
+			/* In respective order:
+			 * /webhp: Homepage search box
+			 * /imghp: Upload container, upload textarea, upload search button,
+			 *         inner upload container
+			 */
+			.RNNXgb, .ea0Lbe, .cB9M7, .Qwbd3, .gIYJUc {
+				border-radius: 2px !important;
+			}
+			.aajZCb { /* Homepage suggestions dropdown */
+				border-radius: 0 0 2px 2px !important;
+			}
+		`, true);
+	}
+}
+
+function Replace_Search_Results() {
 	DebugLog("Running replacement...");
 }
