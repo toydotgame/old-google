@@ -153,7 +153,7 @@ function Replace_Shopping() {
 			.fYz4Vc { /* Search suggestions dropdown */
 				border-radius: 0 0 2px 2px;
 			}
-		`, true);
+		`);
 	}
 }
 
@@ -237,7 +237,7 @@ function Replace_Videos() {
 			.aajZCb { /* Suggestions dropdown */
 				border-radius: 0 0 2px 2px !important;
 			}
-		`, true);
+		`);
 	}
 }
 
@@ -263,6 +263,7 @@ function Replace_Finance() {
 	`);
 }
 
+// No delay
 function Replace_Travel() {
 	DebugLog("Running replacement...");
 	InjectCssAtHead(`
@@ -273,9 +274,11 @@ function Replace_Travel() {
 	`);
 }
 
+// No delay
 function Replace_Search_Styles() {
 	DebugLog("Running replacement...");
 	InjectCssAtHead(`
+		/* Homepage Styles */
 		.k1zIA { /* Homepage logo container */
 			margin-top: auto;
 			max-height: 92px;
@@ -288,21 +291,22 @@ function Replace_Search_Styles() {
 		.SuUcIb { /* Homepage doodle share button */
 			display: none;
 		}
+		/* Results Page Styles */
+		.jfN4p, .logo.Ib7Efc > a > img {
+			content: url("` + GetResource("search") + `");
+		}
+		.logo.Ib7Efc > a > img {
+			width = 96px;
+		}
+		.IormK {
+			display:none;
+		}
 	`);
-
-	if(subdomain == "www" && (page == "/" || page == "/webhp")) {
-		var newLogo = Object.assign(
-			document.createElement("img"),
-			{className: "lnXdpd"}
-		);
-		RunWhenReady(".k1zIA", function(loadedElement) {
-			loadedElement.replaceChildren(newLogo);
-		});
-	}
 
 	if(GetConfig("squareBox")) {
 		DebugLog("Enabling squareBox...");
 		InjectCssAtHead(`
+			/* Homepage Styles */
 			/* In respective order:
 			 * /webhp: Homepage search box
 			 * /imghp: Upload container, upload textarea, upload search button,
@@ -314,10 +318,78 @@ function Replace_Search_Styles() {
 			.aajZCb { /* Homepage suggestions dropdown */
 				border-radius: 0 0 2px 2px !important;
 			}
-		`, true);
+			/* Results Page Styles */
+			.H9lube, .UnOTSe img { /* Two styles of results favicon */
+				border-radius: 2px !important;
+			}
+		`);
 	}
 }
 
+// Run after Replace_Search_Styles()
+function Replace_Search_Home() {
+	DebugLog("Running replacement...");
+	if(subdomain == "www" && page != "/imghp") {
+		var newLogo = Object.assign(
+			document.createElement("img"),
+			{className: "lnXdpd"}
+		);
+		RunWhenReady(".k1zIA", function(loadedElement) {
+			loadedElement.replaceChildren(newLogo);
+		});
+	}
+}
+
+// Run after Replace_Search_Styles()
 function Replace_Search_Results() {
 	DebugLog("Running replacement...");
+	if(GetConfig("udm14")) {
+		if(new URLSearchParams(window.location.search).get("udm") == null) {
+			window.location.replace(window.location + "&udm=14");
+			DebugLog("Redirected from non-udm=14 page.");
+		}
+	}
+
+	if(GetConfig("greenUrls")) {
+		DebugLog("Enabling greenUrls...");
+		InjectCssAtHead(`
+			cite.tjvcx.GvPZzd.cHaqb, .ylgVCe.ob9lvb { /* Domain text, page text */
+				color: #093;
+			}
+		`);
+		
+		function RemoveBreadcrumbs() {
+			var resultUrls = document.querySelectorAll(".ylgVCe.ob9lvb:not(.old-google-debreadcrumbed)");
+			try {
+				for(var i = 0; i < resultUrls.length; i++) {
+					resultUrls[i].textContent = resultUrls[i].textContent.replace(/ › /g, "/");
+					resultUrls[i].className += " old-google-debreadcrumbed";
+				}
+			} catch(TypeError) {} // No results found
+		}
+		var pageChangeObserver = new MutationObserver(function(mutations, mutationInstance) {
+			RemoveBreadcrumbs();
+		});
+
+		// Defer initial breadcrumb removal to after the page has loaded
+		// This _will_ cause a visual flash, but running an observer with
+		// a for() loop whilst the page loads is a recipe for disaster
+		document.addEventListener("DOMContentLoaded", function() {
+			// Breadcrumb removal is continuous as the user scrolls, so it never stops
+			RemoveBreadcrumbs();
+			pageChangeObserver.observe(document, {childList: true, subtree: true});
+		});
+	}
+
+	if(GetConfig("cleanResults")) {
+		DebugLog("Removing gimmicks and increasing density...");
+	}
+
+	if(GetConfig("peopleAlsoSearchedFor")) {
+		DebugLog("Removing \"People also searched for\"...");
+	}
+
+	if(GetConfig("removePills")) {
+		DebugLog("Removing pills...");
+	}
 }
