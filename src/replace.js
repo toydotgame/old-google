@@ -219,6 +219,25 @@ function Replace_Maps() {
 // No delay
 function Replace_Videos() {
 	DebugLog("Running replacement...");
+	InjectCssAtHead(`
+		.lnXdpd { /* Homepage logo */
+			content: url("` + GetResource("videos") + `");
+			height: 96px;
+		}
+		.T8VaVe { /* Homepage subtitle */
+			display: none;
+		}
+	`);
+	if(GetConfig("squareBox")) {
+		InjectCssAtHead(`
+			.RNNXgb { /* Search box */
+				border-radius: 2px !important;
+			}
+			.aajZCb { /* Suggestions dropdown */
+				border-radius: 0 0 2px 2px !important;
+			}
+		`, true);
+	}
 }
 
 function Replace_Finance() {
