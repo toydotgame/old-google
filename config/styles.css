@@ -39,9 +39,9 @@ img {
 	padding: 7px;
 	border: 1px solid #666;
 	border-radius: 5px;
-	text-shadow: 1px 1px 3.5px #444;
+	text-shadow: 1px 1px 3.5px #44444480;
 }
 
 input {
-	box-shadow: 1px 1px 3.5px #444;
+	box-shadow: 1px 1px 3.5px #44444480;
 }
