@@ -398,6 +398,14 @@ function Replace_Search_Results() {
 
 	if(GetConfig("peopleAlsoSearchedFor")) {
 		DebugLog("Removing \"People also searched for\"...");
+		InjectCssAtHead(`
+			#bres, .cUnQKe, .oIk2Cb { /* PASF buttons, People also searched for, PASF (button edition) (also removes other search gimmicks potentially) */
+				display: none;
+			}
+			.hlcw0c { /* Always the result just before a results gimmick */
+				margin-bottom: 0 !important;
+			}
+		`);
 	}
 
 	if(GetConfig("removePills")) {
