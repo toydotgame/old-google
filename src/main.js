@@ -148,7 +148,7 @@ function DebugLog(message) {
 }
 
 /*
- * void RunWhenReady(String[] selectors | String selector, function code, [boolean persistent])
+ * void RunWhenReady(String[] selectors | String selector, function code)
  * Takes querySelector() string(s) and runs the provided code once the earliest
  * element in the array (or just the single provided element) is loaded into DOM
  * Provides a DOMObject `loadedElement` for use in the code that corresponds to
@@ -194,7 +194,7 @@ function RunWhenReady(selectors, code) {
 }
 
 /*
- * void InjectCssAtHead(String styles, [boolean quickReplace])
+ * void InjectCssAtHead(String styles, boolean? quickReplace)
  * Appends the given inline styles to the <head> element in a safe manner
  * Runs when the body starts loading, unless quickReplace is true
  * quickReplace is useful for when prior code already establishes that the
@@ -214,7 +214,7 @@ function InjectCssAtHead(styles, quickReplace = false) {
 }
 
 /*
- * void SetFavicon(String id, [boolean quickReplace])
+ * void SetFavicon(String id, boolean? quickReplace)
  * Sets the favicon to the resource at the provided ID, safely
  * Like in InjectCssAtHead, the same quickReplace option is available here, too
  */
