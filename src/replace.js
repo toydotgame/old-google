@@ -157,8 +157,20 @@ function Replace_Shopping() {
 	}
 }
 
+// No delay
 function Replace_News() {
 	DebugLog("Running replacement...");
+	InjectCssAtHead(`
+		.gb_Oc.gb_6d {
+			content: url("` + GetResource("news_left") + `");
+			height: unset;
+		}
+		.gb_pd.gb_gd {
+			content: url("` + GetResource("news_right") + `");
+			height: 32px;
+			padding-left: 0;
+		}
+	`);
 }
 
 function Replace_Trends() {
@@ -169,7 +181,7 @@ function Replace_Maps() {
 	DebugLog("Running replacement...");
 }
 
-function Replace_Videos1() {
+function Replace_Videos() {
 	DebugLog("Running replacement...");
 }
 
