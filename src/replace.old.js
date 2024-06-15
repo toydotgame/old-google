@@ -36,7 +36,7 @@ RunWhenReady([ // Triggers when different search engines are detected:
 	homepageLogo[1], searchLogo[0], searchLogo[1], searchLogo[2], // Google Search, Google Images
 	".logowrap", ".lockup-logo", // Google Patents
 	"#gs_hdr_hp_lgo", "#gs_hdr_hp_lgow", "#gs_hdr_drw_lgo", "#gs_hdr_lgo", "#gs_ab_ico", // Google Scholar
-	".lmygoc", ".watermark", // Google Maps
+	".lmygoc", "Main().watermark", // Google Maps
 	"#oc-search-logo", ".gb_Oc.gb_Mc", // Google Books
 	".gb_Oc.gb_6d", // Google Finance, Google News, Google Travel, Google Trends
 	".jmaXG", // Google Shopping

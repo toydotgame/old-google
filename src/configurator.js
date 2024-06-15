@@ -8,19 +8,18 @@ var inputs = document.querySelectorAll("input");
 
 /* 
  * async void LoadConfig()
- * Loads the plugin config into the previously declared `config` array. Bodges in defaults if
- * no config is found
+ * Loads the plugin config into the previously declared `config` array.
+ * Bodges in defaults if no config is found
  */
 async function LoadConfig() {
 	var config;
 	config = await browser.storage.sync.get().then((result) => {
 		var values = Object.entries(result);
 		for(var i = 0; i < values.length; i++) {
-			values[i][1] = values[i][1][0];
+			values[i] = {"id": values[i][0], "value": values[i][1][0]}
 		}
 		return values;
 	});
-	// Create all-true config if it doesn't exist (bodged from configurator.js):
 	if(config == null || config.length == 0) {
 		browser.storage.sync.set({
 			greenUrls: [true],
@@ -31,12 +30,12 @@ async function LoadConfig() {
 			udm14: [false]
 		});
 		config = [
-			["greenUrls", true],
-			["padding", true],
-			["peopleAlsoSearchedFor", true],
-			["removeRandRow", true],
-			["squareBox", true],
-			["udm14", false]
+			{"id": "greenUrls",                "value": true  },
+			{"id": "padding",                  "value": true  },
+			{"id": "peopleAlsoSearchedFor",    "value": true  },
+			{"id": "removeRandRow",            "value": true  },
+			{"id": "squareBox",                "value": true  },
+			{"id": "udm14",                    "value": false }
 		];
 	}
 	return config;

@@ -5,7 +5,7 @@
  */
 
 // Enables verbose debug logging. Not for production
-const debug = false;
+const debug = true;
 
 var logos = [
 	{"id": "maps_favicon",           "src": browser.runtime.getURL("/resources/google/favicons/maps.ico")},
@@ -30,6 +30,39 @@ var logos = [
 	{"id": "videos",                 "src": browser.runtime.getURL("/resources/google/logos/videos.png")}
 ];
 
+var supportedDomains = ["patents", "scholar", "books", "shopping", "news", "trends", "www", "images"];
+var supportedPages = ["/maps", "/videohp", "/finance", "/travel", "/", "/webhp", "/imghp", "/search"];
+
+var config;
+var runningObservers = 0; // DEBUG CODE REMOVE FOR PRODUCTION
+
+var subdomain = window.location.host.split(".")[0];
+var page = "/" + window.location.pathname.split("/")[1];
+
+if(supportedDomains.includes(subdomain) && supportedPages.includes(page)) {
+	Main();
+} // End of execution if false
+
+/*
+ * void Main()
+ * Run if page is on a supported domain. Runs unique replace.js methods to replace logos
+ */
+function Main() {
+	DebugLog(
+		"Welcome to Old Google!\n" +
+		"Copyright (c) 2021 toydotgame\n" +
+		"subdomain = \"" + subdomain + "\", page = \"" + page + "\""
+	);
+	
+	LoadConfig().then(config => {
+		DebugLog("Config loaded:"); console.table(config);
+
+		// ...
+	}).catch(e => {
+		DebugLog("ERROR: Config failed to load! Exiting.");
+	});
+}
+
 /*
  * void GetResource(String id)
  * Returns a moz-extension:// URI for the resource with the input
@@ -37,4 +70,93 @@ var logos = [
  */
 function GetResource(id) {
 	return logos.find(x => x.id == id).src;
+}
+
+/*
+ * boolean GetConfig(String id)
+ * Returns true/false for given input setting ID
+ * Returns false if key does not exist
+ */
+function GetConfig(id) {
+	var value;
+	try {
+		value = config.find(x => x.id == id).value;
+	} catch(TypeError) {
+		value = false;
+	}
+	return value;
+}
+
+/*
+ * void DebugLog(String message)
+ * Fancy console.log() wrapper that only prints if the debug const is true
+ * If you prepend "ERROR: " to your message string, the message prints in red
+ */
+function DebugLog(message) {
+	if(debug) {
+		var messageColor = "reset";
+		var isErrorMessage = false;
+		try {
+			isErrorMessage = message.startsWith("ERROR: ");
+		} catch(TypeError) {}
+		if(isErrorMessage) {
+			message = message.replace(/ERROR: /, "");
+			messageColor = "#f00";
+		}
+		var caller = "";
+		if(DebugLog.caller.name.length != 0) {
+			caller = "[" + DebugLog.caller.name + "()] ";
+		}
+		console.log("%c[%cOld Google%c]%c " + caller + message,
+			"background-color:#4d90fe; color:#222",
+			"background-color:#4d90fe; color:#fff",
+			"background-color:#4d90fe; color:#222",
+			"color:" + messageColor + "; background-color:reset");
+	}
+}
+
+/*
+ * void RunWhenReady(String[] selectors | String selector, function code, [boolean persistent])
+ * Takes querySelector() string(s) and runs the provided code once the earliest
+ * element in the array (or just the single provided element) is loaded into DOM
+ * Provides a DOMObject `loadedElement` for use in the code that corresponds to
+ * the aforementioned first loaded element
+ */
+function RunWhenReady(selectors, code) {
+	if(typeof selectors == "string") {
+		selectors = [selectors];
+	}
+	DebugLog("RunWhenReady(): Running on [\"" + selectors.join("\", \"") + "\"], code = ```\n" + code + "\n```");
+
+	var loadedElement, isLoaded;
+	function GetLoadedElement(mutationInstance = null) {
+		for(var i = 0; i < selectors.length; i++) {
+			try {
+				loadedElement = document.querySelector(selectors[i])
+			} catch(TypeError) {}
+			if(loadedElement != null) {
+				DebugLog("RunWhenReady(): Element with selector \"" + selectors[i] + "\" loaded...");
+				code(loadedElement);
+				if(mutationInstance != null) { // Running in observer:
+					runningObservers -= 1; // DEBUG CODE REMOVE FOR PRODUCTION
+					DebugLog("Running observers = " + runningObservers); // DEBUG CODE REMOVE FOR PRODUCTION
+					mutationInstance.disconnect();
+					break;
+				} // Running in function scope:
+				isLoaded = true;
+				break;
+			}
+		}
+	}
+
+	GetLoadedElement(); // Run check if the element has loaded before the observer can start
+	if(isLoaded)
+		return;
+
+	var observer = new MutationObserver(function (mutations, mutationInstance) {
+		runningObservers += 1; // DEBUG CODE REMOVE FOR PRODUCTION
+		DebugLog("Running observers = " + runningObservers); // DEBUG CODE REMOVE FOR PRODUCTION
+		GetLoadedElement(mutationInstance);
+	});
+	observer.observe(document, {childList: true, subtree: true});
 }
