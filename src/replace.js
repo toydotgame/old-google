@@ -76,6 +76,7 @@ function Replace_Scholar() {
 	`);
 }
 
+// No delay
 function Replace_Books() {
 	DebugLog("Running replacement...");
 	InjectCssAtHead(`
@@ -129,8 +130,20 @@ function Replace_Ngrams() {
 	`);
 }
 
+// No delay
 function Replace_Shopping() {
 	DebugLog("Running replacement...");
+	InjectCssAtHead(`
+		.uiDkff.FAZYFf > .Ws3Esf {
+			content: url("` + GetResource("shopping_left") + `");
+			height: unset;
+		}
+		.jmaXG {
+			content: url("` + GetResource("shopping_right") + `");
+			height: 32px;
+			padding-left: 0;
+		}
+	`);
 }
 
 function Replace_News() {

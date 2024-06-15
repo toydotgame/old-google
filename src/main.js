@@ -129,6 +129,21 @@ function GetResource(id) {
 }
 
 /*
+ * boolean GetConfig(String id)
+ * Returns true/false for given input setting ID
+ * Returns false if key does not exist
+ */
+function GetConfig(id) {
+	var value;
+	try {
+		value = config.find(x => x.id == id).value;
+	} catch(TypeError) {
+		value = false;
+	}
+	return value;
+}
+
+/*
  * void DebugLog(String message)
  * Fancy console.log() wrapper that only prints if the debug const is true
  * If you prepend "ERROR: " to your message string, the message prints in red
