@@ -161,11 +161,11 @@ function Replace_Shopping() {
 function Replace_News() {
 	DebugLog("Running replacement...");
 	InjectCssAtHead(`
-		.gb_Oc.gb_6d {
+		.gb_Oc.gb_6d { /* Logo */
 			content: url("` + GetResource("news_left") + `");
 			height: unset;
 		}
-		.gb_pd.gb_gd {
+		.gb_pd.gb_gd { /* Subtitle */
 			content: url("` + GetResource("news_right") + `");
 			height: 32px;
 			padding-left: 0;
@@ -177,16 +177,17 @@ function Replace_News() {
 function Replace_Trends() {
 	DebugLog("Running replacement...");
 	InjectCssAtHead(`
-		.gb_Oc.gb_6d {
-			content: url("` + browser.runtime.getURL('resources/trends.png') + `");
+		.gb_Oc.gb_6d, .gb_jd { /* Homepage logo */
+			content: url("` + GetResource("trends") + `");
 			height: unset;
+			vertical-align: middle;
 		}
-		.gb_pd.gb_gd {
+		.gb_pd.gb_gd { /* Homepage subtitle */
 			display:none;
 		}
-		.google-logo {
+		.google-logo { /* Results logo and drawer logo */
 			height: 32px;
-			background-image: url("` + browser.runtime.getURL('resources/trends.png') + `") !important;
+			background-image: url("` + GetResource("trends") + `") !important;
 			background-size: contain;
 		}
 	`);
