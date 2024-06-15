@@ -92,6 +92,16 @@ function Replace_Books() {
 			background-position: 0 0;
 			width: 96px;
 		}
+		.outMi > img { /* New Books results logo */
+			content: url("` + GetResource("books") + `");
+			height: unset;
+		}
+		.B6Fq0e { /* New Books results subtitle */
+			display: none;
+		}
+		.FYyaN { /* New Books results logo container */
+			flex: unset !important;
+		}
 	`);
 }
 

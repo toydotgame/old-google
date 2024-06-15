@@ -49,7 +49,7 @@ if(supportedDomains.includes(subdomain) || supportedPages.includes(page)) {
  */
 function Main() {
 	DebugLog(
-		"Welcome to Old Google!\n" +
+		"Welcome to Old Google v" + browser.runtime.getManifest().version + "!\n" +
 		"Copyright (c) 2021 toydotgame\n" +
 		"subdomain = \"" + subdomain + "\", page = \"" + page + "\""
 	);
@@ -94,6 +94,9 @@ function Main() {
 						break;
 					case "/travel":
 						Replace_Travel();
+						break;
+					case "/books":
+						Replace_Books(); // New Books results page
 						break;
 					case "/":
 					case "/webhp":
