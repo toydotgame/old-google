@@ -54,7 +54,8 @@ function Main() {
 		"subdomain = \"" + subdomain + "\", page = \"" + page + "\""
 	);
 	
-	LoadConfig().then(config => {
+	LoadConfig().then(cachedConfig => {
+		config = cachedConfig;
 		DebugLog("Config loaded:"); console.table(config);
 
 		switch (subdomain) {

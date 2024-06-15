@@ -134,16 +134,27 @@ function Replace_Ngrams() {
 function Replace_Shopping() {
 	DebugLog("Running replacement...");
 	InjectCssAtHead(`
-		.uiDkff.FAZYFf > .Ws3Esf {
+		.uiDkff.FAZYFf > .Ws3Esf { /* Logo */
 			content: url("` + GetResource("shopping_left") + `");
 			height: unset;
 		}
-		.jmaXG {
+		.jmaXG { /* Subtitle */
 			content: url("` + GetResource("shopping_right") + `");
 			height: 32px;
 			padding-left: 0;
 		}
 	`);
+	if(GetConfig("squareBox")) {
+		DebugLog("Enabling squareBox...");
+		InjectCssAtHead(`
+			.z86TMb { /* Search box */
+				border-radius: 2px;
+			}
+			.fYz4Vc { /* Search suggestions dropdown */
+				border-radius: 0 0 2px 2px;
+			}
+		`, true);
+	}
 }
 
 function Replace_News() {
