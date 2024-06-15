@@ -59,9 +59,7 @@ function Main() {
 
 		switch (subdomain) {
 			case "patents":
-				RunWhenReady([".logowrap", ".lockup-logo"], function(loadedElement) {
-					Replace_Patents();
-				});
+				Replace_Patents();
 				break;
 			case "scholar":
 				Replace_Scholar();
@@ -210,6 +208,7 @@ function RunWhenReady(selectors, code) {
  * can be skipped
  */
 function InjectCssAtHead(styles, quickReplace = false) {
+	DebugLog("Injecting CSS into document...");
 	var styleElement = document.createElement("style");
 	styleElement.appendChild(document.createTextNode(styles));
 	if(!quickReplace) {

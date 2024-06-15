@@ -5,50 +5,47 @@
  * Before every method, the trigger/delay for when the method is run is written
  */
 
-// Run when: ".logowrap", ".lockup-logo"
+// No delay
 function Replace_Patents() {
 	DebugLog("Running replacement...");
 	/* Google Patents will usually use JS to replace the document body rather
 	 * than redirect to unique search or homepage documents, completely unlike
 	 * all other Google search engines. Therefore, we start a persistent
-	 * MutationObserver to check if the URL has changed in any way, then run a
-	 * generic replacement script that is safe to run on either the homepage
-	 * or the search page.
+	 * MutationObserver to check if the URL has changed in any way, then use
+	 * stylesheets to safely replace content regardless of the current document
 	 */
-	function AttemptReplace() {
-		try {
-			document.querySelector(".logowrap > img").src = GetResource("patents");
-			document.querySelector("h1.style-scope.landing-page").remove();
-			DebugLog("Logo replaced for homepage.");
-			return;
-		} catch(TypeError) {}
-		try {
-			document.querySelector(".lockup-brand.style-scope.search-header").remove();
-			InjectCssAtHead(`
-				.lockup-logo.search-header {
-					background: no-repeat url("` + GetResource("patents") + `");
-					background-size: contain;
-				}
-				.layout.horizontal.leftheader.style-scope.search-header {
-					width: 79px;
-				}
-			`, true);
-			DebugLog("Logo replaced for search page.");
-		} catch(TypeError) {}
+	function InjectPatentsStyles() {
+		InjectCssAtHead(`
+			.logowrap > img { /* Homepage logo */
+				width: 276px;
+				height: unset;
+				content: url("` + GetResource("patents") + `");
+			}
+			h1.style-scope.landing-page { /* Homepage subtitle */
+				display: none;
+			}
+			.lockup-brand.style-scope.search-header { /* Results subtitle */
+				display: none;
+			}
+			.lockup-logo.search-header { /* Results logo */
+				background: no-repeat url("` + GetResource("patents") + `");
+				background-size: contain;
+			}
+			.layout.horizontal.leftheader.style-scope.search-header { /* Results logo container */
+				width: 79px;
+			}
+		`);
 	}
 
 	var currentURL = window.location.href;
 	var pageChangeObserver = new MutationObserver(function(mutations, mutationInstance) {
 		if(window.location.href != currentURL) {
 			currentURL = window.location.href;
-			RunWhenReady([".logowrap > img", ".lockup-logo"], function(loadedElement) {
-				DebugLog("Page change detected. Attempting replacement...");
-				AttemptReplace();
-			});
+			InjectPatentsStyles();
 		}
 	});
 
-	AttemptReplace(); // MutationObserver does nothing on its own for the first run, hence manual invocation
+	InjectPatentsStyles(); // MutationObserver does nothing on its own for the first run, hence manual invocation
 	pageChangeObserver.observe(document, {childList: true, subtree: true});
 }
 
