@@ -56,7 +56,7 @@ function Main() {
 	
 	LoadConfig().then(config => {
 		DebugLog("Config loaded:"); console.table(config);
-
+		
 		// ...
 	}).catch(e => {
 		DebugLog("ERROR: Config failed to load! Exiting.");
@@ -64,27 +64,16 @@ function Main() {
 }
 
 /*
- * void GetResource(String id)
+ * String GetResource(String id)
  * Returns a moz-extension:// URI for the resource with the input
- * namespaced ID. Returns undefined if not found
+ * namespaced ID. Returns empty string if not found
  */
 function GetResource(id) {
-	return logos.find(x => x.id == id).src;
-}
-
-/*
- * boolean GetConfig(String id)
- * Returns true/false for given input setting ID
- * Returns false if key does not exist
- */
-function GetConfig(id) {
-	var value;
 	try {
-		value = config.find(x => x.id == id).value;
+		return logos.find(x => x.id == id).src;
 	} catch(TypeError) {
-		value = false;
+		return "";
 	}
-	return value;
 }
 
 /*
@@ -95,7 +84,7 @@ function GetConfig(id) {
 function DebugLog(message) {
 	if(debug) {
 		var messageColor = "reset";
-		var isErrorMessage = false;
+		var isErrorMessage;
 		try {
 			isErrorMessage = message.startsWith("ERROR: ");
 		} catch(TypeError) {}
@@ -154,9 +143,35 @@ function RunWhenReady(selectors, code) {
 		return;
 
 	var observer = new MutationObserver(function (mutations, mutationInstance) {
-		runningObservers += 1; // DEBUG CODE REMOVE FOR PRODUCTION
-		DebugLog("Running observers = " + runningObservers); // DEBUG CODE REMOVE FOR PRODUCTION
 		GetLoadedElement(mutationInstance);
 	});
+	runningObservers += 1; // DEBUG CODE REMOVE FOR PRODUCTION
+	DebugLog("Running observers = " + runningObservers); // DEBUG CODE REMOVE FOR PRODUCTION
 	observer.observe(document, {childList: true, subtree: true});
+}
+
+/*
+ * void InjectCssAtHead(String styles)
+ * Appends the given inline styles to the <head> element in a safe manner
+ * Requires <head> to be loaded, so must be after some RunWhenReady() delay ideally
+ */
+function InjectCssAtHead(styles) {
+	var styleElement = document.createElement("style");
+	styleElement.appendChild(document.createTextNode(styles));
+	document.head.append(styleElement);
+}
+
+/*
+ * void SetFavicon(String id)
+ * Sets the favicon to the resource at the provided ID, safely
+ */
+function SetFavicon(id) {
+	DebugLog("Setting favicon to " + id + "...");
+	var faviconElement = Object.assign(
+		document.createElement("link"),
+		{rel: "icon", href: GetResource(id)}
+	);
+	RunWhenReady("body", function(loadedElement) {
+		document.head.append(faviconElement);
+	});	
 }
