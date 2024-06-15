@@ -410,5 +410,13 @@ function Replace_Search_Results() {
 
 	if(GetConfig("removePills")) {
 		DebugLog("Removing pills...");
+		InjectCssAtHead(`
+			.IUOThf {
+				display: none;
+			}
+			.XtQzZd {
+				height: 57px;
+			}
+		`)
 	}
 }
