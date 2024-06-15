@@ -67,6 +67,10 @@ function Main() {
 				Replace_Scholar();
 				break;
 			case "books":
+				if(page == "/ngrams") {
+					Replace_Ngrams();
+					break;
+				}
 				Replace_Books();
 				break;
 			case "shopping":

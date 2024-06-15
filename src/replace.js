@@ -2,8 +2,10 @@
  * CREATED: 2021-10-19
  * AUTHOR: toydotgame
  * Contains specific methods for replacement for each search engine
+ * Before every method, the trigger/delay for when the method is run is written
  */
 
+// Run when: ".logowrap", ".lockup-logo"
 function Replace_Patents() {
 	DebugLog("Running replacement...");
 	/* Google Patents will usually use JS to replace the document body rather
@@ -50,10 +52,11 @@ function Replace_Patents() {
 	pageChangeObserver.observe(document, {childList: true, subtree: true});
 }
 
+// No delay
 function Replace_Scholar() {
 	DebugLog("Running replacement...");
 	InjectCssAtHead(`
-		#gs_hdr_drw_lgo, #gs_hdr_lgo {
+		#gs_hdr_drw_lgo, #gs_hdr_lgo { /* Results logo */
 			background: no-repeat url("` + GetResource("scholar") + `") 0 50%;
 			background-size: contain;
 			width: 149px;
@@ -62,28 +65,61 @@ function Replace_Scholar() {
 			background-origin: content-box;
 			padding: 15px;
 		}
-		#gs_ab_ico > .gs_ico {
+		#gs_ab_ico > .gs_ico { /* Tab bar mini icon */
 			background: no-repeat url("` + GetResource("g") + `");
 			background-size: contain;
 		}
-		#gs_hdr_hp_lgo {
+		#gs_hdr_hp_lgo { /* Homepage logo */
 			width: 276px;
+			content: url("` + GetResource("scholar") + `");
 		}
-		#gs_hdr_hp_lgow {
+		#gs_hdr_hp_lgow { /* Homepage logo container */
 			margin-bottom: 40px;
 		}
 	`);
-	
-	if(page == "/" || page == "/schhp") {
-		RunWhenReady("#gs_hdr_hp_lgo", function(loadedElement) {
-			loadedElement.src = GetResource("scholar");
-			loadedElement.srcset = "";
-		});
-	}
 }
 
 function Replace_Books() {
 	DebugLog("Running replacement...");
+	InjectCssAtHead(`
+		#oc-search-image { /* Homepage logo */
+			background: no-repeat url("` + GetResource("books") + `");
+			background-size: contain;
+		}
+		#oc-search-logo { /* Homepage subtitle */
+			display: none;
+		}
+		.gb_Oc.gb_Mc { /* Classic Books results logo */
+			background: no-repeat url("` + GetResource("books") + `");
+			background-size: contain;
+			background-position: 0 0;
+			width: 96px;
+		}
+	`);
+}
+
+// No delay
+function Replace_Ngrams() {
+	DebugLog("Running replacement...");
+	InjectCssAtHead(`
+		.google-logo {
+			content: url("` + GetResource("books") + `");
+			height: unset;
+		}
+		.ngrams-logo { /* "Books Ngram Viewer" text */
+			padding-left: 2em;
+			color: #009925;
+			font-family: "Arial", sans-serif;
+			/* Clear content: */
+			line-height: 0;
+			text-indent: -999999px;
+		}
+		.ngrams-logo::after {
+			display: block;
+			content: "Ngram Viewer";
+			text-indent: 0;
+		}
+	`);
 }
 
 function Replace_Shopping() {
