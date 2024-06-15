@@ -264,6 +264,12 @@ function Replace_Finance() {
 
 function Replace_Travel() {
 	DebugLog("Running replacement...");
+	InjectCssAtHead(`
+		.gb_Oc.gb_6d {
+			content: url("` + GetResource("search") + `");
+			height: unset;
+		}
+	`);
 }
 
 function Replace_Search() {
