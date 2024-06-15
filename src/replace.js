@@ -383,6 +383,17 @@ function Replace_Search_Results() {
 
 	if(GetConfig("cleanResults")) {
 		DebugLog("Removing gimmicks and increasing density...");
+		InjectCssAtHead(`
+			.tF2Cxc.asEBEc, .vt6azd, .hlcw0c, .g {
+				margin-bottom: 0 !important;
+			}
+			.MjjYud, .cUnQKe { /* General containers, People also searched for */
+				margin-bottom: 16px !important;
+			}
+			.ULSxyf:nth-child(2), #appbar, #OotqVd { /* Top result extract, appbar, 404 yeti guy */
+				display: none;
+			}
+		`);
 	}
 
 	if(GetConfig("peopleAlsoSearchedFor")) {
