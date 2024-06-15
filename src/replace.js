@@ -173,8 +173,23 @@ function Replace_News() {
 	`);
 }
 
+// No delay
 function Replace_Trends() {
 	DebugLog("Running replacement...");
+	InjectCssAtHead(`
+		.gb_Oc.gb_6d {
+			content: url("` + browser.runtime.getURL('resources/trends.png') + `");
+			height: unset;
+		}
+		.gb_pd.gb_gd {
+			display:none;
+		}
+		.google-logo {
+			height: 32px;
+			background-image: url("` + browser.runtime.getURL('resources/trends.png') + `") !important;
+			background-size: contain;
+		}
+	`);
 }
 
 function Replace_Maps() {
