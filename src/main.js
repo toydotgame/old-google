@@ -59,7 +59,9 @@ function Main() {
 
 		switch (subdomain) {
 			case "patents":
-				Replace_Patents();
+				RunWhenReady([".logowrap > img", "h1.style-scope.landing-page"], function(loadedElement) {
+					Replace_Patents();
+				});
 				break;
 			case "scholar":
 				Replace_Scholar();
@@ -192,27 +194,41 @@ function RunWhenReady(selectors, code) {
 }
 
 /*
- * void InjectCssAtHead(String styles)
+ * void InjectCssAtHead(String styles, [boolean quickReplace])
  * Appends the given inline styles to the <head> element in a safe manner
- * Requires <head> to be loaded, so must be after some RunWhenReady() delay ideally
+ * Runs when the body starts loading, unless quickReplace is true
+ * quickReplace is useful for when prior code already establishes that the
+ * document head is loaded, and so the creation of a redundant MutationObserver
+ * can be skipped
  */
-function InjectCssAtHead(styles) {
+function InjectCssAtHead(styles, quickReplace = false) {
 	var styleElement = document.createElement("style");
 	styleElement.appendChild(document.createTextNode(styles));
+	if(!quickReplace) {
+		RunWhenReady("body", function(loadedElement) {
+			document.head.append(styleElement);
+			return;
+		});
+	}
 	document.head.append(styleElement);
 }
 
 /*
- * void SetFavicon(String id)
+ * void SetFavicon(String id, [boolean quickReplace])
  * Sets the favicon to the resource at the provided ID, safely
+ * Like in InjectCssAtHead, the same quickReplace option is available here, too
  */
-function SetFavicon(id) {
+function SetFavicon(id, quickReplace = false) {
 	DebugLog("Setting favicon to " + id + "...");
 	var faviconElement = Object.assign(
 		document.createElement("link"),
 		{rel: "icon", href: GetResource(id)}
 	);
-	RunWhenReady("body", function(loadedElement) {
-		document.head.append(faviconElement);
-	});	
+	if(!quickReplace) {
+		RunWhenReady("body", function(loadedElement) {
+			document.head.append(faviconElement);
+			return;
+		});	
+	}
+	document.head.append(faviconElement);
 }
