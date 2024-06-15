@@ -34,7 +34,6 @@ var supportedDomains = ["patents", "scholar", "books", "shopping", "news", "tren
 var supportedPages = ["/maps", "/videohp", "/finance", "/travel", "/", "/webhp", "/imghp", "/search"];
 
 var config;
-var runningObservers = 0; // DEBUG CODE REMOVE FOR PRODUCTION
 
 var subdomain = window.location.host.split(".")[0];
 var page = "/" + window.location.pathname.split("/")[1];
@@ -200,8 +199,6 @@ function RunWhenReady(selectors, code) {
 				DebugLog("RunWhenReady(): Element with selector \"" + selectors[i] + "\" loaded...");
 				code(loadedElement);
 				if(mutationInstance != null) { // Running in observer:
-					runningObservers -= 1; // DEBUG CODE REMOVE FOR PRODUCTION
-					DebugLog("Running observers = " + runningObservers); // DEBUG CODE REMOVE FOR PRODUCTION
 					mutationInstance.disconnect();
 					break;
 				} // Running in function scope:
@@ -218,8 +215,6 @@ function RunWhenReady(selectors, code) {
 	var observer = new MutationObserver(function (mutations, mutationInstance) {
 		GetLoadedElement(mutationInstance);
 	});
-	runningObservers += 1; // DEBUG CODE REMOVE FOR PRODUCTION
-	DebugLog("Running observers = " + runningObservers); // DEBUG CODE REMOVE FOR PRODUCTION
 	observer.observe(document, {childList: true, subtree: true});
 }
 
