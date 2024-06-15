@@ -103,6 +103,7 @@ function Main() {
 					case "/webhp":
 					case "/imghp":
 						Replace_Search_Styles();
+						Replace_Search_Home();
 						break;
 					case "/search":
 						Replace_Search_Styles();
@@ -114,7 +115,9 @@ function Main() {
 		DebugLog(
 			"ERROR: Fatal error; exiting!\n" +
 			e +
-			" (" + e.fileName.substring(e.fileName.lastIndexOf("/") + 1) + ":" + e.lineNumber + "," + e.columnNumber + ")"		);
+			" (" + e.fileName.substring(e.fileName.lastIndexOf("/") + 1) + ":" + e.lineNumber + "," + e.columnNumber + ")\n" + 
+			e.stack
+		);
 	});
 }
 
@@ -224,27 +227,26 @@ function RunWhenReady(selectors, code) {
  * void InjectCssAtHead(String styles, boolean? quickReplace)
  * Appends the given inline styles to the <head> element in a safe manner
  * Runs when the body starts loading, unless quickReplace is true
- * quickReplace is useful for when prior code already establishes that the
- * document head is loaded, and so the creation of a redundant MutationObserver
- * can be skipped
+ * quickReplace is to be true if this method is called from within a
+ * RunWhenReady() function that guarantees <body> has started loading
  */
 function InjectCssAtHead(styles, quickReplace = false) {
 	DebugLog("Injecting CSS into document...");
 	var styleElement = document.createElement("style");
 	styleElement.appendChild(document.createTextNode(styles));
-	if(!quickReplace) {
-		RunWhenReady("body", function(loadedElement) {
-			document.head.append(styleElement);
-			return;
-		});
+	if(quickReplace) {
+		document.head.append(styleElement);
+		return;
 	}
-	document.head.append(styleElement);
+	RunWhenReady("body", function(loadedElement) {
+		document.head.append(styleElement);
+	});	
 }
 
 /*
  * void SetFavicon(String id, boolean? quickReplace)
  * Sets the favicon to the resource at the provided ID, safely
- * Like in InjectCssAtHead, the same quickReplace option is available here, too
+ * Like in InjectCssAtHead, the same quickReplace option is available here
  */
 function SetFavicon(id, quickReplace = false) {
 	DebugLog("Setting favicon to " + id + "...");
