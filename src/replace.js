@@ -23,14 +23,14 @@ function Replace_Patents() {
 		try {
 			document.querySelector(".lockup-brand.style-scope.search-header").remove();
 			InjectCssAtHead(`
-				.lockup-logo {
+				.lockup-logo.search-header {
 					background: no-repeat url("` + GetResource("patents") + `");
 					background-size: contain;
 				}
 				.layout.horizontal.leftheader.style-scope.search-header {
 					width: 79px;
 				}
-			`);
+			`, true);
 			DebugLog("Logo replaced for search page.");
 		} catch(TypeError) {}
 	}
@@ -52,6 +52,34 @@ function Replace_Patents() {
 
 function Replace_Scholar() {
 	DebugLog("Running replacement...");
+	InjectCssAtHead(`
+		#gs_hdr_drw_lgo, #gs_hdr_lgo {
+			background: no-repeat url("` + GetResource("scholar") + `") 0 50%;
+			background-size: contain;
+			width: 149px;
+			height: 63px;
+			box-sizing: border-box;
+			background-origin: content-box;
+			padding: 15px;
+		}
+		#gs_ab_ico > .gs_ico {
+			background: no-repeat url("` + GetResource("g") + `");
+			background-size: contain;
+		}
+		#gs_hdr_hp_lgo {
+			width: 276px;
+		}
+		#gs_hdr_hp_lgow {
+			margin-bottom: 40px;
+		}
+	`);
+	
+	if(page == "/" || page == "/schhp") {
+		RunWhenReady("#gs_hdr_hp_lgo", function(loadedElement) {
+			loadedElement.src = GetResource("scholar");
+			loadedElement.srcset = "";
+		});
+	}
 }
 
 function Replace_Books() {

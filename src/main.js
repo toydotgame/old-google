@@ -39,7 +39,7 @@ var runningObservers = 0; // DEBUG CODE REMOVE FOR PRODUCTION
 var subdomain = window.location.host.split(".")[0];
 var page = "/" + window.location.pathname.split("/")[1];
 
-if(supportedDomains.includes(subdomain) && supportedPages.includes(page)) {
+if(supportedDomains.includes(subdomain) || supportedPages.includes(page)) {
 	Main();
 } // End of execution if false
 
@@ -59,7 +59,7 @@ function Main() {
 
 		switch (subdomain) {
 			case "patents":
-				RunWhenReady([".logowrap > img", "h1.style-scope.landing-page"], function(loadedElement) {
+				RunWhenReady([".logowrap", ".lockup-logo"], function(loadedElement) {
 					Replace_Patents();
 				});
 				break;
@@ -102,7 +102,11 @@ function Main() {
 				}
 		}
 	}).catch(e => {
-		DebugLog("ERROR: Config failed to load! Exiting.");
+		DebugLog(
+			"ERROR: Fatal error; exiting!\n" +
+			e +
+			" (" + e.fileName.substring(e.fileName.lastIndexOf("/") + 1) + ":" + e.lineNumber + "," + e.columnNumber + ")"
+		);
 	});
 }
 
