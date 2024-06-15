@@ -193,8 +193,27 @@ function Replace_Trends() {
 	`);
 }
 
+// No delay
 function Replace_Maps() {
 	DebugLog("Running replacement...");
+	InjectCssAtHead(`
+		.watermark { /* Map view watermark */
+			content: url("` + GetResource("maps_watermark") + `");
+		}
+		.watermark.nTFmr { /* Satellite view watermark */
+			content: url("` + GetResource("maps_watermark_mono") + `");
+		}
+		.lmygoc { /* Drawer logo */
+			content: url("` + GetResource("maps") + `");
+		}
+		#splash-logo {
+			background: url("moz-extension://059a35c4-2334-4d45-9ba1-53f4ab1c8641/resources/google/logos/maps_watermark_mono.png") no-repeat center;
+			background-size: 324px;
+		}
+	`);
+	RunWhenReady('link[rel="shortcut icon"', function(loadedElement) { // Maps defers its favicon for some reason so we wait for it (because CSS injection is too fast)
+		SetFavicon("maps_favicon", true);
+	});
 }
 
 function Replace_Videos() {
