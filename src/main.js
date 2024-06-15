@@ -56,8 +56,49 @@ function Main() {
 	
 	LoadConfig().then(config => {
 		DebugLog("Config loaded:"); console.table(config);
-		
-		// ...
+
+		switch (subdomain) {
+			case "patents":
+				Replace_Patents();
+				break;
+			case "scholar":
+				Replace_Scholar();
+				break;
+			case "books":
+				Replace_Books();
+				break;
+			case "shopping":
+				Replace_Shopping();
+				break;
+			case "news":
+				Replace_News();
+				break;
+			case "trends":
+				Replace_Trends();
+				break;
+			case "www":
+			case "images":
+				switch(page) {
+					case "/maps":
+						Replace_Maps();
+						break;
+					case "/videohp":
+						Replace_Videos();
+						break;
+					case "/finance":
+						Replace_Finance();
+						break;
+					case "/travel":
+						Replace_Travel();
+						break;
+					case "/":
+					case "/webhp":
+					case "/imghp":
+					case "/search":
+						Replace_Search();
+						break;
+				}
+		}
 	}).catch(e => {
 		DebugLog("ERROR: Config failed to load! Exiting.");
 	});
