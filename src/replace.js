@@ -240,8 +240,26 @@ function Replace_Videos() {
 	}
 }
 
+// No delay
 function Replace_Finance() {
 	DebugLog("Running replacement...");
+	InjectCssAtHead(`
+		.gb_Oc.gb_6d, .ForAd > img {
+			content: url("` + GetResource("finance_left") + `");
+			height: unset;
+		}
+		.gb_pd.gb_gd, .N27tdc {
+			content: url("` + GetResource("finance_right") + `");
+			height: 32px;
+			padding-left: 0;
+		}
+		.ForAd > img {
+			height: 32px;
+		}
+		.N27tdc {
+			padding-top: 1px;
+		}
+	`);
 }
 
 function Replace_Travel() {
