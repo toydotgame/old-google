@@ -23,17 +23,17 @@ async function LoadConfig() {
 	if(config == null || config.length == 0) {
 		browser.storage.sync.set({
 			greenUrls: [true],
-			padding: [true],
+			cleanResults: [true],
 			peopleAlsoSearchedFor: [true],
-			removeRandRow: [true],
+			removePills: [true],
 			squareBox: [true],
 			udm14: [false]
 		});
 		config = [
 			{"id": "greenUrls",                "value": true  },
-			{"id": "padding",                  "value": true  },
+			{"id": "cleanResults",             "value": true  },
 			{"id": "peopleAlsoSearchedFor",    "value": true  },
-			{"id": "removeRandRow",            "value": true  },
+			{"id": "removePills",              "value": true  },
 			{"id": "squareBox",                "value": true  },
 			{"id": "udm14",                    "value": false }
 		];
@@ -43,12 +43,16 @@ async function LoadConfig() {
 
 if(window.location.protocol == "moz-extension:") { // Only run active code if its within the addon popup window
 	// Get inputs from config and set "checked" value on page load:
-	document.addEventListener("DOMContentLoaded", async function () {
+	document.addEventListener("DOMContentLoaded", async function() {
 		var config = await LoadConfig();
-		
+
 		for(var i = 0; i < config.length; i++) {
-			if(config[i][1] == true) {
-				document.querySelector("#" + config[i][0]).checked = true;
+			if(config[i].value == true) {
+				try {
+					document.querySelector("#" + config[i].id).checked = true;
+				} catch(TypeError) {
+					console.warn("User has legacy config option \"" + config[i].id + "\" in their browser! This will be ignored.");
+				}
 			}
 		}
 	});
