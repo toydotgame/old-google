@@ -169,7 +169,7 @@ function SwapResultsLogo() {
 async function ModifyResultsPage() {
 	DebugLog("ModifyResultsPage() run.");
 	
-	document.querySelector("textarea.gLFyf").style += "font-family:Arial,sans-serif-medium,sans-serif; font-size:16px; font-weight:400";
+	document.querySelector("textarea.gLFyf").style += "font-family:Arial,sans-serif-medium,sans-serif !important; font-size:16px; font-weight:400";
 
 	// Green URLs and proper URL text:
 	if(CheckConfigKey("greenUrls")) {
