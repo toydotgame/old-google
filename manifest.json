@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Old Google",
-	"version": "2.2.1",
+	"version": "2.2.2",
 	"description": "Replaces the current Google logo on google.com and the search page to use the old 2010-2013 logo.",
 	"browser_specific_settings": {
 		"gecko": {
