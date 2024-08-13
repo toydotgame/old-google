@@ -390,7 +390,7 @@ function Replace_Search_Results() {
 			.MjjYud, .cUnQKe { /* General containers, People also searched for */
 				margin-bottom: 16px !important;
 			}
-			.ULSxyf:nth-child(2), #appbar, #OotqVd { /* Top result extract, appbar, 404 yeti guy */
+			.ULSxyf:nth-child(2), #appbar, #OotqVd, #taw, #nMJCib { /* Top result extract, appbar, 404 yeti, definitions hint, Define button */
 				display: none;
 			}
 		`);
