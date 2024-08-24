@@ -149,6 +149,7 @@ function Replace_Shopping() {
 			padding-left: 0;
 		}
 	`);
+	SetFavicon("search_favicon", true);
 	if(GetConfig("squareBox")) {
 		DebugLog("Enabling squareBox...");
 		InjectCssAtHead(`
@@ -166,16 +167,17 @@ function Replace_Shopping() {
 function Replace_News() {
 	DebugLog("Running replacement...");
 	InjectCssAtHead(`
-		.gb_Oc.gb_6d { /* Logo */
+		.gb_Ld.gb_3d { /* Logo */
 			content: url("` + GetResource("news_left") + `");
 			height: unset;
 		}
-		.gb_pd.gb_gd { /* Subtitle */
+		.gb_qd.gb_8c { /* Subtitle */
 			content: url("` + GetResource("news_right") + `");
 			height: 32px;
 			padding-left: 0;
 		}
 	`);
+	SetFavicon("news_favicon");
 }
 
 // No delay

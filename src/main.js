@@ -12,6 +12,7 @@ var logos = [
 	{"id": "search_favicon",         "src": browser.runtime.getURL("/resources/google/favicons/search.ico")},
 	{"id": "finance_favicon",        "src": browser.runtime.getURL("/resources/google/favicons/finance.ico")},
 	{"id": "scholar_favicon",        "src": browser.runtime.getURL("/resources/google/favicons/scholar.ico")},
+	{"id": "news_favicon",           "src": browser.runtime.getURL("/resources/google/favicons/news.ico")},
 	{"id": "books",                  "src": browser.runtime.getURL("/resources/google/logos/books.png")},
 	{"id": "finance_left",           "src": browser.runtime.getURL("/resources/google/logos/finance_left.png")},
 	{"id": "finance_right",          "src": browser.runtime.getURL("/resources/google/logos/finance_right.png")},
