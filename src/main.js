@@ -30,8 +30,6 @@ var logos = [
 	{"id": "videos",                 "src": browser.runtime.getURL("/resources/google/logos/videos.png")}
 ];
 
-DebugLog("EXTENSION ID: " + browser.runtime.getURL("/").split("/")[2]);
-
 var supportedDomains = ["patents", "scholar", "books", "shopping", "news", "trends", "www", "images"];
 var supportedPages = ["/maps", "/videohp", "/finance", "/travel", "/", "/webhp", "/imghp", "/search"];
 
@@ -253,11 +251,11 @@ function SetFavicon(id, quickReplace = false) {
 		document.createElement("link"),
 		{rel: "icon", href: GetResource(id)}
 	);
-	if(!quickReplace) {
-		RunWhenReady("body", function(loadedElement) {
-			document.head.append(faviconElement);
-			return;
-		});	
+	if(quickReplace) {
+		document.head.append(faviconElement);
+		return;
 	}
-	document.head.append(faviconElement);
+	RunWhenReady("body", function(loadedElement) {
+		document.head.append(faviconElement);
+	});		
 }

@@ -30,12 +30,12 @@ async function LoadConfig() {
 			udm14: [false]
 		});
 		config = [
-			{"id": "greenUrls",                "value": true  },
-			{"id": "cleanResults",             "value": true  },
-			{"id": "peopleAlsoSearchedFor",    "value": true  },
-			{"id": "removePills",              "value": true  },
-			{"id": "squareBox",                "value": true  },
-			{"id": "udm14",                    "value": false }
+			{ "id": "greenUrls",                "value": true  },
+			{ "id": "cleanResults",             "value": true  },
+			{ "id": "peopleAlsoSearchedFor",    "value": true  },
+			{ "id": "removePills",              "value": true  },
+			{ "id": "squareBox",                "value": true  },
+			{ "id": "udm14",                    "value": false }
 		];
 	}
 	return config;
