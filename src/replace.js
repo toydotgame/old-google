@@ -376,6 +376,34 @@ function Replace_Search_Home() {
 // Run after Replace_Search_Styles()
 function Replace_Search_Results() {
 	DebugLog("Running replacement...");
+	InjectCssAtHead(`
+		/* Footer "Goooooooooogle" page selector */
+		.SJajHc {
+			background: url("` + GetResource("nav") + `") no-repeat !important;
+		}
+		
+		.d6cvqb.BBwThe:first-child > .SJajHc { /* G (page 1 only) */
+			background-position: -24px 0 !important;
+		}
+		a#pnprev > .SJajHc.NVbCr { /* < G (page 2+) */
+			background-position: 0 0 !important;
+		}
+		td.YyVfkd > .SJajHc { /* o (selected) */
+			background-position: -53px 0 !important;
+		}
+		a.fl > .SJajHc.NVbCr { /* o (unselected) */
+			background-position: -74px 0 !important;
+		}
+		a#pnnext > .SJajHc.NVbCr { /* gle > (pages 1-penultimate) */
+			background-position: -96px 0 !important;
+			width: 78px !important;
+		}
+		.d6cvqb.BBwThe:last-child > .SJajHc { /* gle (last page) */
+			background-position: -96px 0 !important;
+			width: 52px !important;
+		}
+	`);
+
 	if(GetConfig("udm14")) {
 		if(new URLSearchParams(window.location.search).get("udm") == null) {
 			window.location.replace(window.location + "&udm=14");
@@ -385,9 +413,34 @@ function Replace_Search_Results() {
 
 	if(GetConfig("greenUrls")) {
 		DebugLog("Enabling greenUrls...");
+		if(getComputedStyle(document.body).getPropertyValue("background-color") != "rgb(255, 255, 255)") { // if(isDarkMode)
+			InjectCssAtHead(`
+				:root {
+					/* Overridden by Google's JS anyway, but if results page > 1, Google forgets to add in the color-scheme value */
+					color-scheme: dark;
+				}
+			`);
+		}
 		InjectCssAtHead(`
 			cite.tjvcx, .ylgVCe.ob9lvb { /* Domain text, page text */
-				color: #093;
+				color: light-dark(#093, #3c6);
+			}
+			a:link { /* Result link text */
+				color: light-dark(#12c, #45f) !important;
+				text-decoration: underline;
+			}
+			a:visited { /* Purple result link text */
+				color: light-dark(#61c, #94f);
+			}
+			/* Goooooooooogle link styling */
+			td.YyVfkd, a.fl { /* o (unselected and selected) */
+				text-decoration: none !important;
+			}
+			a.fl:hover { /* o (unselected) */
+				text-decoration: underline !important;
+			}
+			a#pnprev, a#pnnext { /* Previous and Next */
+				font-weight: bold;
 			}
 		`);
 		

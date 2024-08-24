@@ -15,6 +15,7 @@
 		"96": "resources/addon/96.png"
 	},
 	"web_accessible_resources": [
+		"resources/google/nav.png",
 		"resources/google/favicons/maps.ico",
 		"resources/google/favicons/search.ico",
 		"resources/google/favicons/search_alt.ico",

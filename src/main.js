@@ -8,6 +8,7 @@
 const debug = true;
 
 var logos = [
+	{"id": "nav",           "src": browser.runtime.getURL("/resources/google/nav.png")},
 	{"id": "maps_favicon",           "src": browser.runtime.getURL("/resources/google/favicons/maps.ico")},
 	{"id": "search_favicon",         "src": browser.runtime.getURL("/resources/google/favicons/search.ico")},
 	{"id": "search_alt_favicon",     "src": browser.runtime.getURL("/resources/google/favicons/search_alt.ico")},
