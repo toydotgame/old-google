@@ -261,9 +261,9 @@ function Replace_Finance() {
 			padding-top: 1px;
 		}
 	`);
-	//RunWhenReady("#hfcr", function(loadedElement) { SetFavicon("finance_favicon"); });
+	// Finance favicon is super deferred for some reason, and even then the
+	// below patch sometimes doesn't work.
 	document.addEventListener("DOMContentLoaded", function() {
-		DebugLog("DOMContentLoaded");
 		SetFavicon("finance_favicon", true);
 	});
 }
@@ -307,6 +307,8 @@ function Replace_Search_Styles() {
 			display:none;
 		}
 	`);
+
+	SetFavicon("search_favicon", true);
 
 	if(GetConfig("squareBox")) {
 		DebugLog("Enabling squareBox...");
@@ -399,7 +401,7 @@ function Replace_Search_Results() {
 				display: none;
 			}
 			.s6JM6d, .sBbkle { /* Results container, Results tabs */
-				margin-left: calc(var(--center-abs-margin) / 2);
+				margin-left: calc(var(--center-abs-margin) / 1.5);
 				padding-left: 0;
 			}
 		`);
