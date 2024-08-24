@@ -185,12 +185,12 @@ function Replace_News() {
 function Replace_Trends() {
 	DebugLog("Running replacement...");
 	InjectCssAtHead(`
-		.gb_Oc.gb_6d, .gb_jd { /* Homepage logo */
+		.gb_Ld.gb_3d { /* Homepage logo */
 			content: url("` + GetResource("trends") + `");
 			height: unset;
 			vertical-align: middle;
 		}
-		.gb_pd.gb_gd { /* Homepage subtitle */
+		.gb_qd.gb_8c { /* Homepage subtitle */
 			display:none;
 		}
 		.google-logo { /* Results logo and drawer logo */
@@ -199,6 +199,7 @@ function Replace_Trends() {
 			background-size: contain;
 		}
 	`);
+	SetFavicon("search_favicon", true);
 }
 
 // No delay
