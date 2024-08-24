@@ -282,11 +282,14 @@ function Replace_Finance() {
 function Replace_Travel() {
 	DebugLog("Running replacement...");
 	InjectCssAtHead(`
-		.gb_Oc.gb_6d {
+		.gb_Ld.gb_3d {
 			content: url("` + GetResource("search") + `");
 			height: unset;
 		}
 	`);
+	document.addEventListener("DOMContentLoaded", function() { // Google defers favicon load
+		SetFavicon("search_favicon", true);
+	});
 }
 
 // No delay
