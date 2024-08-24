@@ -76,7 +76,7 @@ function Replace_Scholar() {
 			margin-bottom: 40px;
 		}
 	`);
-	SetFavicon("scholar_favicon", true);
+	SetFavicon("scholar_favicon");
 }
 
 // No delay
@@ -107,7 +107,7 @@ function Replace_Books() {
 			flex: unset !important;
 		}
 	`);
-	SetFavicon("search_favicon", true);
+	SetFavicon("search_favicon");
 }
 
 // No delay
@@ -132,7 +132,7 @@ function Replace_Ngrams() {
 			text-indent: 0;
 		}
 	`);
-	SetFavicon("search_favicon", true);
+	SetFavicon("search_favicon");
 }
 
 // No delay
@@ -149,7 +149,7 @@ function Replace_Shopping() {
 			padding-left: 0;
 		}
 	`);
-	SetFavicon("search_favicon", true);
+	SetFavicon("search_favicon");
 	if(GetConfig("squareBox")) {
 		DebugLog("Enabling squareBox...");
 		InjectCssAtHead(`
@@ -199,7 +199,7 @@ function Replace_Trends() {
 			background-size: contain;
 		}
 	`);
-	SetFavicon("search_favicon", true);
+	SetFavicon("search_favicon");
 }
 
 // No delay
@@ -237,7 +237,7 @@ function Replace_Videos() {
 			display: none;
 		}
 	`);
-	SetFavicon("search_alt_favicon", true);
+	SetFavicon("search_alt_favicon");
 	if(GetConfig("squareBox")) {
 		DebugLog("Enabling squareBox...");
 		InjectCssAtHead(`
@@ -304,7 +304,7 @@ function Replace_Earth() {
 			background-size: 324px, 1280px 463px, 1164px 380px, cover;
 		}
 	`);
-	SetFavicon("earth_favicon", true);
+	SetFavicon("earth_favicon");
 }
 
 // No delay
@@ -335,9 +335,7 @@ function Replace_Search_Styles() {
 			display:none;
 		}
 	`);
-
-	SetFavicon("search_favicon", true);
-
+	SetFavicon("search_favicon");
 	if(GetConfig("squareBox")) {
 		DebugLog("Enabling squareBox...");
 		InjectCssAtHead(`
