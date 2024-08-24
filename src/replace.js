@@ -37,6 +37,8 @@ function Replace_Patents() {
 		`);
 	}
 
+	SetFavicon("search_favicon");
+
 	var currentURL = window.location.href;
 	var pageChangeObserver = new MutationObserver(function(mutations, mutationInstance) {
 		if(window.location.href != currentURL) {
@@ -74,6 +76,7 @@ function Replace_Scholar() {
 			margin-bottom: 40px;
 		}
 	`);
+	SetFavicon("scholar_favicon", true);
 }
 
 // No delay
@@ -104,6 +107,7 @@ function Replace_Books() {
 			flex: unset !important;
 		}
 	`);
+	SetFavicon("search_favicon", true);
 }
 
 // No delay
@@ -410,8 +414,8 @@ function Replace_Search_Results() {
 	if(GetConfig("peopleAlsoSearchedFor")) {
 		DebugLog("Removing \"People also searched for\"...");
 		InjectCssAtHead(`
-			#bres, .cUnQKe, .oIk2Cb { /* PASF buttons, People also searched for, PASF (button edition) (also removes other search gimmicks potentially) */
-				display: none;
+			#bres, .cUnQKe, .oIk2Cb, div[data-hveid="CEMQAA"] { /* PASF buttons, People also searched for, PASF (button edition) (also removes other search gimmicks potentially), People also ask heading */
+				display: none !important;
 			}
 			.hlcw0c { /* Always the result just before a results gimmick */
 				margin-bottom: 0 !important;
