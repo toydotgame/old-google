@@ -245,11 +245,11 @@ function Replace_Videos() {
 function Replace_Finance() {
 	DebugLog("Running replacement...");
 	InjectCssAtHead(`
-		.gb_Oc.gb_6d, .ForAd > img {
+		.gb_Ld.gb_3d, .ForAd > img {
 			content: url("` + GetResource("finance_left") + `");
 			height: unset;
 		}
-		.gb_pd.gb_gd, .N27tdc {
+		.gb_qd.gb_8c, .N27tdc {
 			content: url("` + GetResource("finance_right") + `");
 			height: 32px;
 			padding-left: 0;
@@ -261,6 +261,11 @@ function Replace_Finance() {
 			padding-top: 1px;
 		}
 	`);
+	//RunWhenReady("#hfcr", function(loadedElement) { SetFavicon("finance_favicon"); });
+	document.addEventListener("DOMContentLoaded", function() {
+		DebugLog("DOMContentLoaded");
+		SetFavicon("finance_favicon", true);
+	});
 }
 
 // No delay
@@ -392,6 +397,10 @@ function Replace_Search_Results() {
 			}
 			.ULSxyf:nth-child(2), #appbar, #OotqVd, #taw, #nMJCib { /* Top result extract, appbar, 404 yeti, definitions hint, Define button */
 				display: none;
+			}
+			.s6JM6d, .sBbkle { /* Results container, Results tabs */
+				margin-left: calc(var(--center-abs-margin) / 2);
+				padding-left: 0;
 			}
 		`);
 	}

@@ -10,6 +10,7 @@ const debug = true;
 var logos = [
 	{"id": "maps_favicon",           "src": browser.runtime.getURL("/resources/google/favicons/maps.ico")},
 	{"id": "search_favicon",         "src": browser.runtime.getURL("/resources/google/favicons/search.ico")},
+	{"id": "finance_favicon",        "src": browser.runtime.getURL("/resources/google/favicons/finance.ico")},
 	{"id": "books",                  "src": browser.runtime.getURL("/resources/google/logos/books.png")},
 	{"id": "finance_left",           "src": browser.runtime.getURL("/resources/google/logos/finance_left.png")},
 	{"id": "finance_right",          "src": browser.runtime.getURL("/resources/google/logos/finance_right.png")},
