@@ -30,6 +30,8 @@ var logos = [
 	{"id": "videos",                 "src": browser.runtime.getURL("/resources/google/logos/videos.png")}
 ];
 
+DebugLog("EXTENSION ID: " + browser.runtime.getURL("/").split("/")[2]);
+
 var supportedDomains = ["patents", "scholar", "books", "shopping", "news", "trends", "www", "images"];
 var supportedPages = ["/maps", "/videohp", "/finance", "/travel", "/", "/webhp", "/imghp", "/search"];
 
@@ -165,9 +167,11 @@ function DebugLog(message) {
 			messageColor = "#f00";
 		}
 		var caller = "";
-		if(DebugLog.caller.name.length != 0) {
-			caller = "[" + DebugLog.caller.name + "()] ";
-		}
+		try {
+			if(DebugLog.caller.name.length != 0) {
+				caller = "[" + DebugLog.caller.name + "()] ";
+			}
+		} catch(TypeError) {}
 		console.log("%c[%cOld Google%c]%c " + caller + message,
 			"background-color:#4d90fe; color:#222",
 			"background-color:#4d90fe; color:#fff",
