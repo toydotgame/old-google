@@ -115,15 +115,15 @@ function Replace_Ngrams() {
 	DebugLog("Running replacement...");
 	InjectCssAtHead(`
 		.google-logo {
-			content: url("` + GetResource("books") + `");
-			height: unset;
+			content: url("` + GetResource("books") + `") !important;
+			height: unset !important;
 		}
 		.ngrams-logo { /* "Books Ngram Viewer" text */
-			padding-left: 2em;
-			color: #009925;
-			font-family: "Arial", sans-serif;
+			padding-left: 2em !important;
+			color: #009925 !important;
+			font-family: "Arial", sans-serif !important;
 			/* Clear content: */
-			line-height: 0;
+			line-height: 0 !important;
 			text-indent: -999999px;
 		}
 		.ngrams-logo::after {
@@ -132,6 +132,7 @@ function Replace_Ngrams() {
 			text-indent: 0;
 		}
 	`);
+	SetFavicon("search_favicon", true);
 }
 
 // No delay
