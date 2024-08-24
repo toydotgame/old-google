@@ -293,6 +293,21 @@ function Replace_Travel() {
 }
 
 // No delay
+function Replace_Earth() {
+	DebugLog("Running replacement...");
+	InjectCssAtHead(`
+		#earth-splashscreen {
+			background-image: url("` + GetResource("earth") + `"),
+				url(https://www.gstatic.com/earth/images/00-earth-splash-1x-ltr.jpg),
+				url(https://www.gstatic.com/earth/images/00-earth-splash-mask-ltr.svg),
+				url(https://www.gstatic.com/earth/images/01-earth-splash-stars-ltr.webp);
+			background-size: 324px, 1280px 463px, 1164px 380px, cover;
+		}
+	`);
+	SetFavicon("earth_favicon", true);
+}
+
+// No delay
 function Replace_Search_Styles() {
 	DebugLog("Running replacement...");
 	InjectCssAtHead(`

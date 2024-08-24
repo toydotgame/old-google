@@ -21,6 +21,7 @@
 		"resources/google/favicons/finance.ico",
 		"resources/google/favicons/scholar.ico",
 		"resources/google/favicons/news.ico",
+		"resources/google/favicons/earth.ico",
 		"resources/google/logos/books.png",
 		"resources/google/logos/finance_left.png",
 		"resources/google/logos/finance_right.png",
@@ -38,7 +39,8 @@
 		"resources/google/logos/shopping.png",
 		"resources/google/logos/shopping_right.png",
 		"resources/google/logos/trends.png",
-		"resources/google/logos/videos.png"
+		"resources/google/logos/videos.png",
+		"resources/google/logos/earth.png"
 	],
 	"browser_action": {
 		"default_icon": "resources/addon/vector.svg",

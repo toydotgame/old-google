@@ -14,6 +14,7 @@ var logos = [
 	{"id": "finance_favicon",        "src": browser.runtime.getURL("/resources/google/favicons/finance.ico")},
 	{"id": "scholar_favicon",        "src": browser.runtime.getURL("/resources/google/favicons/scholar.ico")},
 	{"id": "news_favicon",           "src": browser.runtime.getURL("/resources/google/favicons/news.ico")},
+	{"id": "earth_favicon",          "src": browser.runtime.getURL("/resources/google/favicons/earth.ico")},
 	{"id": "books",                  "src": browser.runtime.getURL("/resources/google/logos/books.png")},
 	{"id": "finance_left",           "src": browser.runtime.getURL("/resources/google/logos/finance_left.png")},
 	{"id": "finance_right",          "src": browser.runtime.getURL("/resources/google/logos/finance_right.png")},
@@ -31,10 +32,11 @@ var logos = [
 	{"id": "shopping",               "src": browser.runtime.getURL("/resources/google/logos/shopping.png")},
 	{"id": "shopping_right",         "src": browser.runtime.getURL("/resources/google/logos/shopping_right.png")},
 	{"id": "trends",                 "src": browser.runtime.getURL("/resources/google/logos/trends.png")},
-	{"id": "videos",                 "src": browser.runtime.getURL("/resources/google/logos/videos.png")}
+	{"id": "videos",                 "src": browser.runtime.getURL("/resources/google/logos/videos.png")},
+	{"id": "earth",                  "src": browser.runtime.getURL("/resources/google/logos/earth.png")}
 ];
 
-var supportedDomains = ["patents", "scholar", "books", "shopping", "news", "trends", "www", "images"];
+var supportedDomains = ["patents", "scholar", "books", "shopping", "news", "trends", "www", "images", "earth"];
 var supportedPages = ["/maps", "/videohp", "/finance", "/travel", "/", "/webhp", "/imghp", "/search"];
 
 var config;
@@ -83,6 +85,9 @@ function Main() {
 				break;
 			case "trends":
 				Replace_Trends();
+				break;
+			case "earth":
+				Replace_Earth();
 				break;
 			case "www":
 			case "images":
