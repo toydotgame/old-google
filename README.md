@@ -37,7 +37,7 @@ This includes logo replacement where possible, and custom era-appropriate favico
 * [x] [News](https://news.google.com/home)
 * [x] [Travel](https://www.google.com/travel/) (including Google Flights)
 * [x] [Trends](https://trends.google.com/trends/)
-* [ ] [Google Earth](https://earth.google.com/web/)
+* [x] [Google Earth](https://earth.google.com/web/) (support is rudimentary: due to the fact that Google Earth is mostly a canvas, which isn't within the scope I can access)
 
 ## Compiling for Testing
 ### Requirements:
