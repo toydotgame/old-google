@@ -207,7 +207,7 @@ function Replace_Maps() {
 			content: url("` + GetResource("maps") + `");
 		}
 		#splash-logo {
-			background: url("moz-extension://059a35c4-2334-4d45-9ba1-53f4ab1c8641/resources/google/logos/maps_watermark_mono.png") no-repeat center;
+			background: url("` + GetResource("maps_watermark_mono") + `") no-repeat center;
 			background-size: 324px;
 		}
 	`);
