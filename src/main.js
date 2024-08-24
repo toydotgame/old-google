@@ -5,10 +5,10 @@
  */
 
 // Enables verbose debug logging. Not for production
-const debug = true;
+const debug = false;
 
 var logos = [
-	{"id": "nav",           "src": browser.runtime.getURL("/resources/google/nav.png")},
+	{"id": "nav",                    "src": browser.runtime.getURL("/resources/google/nav.png")},
 	{"id": "maps_favicon",           "src": browser.runtime.getURL("/resources/google/favicons/maps.ico")},
 	{"id": "search_favicon",         "src": browser.runtime.getURL("/resources/google/favicons/search.ico")},
 	{"id": "search_alt_favicon",     "src": browser.runtime.getURL("/resources/google/favicons/search_alt.ico")},
@@ -62,7 +62,7 @@ function Main() {
 	
 	LoadConfig().then(cachedConfig => {
 		config = cachedConfig;
-		DebugLog("Config loaded:"); console.table(config);
+		DebugLog("Config loaded:"); if(debug) console.table(config);
 
 		switch (subdomain) {
 			case "patents":
