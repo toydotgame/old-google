@@ -11,36 +11,33 @@ Additionally, it has some features to further age the look of your results:
 * Redirect automatically to [`&udm=14`](https://udm14.com/) results pages
 * Remove URL breadcrumbs in results and make the URL text green
 
-### Supported Search Engines
-* Google
-* Google Images
-* Google Videos
-* Google Scholar
-* Google Patents
-* Google Books
-	* Books Ngram Viewer
-* Google Maps
-* Google Finance
-* Google News
-* Google Shopping
-* Google Travel
-* Google Trends
-
 ## Goals/Project TODO
 I am open to PRs for help on features and improvements if you would like to help!
 * [x] Favicon replacement.
-    * [ ] Favicon replacement based on specific site.
+    * [x] Favicon replacement based on specific site.
 * [x] Allow Old Google to run on TLDs other than .com. (Currently removed functionality)
 * [x] Sign, package, and distribute this extension on [AMO](https://addons.mozilla.org/).
-* [x] Google Images support.
-    * [x] [Additional Google search engines support.](https://github.com/toydotgame/old-google/issues/10)
-    * [x] Google Doodle support.
-	    * [x] Google Doodle search page support.
-* [ ] Refactor.
-    * [ ] Remove `&tbm=isch` for SVG google logo handling as Google has removed this search page.
-    * [ ] Rename references to "random row" to "pills"—as Google likes to call them.
-    * [ ] Rename references to green URL fixing to proper paths to say full URL instead of breadcrumbs.
-    * [ ] Replace arrays of query selectors with some documentation of what means what. Keep array of `browser.runtime.getURL` objects for logos instead.
+* [x] Refactor.
+    * [x] Remove `&tbm=isch` for SVG google logo handling as Google has removed this search page.
+    * [x] Rename references to "random row" to "pills"—as Google likes to call them.
+    * [x] Rename references to green URL fixing to proper paths to say full URL instead of breadcrumbs.
+    * [x] Replace arrays of query selectors with some documentation of what means what. Keep array of `browser.runtime.getURL` objects for logos instead.
+
+### Google Site Support Roadmap:
+This includes logo replacement where possible, and custom era-appropriate favicon (if applicable; otherwise, the generic old Google Search logo will be used).
+* [x] Regular Google Search, Images, etc all accessible from [Google.com](https://www.google.com/)
+* [x] [Videos](https://www.google.com/videohp)
+* [x] [Patents](https://patents.google.com/)
+* [x] [Scholar](https://scholar.google.com/)
+* [x] [Books](https://books.google.com/)
+	* [x] [Ngrams Viewer](https://books.google.com/ngrams/)
+* [x] [Maps](https://www.google.com/maps)
+* [x] [Finance](https://www.google.com/finance/)
+* [x] [Shopping](https://shopping.google.com/)
+* [x] [News](https://news.google.com/home)
+* [x] [Travel](https://www.google.com/travel/) (including Google Flights)
+* [x] [Trends](https://trends.google.com/trends/)
+* [ ] [Google Earth](https://earth.google.com/web/)
 
 ## Compiling for Testing
 ### Requirements:
