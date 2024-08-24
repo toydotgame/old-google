@@ -177,8 +177,9 @@ function Replace_News() {
 			padding-left: 0;
 		}
 	`);
-	SetFavicon("news_favicon");
-}
+	document.addEventListener("DOMContentLoaded", function() { // Like with Finance, News defers the favicon horribly too
+		SetFavicon("news_favicon", true);
+	});}
 
 // No delay
 function Replace_Trends() {
