@@ -17,6 +17,7 @@
 	"web_accessible_resources": [
 		"resources/google/favicons/maps.ico",
 		"resources/google/favicons/search.ico",
+		"resources/google/favicons/search_alt.ico",
 		"resources/google/favicons/finance.ico",
 		"resources/google/favicons/scholar.ico",
 		"resources/google/favicons/news.ico",

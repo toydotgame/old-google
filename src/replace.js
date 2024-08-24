@@ -237,6 +237,7 @@ function Replace_Videos() {
 			display: none;
 		}
 	`);
+	SetFavicon("search_alt_favicon", true);
 	if(GetConfig("squareBox")) {
 		DebugLog("Enabling squareBox...");
 		InjectCssAtHead(`
@@ -369,7 +370,7 @@ function Replace_Search_Results() {
 	if(GetConfig("greenUrls")) {
 		DebugLog("Enabling greenUrls...");
 		InjectCssAtHead(`
-			cite.tjvcx.GvPZzd.cHaqb, .ylgVCe.ob9lvb { /* Domain text, page text */
+			cite.tjvcx, .ylgVCe.ob9lvb { /* Domain text, page text */
 				color: #093;
 			}
 		`);
