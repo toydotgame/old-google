@@ -90,7 +90,7 @@ function Replace_Books() {
 		#oc-search-logo { /* Homepage subtitle */
 			display: none;
 		}
-		.gb_Oc.gb_Mc { /* Classic Books results logo */
+		.gb_Ld.gb_Ec { /* Classic Books results logo */
 			background: no-repeat url("` + GetResource("books") + `");
 			background-size: contain;
 			background-position: 0 0;
