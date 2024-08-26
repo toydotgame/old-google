@@ -11,6 +11,12 @@ Additionally, it has some features to further age the look of your results:
 * Redirect automatically to [`&udm=14`](https://udm14.com/) results pages
 * Remove URL breadcrumbs in results and make the URL text green
 
+### _Why does it ask for so many permissions when installing?_
+You can see what sites Old Google is asking permission to run on here in the manifest:
+https://github.com/toydotgame/old-google/blob/2a569a41429e769bd7f54512362faa0c207ca540/manifest.json#L53-L58
+
+Essentially, I can't just ask for `*://*.google.*/` domain permissions because for every TLD (.com, .co.uk, .org, etc), there could be a different owner. In practice, Google owns every `google.*` domain, but in theory `google.com` and `google.co.uk` are two distinct domains who can have completely different owners. Therefore, Manifest v2 (and v3) don't allow wildcards for the TLD, meaning I have to add in a specific entry for every known google.whatever domain. Doing just `google.com` only might break if you automatically get redirected to a `google.co.uk` or something like that!
+
 ## Goals/Project TODO
 I am open to PRs for help on features and improvements if you would like to help!
 * [x] Favicon replacement.
