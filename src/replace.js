@@ -325,11 +325,9 @@ function Replace_Search_Styles() {
 			display: none;
 		}
 		/* Results Page Styles */
-		.jfN4p, .logo.Ib7Efc > a > img {
+		#logo {
 			content: url("` + GetResource("search") + `");
-		}
-		.logo.Ib7Efc > a > img {
-			width = 96px;
+			width: 96px;
 		}
 		.IormK {
 			display:none;

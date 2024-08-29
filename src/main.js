@@ -5,7 +5,7 @@
  */
 
 // Enables verbose debug logging. Not for production
-const debug = false;
+const debug = true;
 
 var logos = [
 	{"id": "nav",                    "src": browser.runtime.getURL("/resources/google/nav.png")},
