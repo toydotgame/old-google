@@ -481,6 +481,17 @@ function Replace_Search_Results() {
 				margin-left: calc(var(--center-abs-margin) / 1.5);
 				padding-left: 0;
 			}
+			.RNNXgb { /* Search box */
+				max-width: 565px;
+				margin: unset !important;
+			}
+			.UUbT9 { /* Search predictions */
+				width: 566px !important;
+				margin-top: -2px !important;
+			}
+			.rLrQHf { /* Search predictions gimmick area on the right */
+				display: none;
+			}
 		`);
 	}
 
