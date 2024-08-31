@@ -325,11 +325,11 @@ function Replace_Search_Styles() {
 			display: none;
 		}
 		/* Results Page Styles */
-		#logo {
+		#logo, .logo > a > img { /* Regular results logo, Doodle logo */
 			content: url("` + GetResource("search") + `");
 			width: 96px;
 		}
-		.IormK {
+		.IormK { /* Doodle background */
 			display:none;
 		}
 	`);
