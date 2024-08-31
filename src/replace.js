@@ -498,7 +498,7 @@ function Replace_Search_Results() {
 	if(GetConfig("peopleAlsoSearchedFor")) {
 		DebugLog("Removing \"People also searched for\"...");
 		InjectCssAtHead(`
-			#bres, .cUnQKe, .oIk2Cb, div[data-hveid="CEMQAA"] { /* PASF buttons, People also searched for, PASF (button edition) (also removes other search gimmicks potentially), People also ask heading */
+			#bres, .cUnQKe, .oIk2Cb, div[data-hveid="CEMQAA"], .VjDLd { /* PASF buttons, People also searched for, PASF (button edition) (also removes other search gimmicks potentially), People also ask heading, See results about right pane box */
 				display: none !important;
 			}
 			.hlcw0c { /* Always the result just before a results gimmick */
