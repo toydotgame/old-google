@@ -423,12 +423,12 @@ function Replace_Search_Results() {
 			cite.tjvcx, .ylgVCe.ob9lvb { /* Domain text, page text */
 				color: light-dark(#093, #3c6);
 			}
-			a:link { /* Result link text */
-				color: light-dark(#12c, #45f) !important;
-				text-decoration: underline;
+			a:link h3, #botstuff a:link { /* Result link text, Page nav link text */
+				color: light-dark(#12c, #5a67f2) !important;
+				text-decoration: underline !important; /* This is overridden for nav link intentionally */
 			}
-			a:visited { /* Purple result link text */
-				color: light-dark(#61c, #94f);
+			a:visited h3, #botstuff a:visited { /* Purple result link text */
+				color: light-dark(#61c, #9e5af2);
 			}
 			/* Goooooooooogle link styling */
 			td.YyVfkd, a.fl { /* o (unselected and selected) */
