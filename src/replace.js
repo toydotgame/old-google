@@ -378,8 +378,7 @@ function Replace_Search_Results() {
 		/* Footer "Goooooooooogle" page selector */
 		.SJajHc {
 			background: url("` + GetResource("nav") + `") no-repeat !important;
-		}
-		
+		}		
 		.d6cvqb.BBwThe:first-child > .SJajHc { /* G (page 1 only) */
 			background-position: -24px 0 !important;
 		}
@@ -399,6 +398,10 @@ function Replace_Search_Results() {
 		.d6cvqb.BBwThe:last-child > .SJajHc { /* gle (last page) */
 			background-position: -96px 0 !important;
 			width: 52px !important;
+		}
+
+		.YmvwI { /* Results tabs text */
+			font-family: "Arial", sans-serif-medium, sans-serif;
 		}
 	`);
 
