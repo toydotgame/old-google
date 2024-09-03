@@ -489,7 +489,7 @@ function Replace_Search_Results() {
 				margin: unset !important;
 			}
 			.UUbT9 { /* Search predictions */
-				width: 566px !important;
+				width: 567px !important;
 				margin-top: -2px !important;
 			}
 			.rLrQHf { /* Search predictions gimmick area on the right */
