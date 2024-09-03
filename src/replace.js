@@ -310,7 +310,7 @@ function Replace_Earth() {
 // No delay
 function Replace_Search_Styles() {
 	DebugLog("Running replacement...");
-	InjectCssAtHead(`
+	var css = `
 		/* Homepage Styles */
 		.k1zIA { /* Homepage logo container */
 			margin-top: auto;
@@ -324,6 +324,7 @@ function Replace_Search_Styles() {
 		.SuUcIb { /* Homepage doodle share button */
 			display: none;
 		}
+		
 		/* Results Page Styles */
 		#logo, .logo > a > img { /* Regular results logo, Doodle logo */
 			content: url("` + GetResource("search") + `");
@@ -332,11 +333,10 @@ function Replace_Search_Styles() {
 		.IormK { /* Doodle background */
 			display:none;
 		}
-	`);
-	SetFavicon("search_favicon");
+	`;
 	if(GetConfig("squareBox")) {
 		DebugLog("Enabling squareBox...");
-		InjectCssAtHead(`
+		css += `
 			/* Homepage Styles */
 			/* In respective order:
 			 * /webhp: Homepage search box
@@ -353,8 +353,11 @@ function Replace_Search_Styles() {
 			.H9lube, .UnOTSe img { /* Two styles of results favicon */
 				border-radius: 2px !important;
 			}
-		`);
+		`;
 	}
+	
+	InjectCssAtHead(css);
+	SetFavicon("search_favicon");
 }
 
 // Run after Replace_Search_Styles()
@@ -374,7 +377,15 @@ function Replace_Search_Home() {
 // Run after Replace_Search_Styles()
 function Replace_Search_Results() {
 	DebugLog("Running replacement...");
-	InjectCssAtHead(`
+
+	if(GetConfig("udm14")) {
+		if(new URLSearchParams(window.location.search).get("udm") == null) {
+			window.location.replace(window.location + "&udm=14");
+			DebugLog("Redirected from non-udm=14 page.");
+		}
+	}
+
+	var css = `
 		/* Footer "Goooooooooogle" page selector */
 		.SJajHc {
 			background: url("` + GetResource("nav") + `") no-repeat !important;
@@ -403,26 +414,19 @@ function Replace_Search_Results() {
 		.YmvwI { /* Results tabs text */
 			font-family: "Arial", sans-serif-medium, sans-serif;
 		}
-	`);
-
-	if(GetConfig("udm14")) {
-		if(new URLSearchParams(window.location.search).get("udm") == null) {
-			window.location.replace(window.location + "&udm=14");
-			DebugLog("Redirected from non-udm=14 page.");
-		}
-	}
+	`;
 
 	if(GetConfig("greenUrls")) {
 		DebugLog("Enabling greenUrls...");
 		if(getComputedStyle(document.body).getPropertyValue("background-color") != "rgb(255, 255, 255)") { // if(isDarkMode)
-			InjectCssAtHead(`
+			css += `
 				:root {
 					/* Overridden by Google's JS anyway, but if results page > 1, Google forgets to add in the color-scheme value */
 					color-scheme: dark;
 				}
-			`);
+			`;
 		}
-		InjectCssAtHead(`
+		css += `
 			cite.tjvcx, .ylgVCe.ob9lvb { /* Domain text, page text */
 				color: light-dark(#093, #3c6);
 			}
@@ -443,7 +447,7 @@ function Replace_Search_Results() {
 			a#pnprev, a#pnnext { /* Previous and Next */
 				font-weight: bold;
 			}
-		`);
+		`;
 		
 		function RemoveBreadcrumbs() {
 			var resultUrls = document.querySelectorAll(".ylgVCe.ob9lvb:not(.old-google-debreadcrumbed)");
@@ -470,7 +474,7 @@ function Replace_Search_Results() {
 
 	if(GetConfig("cleanResults")) {
 		DebugLog("Removing gimmicks and increasing density...");
-		InjectCssAtHead(`
+		css += `
 			.tF2Cxc.asEBEc, .vt6azd, .hlcw0c, .g {
 				margin-bottom: 0 !important;
 			}
@@ -495,30 +499,32 @@ function Replace_Search_Results() {
 			.rLrQHf { /* Search predictions gimmick area on the right */
 				display: none;
 			}
-		`);
+		`;
 	}
 
 	if(GetConfig("peopleAlsoSearchedFor")) {
 		DebugLog("Removing \"People also searched for\"...");
-		InjectCssAtHead(`
+		css += `
 			#bres, .cUnQKe, .oIk2Cb, div[data-hveid="CEMQAA"], .VjDLd { /* PASF buttons, People also searched for, PASF (button edition) (also removes other search gimmicks potentially), People also ask heading, See results about right pane box */
 				display: none !important;
 			}
 			.hlcw0c { /* Always the result just before a results gimmick */
 				margin-bottom: 0 !important;
 			}
-		`);
+		`;
 	}
 
 	if(GetConfig("removePills")) {
 		DebugLog("Removing pills...");
-		InjectCssAtHead(`
+		css +=`
 			.IUOThf {
 				display: none;
 			}
 			.XtQzZd {
 				height: 57px;
 			}
-		`)
+		`;
 	}
+
+	InjectCssAtHead(css);
 }

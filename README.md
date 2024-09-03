@@ -28,8 +28,8 @@ I am open to PRs for help on features and improvements if you would like to help
     * [x] Rename references to "random row" to "pills"—as Google likes to call them.
     * [x] Rename references to green URL fixing to proper paths to say full URL instead of breadcrumbs.
     * [x] Replace arrays of query selectors with some documentation of what means what. Keep array of `browser.runtime.getURL` objects for logos instead.
-    * [ ] Optimise regular Google Search CSS injection with a single `InjectCssAtHead()` run via just concatenating CSS strings for options into one big string then just running one injection.
-    * [ ] Change options text to reflect more up-to-date functionality.
+    * [x] Optimise regular Google Search CSS injection with a single `InjectCssAtHead()` run via just concatenating CSS strings for options into one big string then just running one injection.
+    * [x] Change options text to reflect more up-to-date functionality.
 
 ### Google Site Support Roadmap:
 This includes logo replacement where possible, and custom era-appropriate favicon (if applicable; otherwise, the generic old Google Search logo will be used).
