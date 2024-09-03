@@ -65,4 +65,6 @@ if(window.location.protocol == "moz-extension:") { // Only run active code if it
 			});
 		});
 	}
+
+	document.querySelector("#versionString").textContent = "v" + browser.runtime.getManifest().version;
 }
