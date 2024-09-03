@@ -66,6 +66,6 @@ This includes logo replacement where possible, and custom era-appropriate favico
 	* In Firefox, go to `about:debugging`, to _This Firefox_, then under the _Temporary Extensions_ heading, click _Load Temporary Add-on..._.
 	* After that, navigate to wherever you cloned the repo, then inside that `old-google/` folder, find `web-ext-artifacts/`, and in that, double-click to open `old_google-x.x.zip`.
 
-This way of installing the extension will cause it to be removed after you close the browser window.
-
 Alternatively, you can just load the `manifest.json` file into `about:debugging` to achieve the same functionality.
+
+This way of installing the extension will cause it to be removed after you close the browser window. You can alternatively download a signed copy of the compiled extension from the [Releases tab](https://github.com/toydotgame/old-google/releases) (non-`sources` is signed, and `sources` is the debugging-only copy).
