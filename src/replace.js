@@ -353,6 +353,10 @@ function Replace_Search_Styles() {
 			.H9lube, .UnOTSe img { /* Two styles of results favicon */
 				border-radius: 2px !important;
 			}
+			.IvHA0 { /* Pill container around site name */
+				padding: unset !important;
+				background-color: unset !important;
+			}
 		`;
 	}
 	
@@ -410,7 +414,7 @@ function Replace_Search_Results() {
 			background-position: -96px 0 !important;
 			width: 52px !important;
 		}
-
+		
 		.YmvwI { /* Results tabs text */
 			font-family: "Arial", sans-serif-medium, sans-serif;
 		}
@@ -498,6 +502,9 @@ function Replace_Search_Results() {
 			}
 			.rLrQHf, .M8OgIe { /* Search predictions gimmick area on the right, Gemini response */
 				display: none;
+			}
+			.DKV0Md { /* Result title gap below site info line */
+				margin-top: 10px !important;
 			}
 		`;
 	}
