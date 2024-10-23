@@ -496,7 +496,7 @@ function Replace_Search_Results() {
 				width: 567px !important;
 				margin-top: -2px !important;
 			}
-			.rLrQHf { /* Search predictions gimmick area on the right */
+			.rLrQHf, .M8OgIe { /* Search predictions gimmick area on the right, Gemini response */
 				display: none;
 			}
 		`;
