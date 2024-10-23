@@ -69,4 +69,4 @@ This includes logo replacement where possible, and custom era-appropriate favico
 
 Alternatively, you can just load the `manifest.json` file into `about:debugging` to achieve the same functionality.
 
-This way of installing the extension will cause it to be removed after you close the browser window. You can alternatively download a signed copy of the compiled extension from the [Releases tab](https://github.com/toydotgame/old-google/releases) (non-`sources` is signed, and `sources` is the debugging-only copy).
+This way of installing the extension will cause it to be removed after you close the browser window. You can alternatively download a signed copy of the compiled extension from the [Releases tab](https://github.com/toydotgame/old-google/releases) (non-`sources` is signed, and `sources` is the debugging-only copy). Signed copies can be installed in `about:addons` (then _Install Addon From File..._), and will remain permanently.
