@@ -422,14 +422,6 @@ function Replace_Search_Results() {
 
 	if(GetConfig("greenUrls")) {
 		DebugLog("Enabling greenUrls...");
-		if(getComputedStyle(document.body).getPropertyValue("background-color") != "rgb(255, 255, 255)") { // if(isDarkMode)
-			css += `
-				:root {
-					/* Overridden by Google's JS anyway, but if results page > 1, Google forgets to add in the color-scheme value */
-					color-scheme: dark;
-				}
-			`;
-		}
 		css += `
 			cite.tjvcx, .ylgVCe.ob9lvb { /* Domain text, page text */
 				color: light-dark(#093, #3c6);
@@ -533,5 +525,17 @@ function Replace_Search_Results() {
 		`;
 	}
 
-	InjectCssAtHead(css);
+	// Deferred 'till body is loaded so that document.body is a valid object
+	RunWhenReady("body", function(loadedElement) {
+		// Manually add color-scheme value for greenUrls light-dark() CSS:
+		if(getComputedStyle(document.body).getPropertyValue("background-color") != "rgb(255, 255, 255)") { // if(isDarkMode)
+			css += `
+				:root {
+					/* Overridden by Google's JS anyway, but if results page > 1, Google forgets to add in the color-scheme value */
+					color-scheme: dark;
+				}
+			`;
+		}
+		InjectCssAtHead(css, true);
+	});
 }
