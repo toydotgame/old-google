@@ -498,6 +498,9 @@ function Replace_Search_Results() {
 			.DKV0Md { /* Result title gap below site info line */
 				margin-top: 10px !important;
 			}
+			.PHj8of { /* Results tabs container that has extra padding by default */
+				padding-bottom: 0;
+			}
 		`;
 	}
 
