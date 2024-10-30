@@ -321,7 +321,7 @@ function Replace_Search_Styles() {
 			width: 272px;
 			height: 92px;
 		}
-		.SuUcIb { /* Homepage doodle share button */
+		#hplogo, .SuUcIb { /* Doodle container, Homepage doodle share button */
 			display: none;
 		}
 		
