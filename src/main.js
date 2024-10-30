@@ -199,7 +199,11 @@ function RunWhenReady(selectors, code) {
 	if(typeof selectors == "string") {
 		selectors = [selectors];
 	}
-	DebugLog("RunWhenReady(): Running on [\"" + selectors.join("\", \"") + "\"], code = ```\n" + code + "\n```");
+	try {
+		DebugLog("RunWhenReady(\"" + selectors.join("\", \"") + "\"): Run from " + (new Error).stack.split("\n")[1].split("/")[4]);
+	} catch(TypeError) {
+		DebugLog("RunWhenReady(\"" + selectors.join("\", \"") + "\"): Running...");
+	}
 
 	var loadedElement, isLoaded;
 	function GetLoadedElement(mutationInstance = null) {
@@ -208,7 +212,7 @@ function RunWhenReady(selectors, code) {
 				loadedElement = document.querySelector(selectors[i])
 			} catch(TypeError) {}
 			if(loadedElement != null) {
-				DebugLog("RunWhenReady(): Element with selector \"" + selectors[i] + "\" loaded...");
+				DebugLog("RunWhenReady(\"" + selectors.join("\", \"") + "\"): Loaded.");
 				code(loadedElement);
 				if(mutationInstance != null) { // Running in observer:
 					mutationInstance.disconnect();
