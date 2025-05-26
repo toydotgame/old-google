@@ -4,8 +4,8 @@
  * Main class containing general methods; run when a Google domain is loaded.
  */
 
-// Enables verbose debug logging. Not for production
-const debug = false;
+// Enables debug logging. Should be false in packed copies of this extension:
+const DEBUG = true;
 
 var logos = [
 	{"id": "nav",                    "src": browser.runtime.getURL("/resources/google/nav.png")},
@@ -62,7 +62,7 @@ function Main() {
 	
 	LoadConfig().then(cachedConfig => {
 		config = cachedConfig;
-		DebugLog("Config loaded:"); if(debug) console.table(config);
+		DebugLog("Config loaded:"); if(DEBUG) console.table(config);
 
 		switch (subdomain) {
 			case "patents":
@@ -159,33 +159,74 @@ function GetConfig(id) {
 }
 
 /*
- * void DebugLog(String message)
- * Fancy console.log() wrapper that only prints if the debug const is true
- * If you prepend "ERROR: " to your message string, the message prints in red
+ * void DebugLog(string message, string? type, string? trace)
+ * Fancy console.log() wrapper that only prints if the DEBUG const is true.
+ * Prints an Old Google prefix alongside background colours for log types, and
+ * a function/call trace to where this log was triggered from. Logs of type
+ * "info" cannot have a trace—automatic nor manual
+ * - type can be "log", "info", "warn", or "error". Defaults to "log"
+ * - trace is a manual override for the auto-generated trace. Leaving it null
+ *   auto-generates the trace
  */
-function DebugLog(message) {
-	if(debug) {
-		var messageColor = "reset";
-		var isErrorMessage;
-		try {
-			isErrorMessage = message.startsWith("ERROR: ");
-		} catch(TypeError) {}
-		if(isErrorMessage) {
-			message = message.replace(/ERROR: /, "");
-			messageColor = "#f00";
+function DebugLog(message, type="log", trace="") {
+	if(!DEBUG) return;
+
+	let color = {
+		"fg": "unset",
+		"bg": "unset",
+		"presets": {
+			// Source: https://firefox-source-docs.mozilla.org/devtools-user/devtoolscolors/index.html
+			"log": "unset",
+			"info": "#4d90fe64",
+			"warn": "#e5e60064", // -40% lightness
+			"error": "#eb536864",
+			// Non-Mozilla palette:
+			"googleblue": "#4d90fe",
+			"gray": "#222222",
+			"white": "#ffffff"
+		}		
+	};
+	let css = {
+		get reset() {
+			return "color:reset;background-color:reset;";
+		},
+		get logo() {
+			return "color:" + color.presets.gray + ";background-color:" + color.presets.googleblue + ";";
+		},
+		get logotext() {
+			return "color:" + color.presets.white + ";background-color:" + color.presets.googleblue + ";";
+		},
+		get currentType() {
+			return "color:unset;background-color:" + color.presets[type] + ";";
 		}
-		var caller = "";
+	};
+
+	// "%c" to prevent printing unused styles if no trace provided:
+	let caller = "%c" + trace;
+	// Use the custom value for `trace` (if present); else, find our own trace:
+	if(trace) caller = "\n\n" + caller;
+	else {
+		// Throw an error and use its stack trace to get line called from:
+		let tracehack = (new Error).stack.split("\n")[1].split("/")[4];
 		try {
-			if(DebugLog.caller.name.length != 0) {
-				caller = "[" + DebugLog.caller.name + "()] ";
-			}
-		} catch(TypeError) {}
-		console.log("%c[%cOld Google%c]%c " + caller + message,
-			"background-color:#4d90fe; color:#222",
-			"background-color:#4d90fe; color:#fff",
-			"background-color:#4d90fe; color:#222",
-			"color:" + messageColor + "; background-color:reset");
+			if(DebugLog.caller.name.length > 0)
+				caller = "\n\n%c" + DebugLog.caller.name + "(), " + tracehack;
+		} catch(TypeError) {
+			caller = "\n\n%c" + tracehack;
+		}
 	}
+	if(type == "info") caller = "%c"; // Make sure no trace is providable for info logs
+
+	console.log(
+		"%c[%cOld Google%c]%c %c" + message + caller,
+		css.logo, css.logotext, css.logo, // Prefix styles
+		css.reset, css.currentType,       // Message styles
+		css.reset                         // Caller styles:
+		+ "font-size:9px;"
+		+ "color:" + color.presets.googleblue + ";" 
+		+ "background-color:" + color.presets.white + "11;"
+		+ "text-decoration:underline;"
+	);
 }
 
 /*
