@@ -200,10 +200,11 @@ function GetCaller(verbose=false, level=1) {
  * a function/call trace to where this log was triggered from. Logs of type
  * "info" cannot have a trace—automatic nor manual
  * - type can be "log", "info", "warn", or "error". Defaults to "log"
- * - trace is a manual override for the auto-generated trace. Leaving it null
- *   auto-generates the trace
+ * - trace is a manual override for the auto-generated trace. Leaving it
+ *   undefined auto-generates the trace. Leaving it as an empty string will
+ *   prevent printing of the trace regardless of `type`
  */
-function DebugLog(message, type="log", trace="") {
+function log(message, type="log", trace=undefined) {
 	if(!DEBUG) return;
 
 	let color = {
@@ -236,9 +237,9 @@ function DebugLog(message, type="log", trace="") {
 		}
 	};
 
-	if(!trace) trace = GetCaller();
-	trace = "\n\n%c" + trace;
-	if(type == "info") trace = "%c"; // Make sure no trace is providable for info logs
+	if(trace == undefined)            trace = getCaller();
+	if(trace != "")                   trace = "\n\n%c" + trace;
+	if(type == "info" || trace == "") trace = "%c"; // Make sure no trace is providable for info logs
 
 	console.log(
 		"%c[%cOld Google%c]%c %c" + message + trace,
