@@ -48,80 +48,89 @@ let page = "/" + window.location.pathname.split("/")[1];
 if(supportedDomains.includes(subdomain) || supportedPages.includes(page)) main(); // End of execution if false
 
 /*
- * void main()
+ * async void main()
  * Run if page is on a supported domain. Runs unique replace.js methods to replace logos
  */
-function main() {
+async function main() {
 	log(
 		"Welcome to Old Google v" + browser.runtime.getManifest().version + "!\n" +
 		"Copyright (c) 2021 toydotgame\n" +
 		"subdomain = \"" + subdomain + "\", page = \"" + page + "\""
 	, "info");
 	
-	loadConfig().then(config => {
+	try {
+		config = await loadConfig();
 		log("Config loaded:", "info"); if(DEBUG) console.table(config);
+	} catch {
+		log("Config loading failed catastrophically! Choosing to quit instead of continue");
+		if(!DEBUG) return;
+		// If debugging, continue execution, but enable a flag to warn whenever
+		// config values are fetched:
+		configFailed = true;
+	}
 
-		switch (subdomain) {
-			case "patents":
-				replace_patents();
+/*
+ * void dispatch()
+ * Dispatches a replace.js function based on the values of globals `subdomain`
+ * and `page`
+ */
+function dispatch() {
+	switch(subdomain) {
+		case "patents":
+			replace_patents();
+			break;
+		case "scholar":
+			replace_scholar();
+			break;
+		case "books":
+			if(page == "/ngrams") {
+				replace_ngrams();
 				break;
-			case "scholar":
-				replace_scholar();
-				break;
-			case "books":
-				if(page == "/ngrams") {
-					replace_ngrams();
+			}
+			replace_books();
+			break;
+		case "shopping":
+			replace_shopping();
+			break;
+		case "news":
+			replace_news();
+			break;
+		case "trends":
+			replace_trends();
+			break;
+		case "earth":
+			replace_earth();
+			break;
+		case "www":
+		case "images":
+			switch(page) {
+				case "/maps":
+					replace_maps();
 					break;
-				}
-				replace_books();
-				break;
-			case "shopping":
-				replace_shopping();
-				break;
-			case "news":
-				replace_news();
-				break;
-			case "trends":
-				replace_trends();
-				break;
-			case "earth":
-				replace_earth();
-				break;
-			case "www":
-			case "images":
-				switch(page) {
-					case "/maps":
-						replace_maps();
-						break;
-					case "/videohp":
-						replace_videos();
-						break;
-					case "/finance":
-						replace_finance();
-						break;
-					case "/travel":
-						replace_travel();
-						break;
-					case "/books":
-						replace_books(); // New Books results page
-						break;
-					case "/":
-					case "/webhp":
-					case "/imghp":
-						replace_search_styles();
-						replace_search_home();
-						break;
-					case "/search":
-						replace_search_styles();
-						replace_search_results();
-						break;
-				}
-		}
-	}).catch(e => {
-		log("ERROR: Fatal error; exiting!\n" + e
-		  + " (" + e.fileName.substring(e.fileName.lastIndexOf("/") + 1) + ":" + e.lineNumber + "," + e.columnNumber + ")\n"
-		  + e.stack, "error");
-	});
+				case "/videohp":
+					replace_videos();
+					break;
+				case "/finance":
+					replace_finance();
+					break;
+				case "/travel":
+					replace_travel();
+					break;
+				case "/books":
+					replace_books(); // New Books results page
+					break;
+				case "/":
+				case "/webhp":
+				case "/imghp":
+					replace_search_styles();
+					replace_search_home();
+					break;
+				case "/search":
+					replace_search_styles();
+					replace_search_results();
+					break;
+			}
+	}
 }
 
 /*
