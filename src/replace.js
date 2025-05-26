@@ -445,8 +445,8 @@ function Replace_Search_Results() {
 			}
 		`;
 		
-		function RemoveBreadcrumbs() {
-			var resultUrls = document.querySelectorAll(".ylgVCe.ob9lvb:not(.old-google-debreadcrumbed)");
+		function removeBreadcrumbs() {
+			let resultUrls = document.querySelectorAll(".ylgVCe.ob9lvb:not(.old-google-debreadcrumbed)");
 			try {
 				for(var i = 0; i < resultUrls.length; i++) {
 					resultUrls[i].textContent = resultUrls[i].textContent.replace(/ › /g, "/");
@@ -455,15 +455,16 @@ function Replace_Search_Results() {
 			} catch(TypeError) {} // No results found
 		}
 		var pageChangeObserver = new MutationObserver(function(mutations, mutationInstance) {
-			RemoveBreadcrumbs();
+			removeBreadcrumbs();
 		});
 
 		// Defer initial breadcrumb removal to after the page has loaded
 		// This _will_ cause a visual flash, but running an observer with
 		// a for() loop whilst the page loads is a recipe for disaster
-		document.addEventListener("DOMContentLoaded", function() {
+		removeBreadcrumbs(); // Hack for aforementioned flash
+		document.addEventListener("DOMContentLoaded", ()=>{
 			// Breadcrumb removal is continuous as the user scrolls, so it never stops
-			RemoveBreadcrumbs();
+			removeBreadcrumbs();
 			pageChangeObserver.observe(document, {childList: true, subtree: true});
 		});
 	}
