@@ -58,6 +58,13 @@ This includes logo replacement where possible, and custom era-appropriate favico
 * [ ] [Trends](https://trends.google.com/trends/)
 * [x] [Google Earth](https://earth.google.com/web/) (support is rudimentary due to the fact that Google Earth is mostly a canvas, which isn't within the scope I can access)
 
+## History
+Initially, this started in October 2021 as me using the DevTools console and some rudimentary JavaScript to change the `src` attribute of the Google logo on the homepage. I would write like 3 lines of code, and run it. Then I was like _screw it_, and added code to detect the page URL, and therefore some code to replace either the homepage or search page logos. Then Google maps, then Google Images.
+
+Eventually, I started writing functions into the DevTools, and saving it to a Notepad document. Then I started writing tweaks in VS Code and pasting it into the console. This became [replace.js](https://github.com/toydotgame/old-google/blob/main/src/replace.js). _And then_ I decided to learn how to package this as an addon, so I learnt how AMO works and how to package a Firefox addon…and now we're here!
+
+I daily-drive this addon and enjoy it to this day, so I'm generally pretty aware of how well (or unwell) it runs. The primary issue with an addon like this is that Google's code is subject to change at any time, so it's me in a race against Google updates.
+
 ## Testing and developing
 ### Requirements
 * Firefox (obviously)
