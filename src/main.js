@@ -6,6 +6,72 @@
 
 // Enables debug logging. Should be false in packed copies of this extension:
 const DEBUG = true;
+class Timings { // Store timings profiles for fun when debugging:
+	// I'm aware a fully static class is a kind of spit in the face of OOP but
+	// 1. I don't care, and
+	// 2. it provides nice encapsulation and abstraction of methods and whatever
+	//    and I like it
+	static timers = {};
+
+	/* static Timings
+	 * Create "init" timer ASAP
+	 */
+	static {
+		if(DEBUG) this.startTimer("init");
+	}
+
+	/* static void startTimer(string timer, boolean? restartable)
+	 * Creates a timer starting now.
+	 * - timer is the name of the timer, held in Timings.timers[<timer>]
+	 * - restartable denotes if the timer can be restarted or not. If not,
+	 *   subsequent calls to startTimer() or endTimer() with this name will
+	 *   fail. Defaults to false
+	 */
+	static startTimer(timer, restartable=false) {
+		if(!DEBUG) return;
+
+		if(!this.timers[timer]) { // Create non-existent timers
+			this.timers[timer] = {
+				"start": Date.now(),
+				"end": undefined,
+				get delta() {return this.end-this.start},
+				"canRestart": restartable
+			};
+			return;
+		}
+
+		if(!this.timers[timer].restartable) {
+			log("Couldn't restart non-restartable timer \"" + timer + "\"!", "error");
+			log("For reference, that timer last ended "
+			  + ((Date.now()-this.timers[timer].end)/1000).toFixed(2)
+			  + " seconds ago, with a delta of " + this.timers[timer].delta + " ms", "info");
+			return;
+		}
+
+		// We have already checked above that we are allowed to restart:
+		this.timers[timer].start = Date.now();
+	}
+
+	/* static int endTimer(string timer)
+	 * Ends an existing timer. The elapsed time will become available in
+	 * Timings.timers[<timer>] or as the return value of this method (in ms).
+	 * Attempting to end an already ended timer will throw a console error but
+	 * still return that timer's (past) delta value
+	 * - timer is the name of the timer, held in Timings.timers[<timer>]
+	 */
+	static endTimer(timer) {
+		if(!DEBUG) return null;
+
+		if(!this.timers[timer]) {
+			log("Couldn't end timer \"" + timer + "\" because it doesn't exist!", "error");
+			return null;
+		} else if(!this.timers[timer].canRestart && this.timers[timer].end) {
+			log("Couldn't end non-restartable timer \"" + timer + "\"!", "error");
+		} else this.timers[timer].end = Date.now();
+
+		return this.timers[timer].delta;
+	}
+}
 
 let logos = [
 	{"id": "nav",                 "src": browser.runtime.getURL("/resources/google/nav.png")},
@@ -40,7 +106,11 @@ let logos = [
 let supportedDomains = ["patents", "scholar", "books", "shopping", "news", "trends", "www", "images", "earth"];
 let supportedPages = ["/maps", "/videohp", "/finance", "/travel", "/", "/webhp", "/imghp", "/search"];
 
-let config;
+let config, configFailed = false;
+let observersRunning = {
+	"schedule": false,  // schedule() observers
+	"continuous": false // Indefinite observers from replace.js
+};
 
 let subdomain = window.location.host.split(".")[0];
 let page = "/" + window.location.pathname.split("/")[1];
@@ -68,6 +138,14 @@ async function main() {
 		// config values are fetched:
 		configFailed = true;
 	}
+	log("Addon initialisation finished after " + Timings.endTimer("init") + " ms", "info");
+
+	Timings.startTimer("dispatch");
+	dispatch();
+	log("Old Google finished its processing after " + Timings.endTimer("dispatch") + " ms", "success");
+	if(observersRunning.schedule || observersRunning.continuous)
+		log("Setup is done, but some observers are still running. This is usually because some replacements require constant checks for page updates", "warn", "");
+}
 
 /*
  * void dispatch()
@@ -152,7 +230,10 @@ function getResource(id) {
 function getConfig(id) {
 	try {
 		return config.find(x => x.id == id).value;
-	} catch(TypeError) {return false}
+	} catch(TypeError) {
+		log("Failed to get config value for \"" + id + "\"!", "error");
+		return false;
+	}
 }
 
 /*
@@ -213,6 +294,7 @@ function log(message, type="log", trace=undefined) {
 			"info": "#4d90fe64",
 			"warn": "#e5e60064", // -40% lightness
 			"error": "#eb536864",
+			"success": "#70bf5364",
 			// Non-Mozilla palette:
 			"googleblue": "#4d90fe",
 			"gray": "#222222",
@@ -234,9 +316,11 @@ function log(message, type="log", trace=undefined) {
 		}
 	};
 
-	if(trace == undefined)            trace = getCaller();
-	if(trace != "")                   trace = "\n\n%c" + trace;
-	if(type == "info" || trace == "") trace = "%c"; // Make sure no trace is providable for info logs
+	if(trace == undefined) trace = getCaller();
+	if(trace != "")        trace = "\n\n%c" + trace;
+	if(type == "info"      // Make sure no trace is providable for info-based logs:
+	|| type == "success"
+	|| trace == "")        trace = "%c";
 
 	console.log(
 		"%c[%cOld Google%c]%c %c" + message + trace,
@@ -274,6 +358,7 @@ function schedule(selectors, code) {
 			code(loadedElement); // Pass loaded element to caller's arrow function
 
 			if(mutationInstance != null) { // Running in observer:
+				observersRunning.schedule = false;
 				mutationInstance.disconnect();
 				break;
 			} // Running in function scope:
@@ -289,6 +374,7 @@ function schedule(selectors, code) {
 		getLoadedElement(mutationInstance);
 	});
 	observer.observe(document, {childList: true, subtree: true});
+	observersRunning.schedule = true;
 }
 
 /*

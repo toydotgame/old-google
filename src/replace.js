@@ -5,7 +5,7 @@
  * Before every method, the trigger/delay for when the method is run is written
  */
 
-// No delay
+// No delay; this function is persistent
 function replace_patents() {
 	log("Running replacement...");
 
@@ -50,6 +50,7 @@ function replace_patents() {
 
 	injectPatents(); // MutationObserver does nothing on its own for the first run, hence manual invocation
 	pageChangeObserver.observe(document, {childList: true, subtree: true});
+	observersRunning.continuous = true;
 }
 
 // No delay
@@ -399,7 +400,7 @@ function replace_search_home() {
 	});
 }
 
-// Run after replace_search_styles()
+// Run after replace_search_styles(); this function is persistent
 function replace_search_results() {
 	log("Running replacement...");
 
@@ -494,6 +495,7 @@ function replace_search_results() {
 			// Breadcrumb removal is continuous as the user scrolls, so it never stops
 			removeBreadcrumbs();
 			pageChangeObserver.observe(document, {childList: true, subtree: true});
+			observersRunning.continuous = true;
 		});
 	}
 
