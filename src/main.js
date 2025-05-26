@@ -58,11 +58,11 @@ function Main() {
 		"Welcome to Old Google v" + browser.runtime.getManifest().version + "!\n" +
 		"Copyright (c) 2021 toydotgame\n" +
 		"subdomain = \"" + subdomain + "\", page = \"" + page + "\""
-	);
+	, "info");
 	
 	LoadConfig().then(cachedConfig => {
 		config = cachedConfig;
-		DebugLog("Config loaded:"); if(DEBUG) console.table(config);
+		DebugLog("Config loaded:", "info"); if(DEBUG) console.table(config);
 
 		switch (subdomain) {
 			case "patents":
@@ -159,6 +159,41 @@ function GetConfig(id) {
 }
 
 /*
+ * string GetCaller(boolean verbose, number level)
+ * Returns a trace of the format:
+ *     <module>.js:<ln>:<col>
+ * or:
+ *     <function>(), <module>.js:<ln>:<col>
+ * - verbose defaults to false, but when true it prints a full stack trace
+ * - level refers to the number of levels up from the call the trace should be
+ *   referring to, e.g. calling GetCaller(0) in function foo() returns a trace
+ *   pointing within foo() (so no levels up), getCaller(0) refers to whomever
+ *   called foo(), etc. Defaults to 1
+ */
+function GetCaller(verbose=false, level=1) {
+	level++; let caller = "", trace, funct;
+	let error = (new Error).stack.split("\n")
+	/*
+	 * string FormatLine(number index)
+	 * Given the stack trace in `error` is an array of lines, FormatLine(index)
+	 * formats the JS trace in the Old Google debug style, returning the trace
+	 * at level `index`
+	 */
+	function FormatLine(i) {
+		// Throw an error and use its stack trace to get line called from:
+		trace = error[i].split("/");
+		funct = trace[0].split("@")[0];
+		if(funct) funct += "(), ";
+		return funct + trace[4];
+	}
+
+	if(verbose)
+		for(let i = level; i < error.length-1; i++) caller += FormatLine(i) + "\n";
+	else caller = FormatLine(level);
+	return caller;
+}
+
+/*
  * void DebugLog(string message, string? type, string? trace)
  * Fancy console.log() wrapper that only prints if the DEBUG const is true.
  * Prints an Old Google prefix alongside background colours for log types, and
@@ -201,24 +236,12 @@ function DebugLog(message, type="log", trace="") {
 		}
 	};
 
-	// "%c" to prevent printing unused styles if no trace provided:
-	let caller = "%c" + trace;
-	// Use the custom value for `trace` (if present); else, find our own trace:
-	if(trace) caller = "\n\n" + caller;
-	else {
-		// Throw an error and use its stack trace to get line called from:
-		let tracehack = (new Error).stack.split("\n")[1].split("/")[4];
-		try {
-			if(DebugLog.caller.name.length > 0)
-				caller = "\n\n%c" + DebugLog.caller.name + "(), " + tracehack;
-		} catch(TypeError) {
-			caller = "\n\n%c" + tracehack;
-		}
-	}
-	if(type == "info") caller = "%c"; // Make sure no trace is providable for info logs
+	if(!trace) trace = GetCaller();
+	trace = "\n\n%c" + trace;
+	if(type == "info") trace = "%c"; // Make sure no trace is providable for info logs
 
 	console.log(
-		"%c[%cOld Google%c]%c %c" + message + caller,
+		"%c[%cOld Google%c]%c %c" + message + trace,
 		css.logo, css.logotext, css.logo, // Prefix styles
 		css.reset, css.currentType,       // Message styles
 		css.reset                         // Caller styles:
@@ -241,7 +264,7 @@ function RunWhenReady(selectors, code) {
 		selectors = [selectors];
 	}
 	try {
-		DebugLog("RunWhenReady(\"" + selectors.join("\", \"") + "\"): Run from " + (new Error).stack.split("\n")[1].split("/")[4]);
+		DebugLog("RunWhenReady(\"" + selectors.join("\", \"") + "\"):", undefined, GetCaller());
 	} catch(TypeError) {
 		DebugLog("RunWhenReady(\"" + selectors.join("\", \"") + "\"): Running...");
 	}
