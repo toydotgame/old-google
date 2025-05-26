@@ -1,9 +1,10 @@
-# Old Google
+<h1><img src="resources/addon/vector.svg" width="25em"> Old Google</h1>
+
 ![Mozilla Add-on](https://img.shields.io/amo/users/old-google?label=Firefox%20Users) ![GitHub all releases](https://img.shields.io/github/downloads/toydotgame/old-google/total?color=blue&label=GitHub%20Downloads) ![GitHub repo size](https://img.shields.io/github/repo-size/toydotgame/old-google?label=Code%20Size) ![GitHub Release Date](https://img.shields.io/github/release-date/toydotgame/old-google?color=blue&label=Last%20Update)
 
 Replaces the logo on various Google search engines to that of [the logo they had from 2010 to 2013](https://upload.wikimedia.org/wikipedia/commons/3/3e/Google_2011_logo.png), and also changes the favicon to that of [the 2012 one](https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Google_Icon_%282010-2015%29.svg/512px-Google_Icon_%282010-2015%29.svg.png). Dark theme compatible.
 
-<div align="center"><h1><a href="https://addons.mozilla.org/en-US/firefox/addon/old-google/">Get it here!</a></h1><br></div>
+<a href="https://addons.mozilla.org/en-US/firefox/addon/old-google/"><img src="resources/addon/amo-badge.png" height="64px"></a>
 
 Additionally, it has some features to further age the look of your results:
 * Square search boxes
