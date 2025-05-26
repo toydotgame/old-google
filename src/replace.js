@@ -1,25 +1,26 @@
 /*
  * CREATED: 2021-10-19
  * AUTHOR: toydotgame
- * Contains specific methods for replacement for each search engine
+ * Contains specific functions for replacement for each search engine
  * Before every method, the trigger/delay for when the method is run is written
  */
 
 // No delay
-function Replace_Patents() {
-	DebugLog("Running replacement...");
+function replace_patents() {
+	log("Running replacement...");
+
 	/* Google Patents will usually use JS to replace the document body rather
 	 * than redirect to unique search or homepage documents, completely unlike
 	 * all other Google search engines. Therefore, we start a persistent
 	 * MutationObserver to check if the URL has changed in any way, then use
 	 * stylesheets to safely replace content regardless of the current document
 	 */
-	function InjectPatentsStyles() {
-		InjectCssAtHead(`
+	function injectPatents() {
+		injectCss(`
 			.logowrap > img { /* Homepage logo */
 				width: 276px;
 				height: unset;
-				content: url("` + GetResource("patents") + `");
+				content: url("` + getResource("patents") + `");
 			}
 			h1.style-scope.landing-page { /* Homepage subtitle */
 				display: none;
@@ -28,7 +29,7 @@ function Replace_Patents() {
 				display: none;
 			}
 			.lockup-logo.search-header { /* Results logo */
-				background: no-repeat url("` + GetResource("patents") + `");
+				background: no-repeat url("` + getResource("patents") + `");
 				background-size: contain;
 			}
 			.layout.horizontal.leftheader.style-scope.search-header { /* Results logo container */
@@ -37,26 +38,27 @@ function Replace_Patents() {
 		`);
 	}
 
-	SetFavicon("search_favicon");
+	setFavicon("search_favicon");
 
-	var currentURL = window.location.href;
-	var pageChangeObserver = new MutationObserver(function(mutations, mutationInstance) {
-		if(window.location.href != currentURL) {
-			currentURL = window.location.href;
-			InjectPatentsStyles();
-		}
+	let currentURL = window.location.href;
+	let pageChangeObserver = new MutationObserver(()=>{
+		if(window.location.href == currentURL) return;
+		
+		injectPatents();
+		currentURL = window.location.href;
 	});
 
-	InjectPatentsStyles(); // MutationObserver does nothing on its own for the first run, hence manual invocation
+	injectPatents(); // MutationObserver does nothing on its own for the first run, hence manual invocation
 	pageChangeObserver.observe(document, {childList: true, subtree: true});
 }
 
 // No delay
-function Replace_Scholar() {
-	DebugLog("Running replacement...");
-	InjectCssAtHead(`
+function replace_scholar() {
+	log("Running replacement...");
+
+	injectCss(`
 		#gs_hdr_drw_lgo, #gs_hdr_lgo { /* Results logo */
-			background: no-repeat url("` + GetResource("scholar") + `") 0 50%;
+			background: no-repeat url("` + getResource("scholar") + `") 0 50%;
 			background-size: contain;
 			width: 149px;
 			height: 63px;
@@ -65,39 +67,40 @@ function Replace_Scholar() {
 			padding: 15px;
 		}
 		#gs_ab_ico > .gs_ico { /* Tab bar mini icon */
-			background: no-repeat url("` + GetResource("g") + `");
+			background: no-repeat url("` + getResource("g") + `");
 			background-size: contain;
 		}
 		#gs_hdr_hp_lgo { /* Homepage logo */
 			width: 276px;
-			content: url("` + GetResource("scholar") + `");
+			content: url("` + getResource("scholar") + `");
 		}
 		#gs_hdr_hp_lgow { /* Homepage logo container */
 			margin-bottom: 40px;
 		}
 	`);
-	SetFavicon("scholar_favicon");
+	setFavicon("scholar_favicon");
 }
 
 // No delay
-function Replace_Books() {
-	DebugLog("Running replacement...");
-	InjectCssAtHead(`
+function replace_books() {
+	log("Running replacement...");
+
+	injectCss(`
 		#oc-search-image { /* Homepage logo */
-			background: no-repeat url("` + GetResource("books") + `");
+			background: no-repeat url("` + getResource("books") + `");
 			background-size: contain;
 		}
 		#oc-search-logo { /* Homepage subtitle */
 			display: none;
 		}
 		.gb_Ld.gb_Ec { /* Classic Books results logo */
-			background: no-repeat url("` + GetResource("books") + `");
+			background: no-repeat url("` + getResource("books") + `");
 			background-size: contain;
 			background-position: 0 0;
 			width: 96px;
 		}
 		.outMi > img { /* New Books results logo */
-			content: url("` + GetResource("books") + `");
+			content: url("` + getResource("books") + `");
 			height: unset;
 		}
 		.B6Fq0e { /* New Books results subtitle */
@@ -107,15 +110,16 @@ function Replace_Books() {
 			flex: unset !important;
 		}
 	`);
-	SetFavicon("search_favicon");
+	setFavicon("search_favicon");
 }
 
 // No delay
-function Replace_Ngrams() {
-	DebugLog("Running replacement...");
-	InjectCssAtHead(`
+function replace_ngrams() {
+	log("Running replacement...");
+
+	injectCss(`
 		.google-logo {
-			content: url("` + GetResource("books") + `") !important;
+			content: url("` + getResource("books") + `") !important;
 			height: unset !important;
 		}
 		.ngrams-logo { /* "Books Ngram Viewer" text */
@@ -132,61 +136,67 @@ function Replace_Ngrams() {
 			text-indent: 0;
 		}
 	`);
-	SetFavicon("search_favicon");
+	setFavicon("search_favicon");
 }
 
 // No delay
-function Replace_Shopping() {
-	DebugLog("Running replacement...");
-	InjectCssAtHead(`
+function replace_shopping() {
+	log("Running replacement...");
+
+	injectCss(`
 		.uiDkff.FAZYFf > .Ws3Esf { /* Logo */
-			content: url("` + GetResource("shopping_left") + `");
+			content: url("` + getResource("shopping_left") + `");
 			height: unset;
 		}
 		.jmaXG { /* Subtitle */
-			content: url("` + GetResource("shopping_right") + `");
+			content: url("` + getResource("shopping_right") + `");
 			height: 32px;
 			padding-left: 0;
 		}
 	`);
-	SetFavicon("search_favicon");
-	if(GetConfig("squareBox")) {
-		DebugLog("Enabling squareBox...");
-		InjectCssAtHead(`
-			.z86TMb { /* Search box */
-				border-radius: 2px;
-			}
-			.fYz4Vc { /* Search suggestions dropdown */
-				border-radius: 0 0 2px 2px;
-			}
-		`);
-	}
+	setFavicon("search_favicon");
+
+	if(!getConfig("squareBox")) return;
+	
+	log("Enabling squareBox...");
+	injectCss(`
+		.z86TMb { /* Search box */
+			border-radius: 2px;
+		}
+		.fYz4Vc { /* Search suggestions dropdown */
+			border-radius: 0 0 2px 2px;
+		}
+	`);
 }
 
 // No delay
-function Replace_News() {
-	DebugLog("Running replacement...");
-	InjectCssAtHead(`
+function replace_news() {
+	log("Running replacement...");
+
+	injectCss(`
 		.gb_Ld.gb_3d { /* Logo */
-			content: url("` + GetResource("news_left") + `");
+			content: url("` + getResource("news_left") + `");
 			height: unset;
 		}
 		.gb_qd.gb_8c { /* Subtitle */
-			content: url("` + GetResource("news_right") + `");
+			content: url("` + getResource("news_right") + `");
 			height: 32px;
 			padding-left: 0;
 		}
 	`);
-	document.addEventListener("DOMContentLoaded", function() { // Like with Finance, News defers the favicon horribly too
-		SetFavicon("news_favicon", true);
-	});}
+
+	document.addEventListener("DOMContentLoaded", ()=>{ // Like with Finance, News defers the favicon horribly too
+		setFavicon("news_favicon", true);
+	});
+}
 
 // No delay
-function Replace_Trends() {
-	DebugLog("Running replacement...");
-	InjectCssAtHead(`
+function replace_trends() {
+	log("Running replacement...");
+
+	injectCss(`
 		.gb_Ld.gb_3d { /* Homepage logo */
-			content: url("` + GetResource("trends") + `");
+			content: url("` + getResource("trends") + `");
 			height: unset;
 			vertical-align: middle;
 		}
@@ -195,72 +205,76 @@ function Replace_Trends() {
 		}
 		.google-logo { /* Results logo and drawer logo */
 			height: 32px;
-			background-image: url("` + GetResource("trends") + `") !important;
+			background-image: url("` + getResource("trends") + `") !important;
 			background-size: contain;
 		}
 	`);
-	SetFavicon("search_favicon");
+	setFavicon("search_favicon");
 }
 
 // No delay
-function Replace_Maps() {
-	DebugLog("Running replacement...");
-	InjectCssAtHead(`
+function replace_maps() {
+	log("Running replacement...");
+
+	injectCss(`
 		.watermark { /* Map view watermark */
-			content: url("` + GetResource("maps_watermark") + `");
+			content: url("` + getResource("maps_watermark") + `");
 		}
 		.watermark.nTFmr { /* Satellite view watermark */
-			content: url("` + GetResource("maps_watermark_mono") + `");
+			content: url("` + getResource("maps_watermark_mono") + `");
 		}
 		.lmygoc { /* Drawer logo */
-			content: url("` + GetResource("maps") + `");
+			content: url("` + getResource("maps") + `");
 		}
 		#splash-logo {
-			background: url("` + GetResource("maps_watermark_mono") + `") no-repeat center;
+			background: url("` + getResource("maps_watermark_mono") + `") no-repeat center;
 			background-size: 324px;
 		}
 	`);
-	RunWhenReady('link[rel="shortcut icon"', function(loadedElement) { // Maps defers its favicon for some reason so we wait for it (because CSS injection is too fast)
-		SetFavicon("maps_favicon", true);
+	schedule('link[rel="shortcut icon"', ()=>{ // Maps defers its favicon for some reason so we wait for it (because CSS injection is too fast)
+		setFavicon("maps_favicon", true);
 	});
 }
 
 // No delay
-function Replace_Videos() {
-	DebugLog("Running replacement...");
-	InjectCssAtHead(`
+function replace_videos() {
+	log("Running replacement...");
+
+	injectCss(`
 		.lnXdpd { /* Homepage logo */
-			content: url("` + GetResource("videos") + `");
+			content: url("` + getResource("videos") + `");
 			height: 96px;
 		}
 		.T8VaVe { /* Homepage subtitle */
 			display: none;
 		}
 	`);
-	SetFavicon("search_alt_favicon");
-	if(GetConfig("squareBox")) {
-		DebugLog("Enabling squareBox...");
-		InjectCssAtHead(`
-			.RNNXgb { /* Search box */
-				border-radius: 2px !important;
-			}
-			.aajZCb { /* Suggestions dropdown */
-				border-radius: 0 0 2px 2px !important;
-			}
-		`);
-	}
+	setFavicon("search_alt_favicon");
+
+	if(!getConfig("squareBox")) return;
+	
+	log("Enabling squareBox...");
+	injectCss(`
+		.RNNXgb { /* Search box */
+			border-radius: 2px !important;
+		}
+		.aajZCb { /* Suggestions dropdown */
+			border-radius: 0 0 2px 2px !important;
+		}
+	`);
 }
 
 // No delay
-function Replace_Finance() {
-	DebugLog("Running replacement...");
-	InjectCssAtHead(`
+function replace_finance() {
+	log("Running replacement...");
+
+	injectCss(`
 		.gb_Ld.gb_3d, .ForAd > img {
-			content: url("` + GetResource("finance_left") + `");
+			content: url("` + getResource("finance_left") + `");
 			height: unset;
 		}
 		.gb_qd.gb_8c, .N27tdc {
-			content: url("` + GetResource("finance_right") + `");
+			content: url("` + getResource("finance_right") + `");
 			height: 32px;
 			padding-left: 0;
 		}
@@ -271,53 +285,58 @@ function Replace_Finance() {
 			padding-top: 1px;
 		}
 	`);
+
 	// Finance favicon is super deferred for some reason, and even then the
 	// below patch sometimes doesn't work.
-	document.addEventListener("DOMContentLoaded", function() {
-		SetFavicon("finance_favicon", true);
+	document.addEventListener("DOMContentLoaded", ()=>{
+		setFavicon("finance_favicon", true);
 	});
 }
 
 // No delay
-function Replace_Travel() {
-	DebugLog("Running replacement...");
-	InjectCssAtHead(`
+function replace_travel() {
+	log("Running replacement...");
+
+	injectCss(`
 		.gb_Ld.gb_3d {
-			content: url("` + GetResource("search") + `");
+			content: url("` + getResource("search") + `");
 			height: unset;
 		}
 	`);
-	document.addEventListener("DOMContentLoaded", function() { // Google defers favicon load
-		SetFavicon("search_favicon", true);
+
+	document.addEventListener("DOMContentLoaded", ()=>{ // Google defers favicon load
+		setFavicon("search_favicon", true);
 	});
 }
 
 // No delay
-function Replace_Earth() {
-	DebugLog("Running replacement...");
-	InjectCssAtHead(`
+function replace_earth() {
+	log("Running replacement...");
+
+	injectCss(`
 		#earth-splashscreen {
-			background-image: url("` + GetResource("earth") + `"),
+			background-image: url("` + getResource("earth") + `"),
 				url(https://www.gstatic.com/earth/images/00-earth-splash-1x-ltr.jpg),
 				url(https://www.gstatic.com/earth/images/00-earth-splash-mask-ltr.svg),
 				url(https://www.gstatic.com/earth/images/01-earth-splash-stars-ltr.webp);
 			background-size: 324px, 1280px 463px, 1164px 380px, cover;
 		}
 	`);
-	SetFavicon("earth_favicon");
+	setFavicon("earth_favicon");
 }
 
 // No delay
-function Replace_Search_Styles() {
-	DebugLog("Running replacement...");
-	var css = `
+function replace_search_styles() {
+	log("Running replacement...");
+
+	let css = `
 		/* Homepage Styles */
 		.k1zIA { /* Homepage logo container */
 			margin-top: auto;
 			max-height: 92px;
 		}
 		.lnXdpd { /* Homepage logo */
-			content: url("` + GetResource("search") + `");
+			content: url("` + getResource("search") + `");
 			width: 272px;
 			height: 92px;
 		}
@@ -327,15 +346,16 @@ function Replace_Search_Styles() {
 		
 		/* Results Page Styles */
 		#logo, .logo > a > img { /* Regular results logo, Doodle logo */
-			content: url("` + GetResource("search") + `");
+			content: url("` + getResource("search") + `");
 			width: 96px;
 		}
 		.IormK { /* Doodle background */
 			display:none;
 		}
 	`;
-	if(GetConfig("squareBox")) {
-		DebugLog("Enabling squareBox...");
+
+	if(getConfig("squareBox")) {
+		log("Enabling squareBox...");
 		css += `
 			/* Homepage Styles */
 			/* In respective order:
@@ -360,39 +380,40 @@ function Replace_Search_Styles() {
 		`;
 	}
 	
-	InjectCssAtHead(css);
-	SetFavicon("search_favicon");
+	injectCss(css);
+	setFavicon("search_favicon");
 }
 
-// Run after Replace_Search_Styles()
-function Replace_Search_Home() {
-	DebugLog("Running replacement...");
-	if(subdomain == "www" && page != "/imghp") {
-		var newLogo = Object.assign(
-			document.createElement("img"),
-			{className: "lnXdpd"}
-		);
-		RunWhenReady(".k1zIA", function(loadedElement) {
-			loadedElement.replaceChildren(newLogo);
-		});
-	}
+// Run after replace_search_styles()
+function replace_search_home() {
+	log("Running replacement...");
+	
+	if(subdomain != "www" || page == "/imghp") return;
+
+	// Specifically images.google.*/imghp has an SVG logo for some reason:
+	var newLogo = Object.assign(document.createElement("img"),
+		{className: "lnXdpd"}
+	);
+	schedule(".k1zIA", loadedElement => {
+		loadedElement.replaceChildren(newLogo);
+	});
 }
 
-// Run after Replace_Search_Styles()
-function Replace_Search_Results() {
-	DebugLog("Running replacement...");
+// Run after replace_search_styles()
+function replace_search_results() {
+	log("Running replacement...");
 
-	if(GetConfig("udm14")) {
+	if(getConfig("udm14")) {
 		if(new URLSearchParams(window.location.search).get("udm") == null) {
 			window.location.replace(window.location + "&udm=14");
-			DebugLog("Redirected from non-udm=14 page.");
+			log("Redirected from non-udm=14 page");
 		}
 	}
 
-	var css = `
+	let css = `
 		/* Footer "Goooooooooogle" page selector */
 		.SJajHc {
-			background: url("` + GetResource("nav") + `") no-repeat !important;
+			background: url("` + getResource("nav") + `") no-repeat !important;
 		}		
 		.d6cvqb.BBwThe:first-child > .SJajHc { /* G (page 1 only) */
 			background-position: -24px 0 !important;
@@ -420,8 +441,8 @@ function Replace_Search_Results() {
 		}
 	`;
 
-	if(GetConfig("greenUrls")) {
-		DebugLog("Enabling greenUrls...");
+	if(getConfig("greenUrls")) {
+		log("Enabling greenUrls...");
 		css += `
 			cite.tjvcx, .ylgVCe.ob9lvb { /* Domain text, page text */
 				color: light-dark(#093, #3c6);
@@ -445,16 +466,23 @@ function Replace_Search_Results() {
 			}
 		`;
 		
+		/*
+		 * void removeBreadcrumbs()
+		 * Function called on every page update, replacing the fancy formatted
+		 * page addresses in results with regular slashes. Old-formatted results
+		 * are marked as .old-google-debreadcrumbed, and are thus ineligible for
+		 * future passes/runs
+		 */
 		function removeBreadcrumbs() {
 			let resultUrls = document.querySelectorAll(".ylgVCe.ob9lvb:not(.old-google-debreadcrumbed)");
 			try {
-				for(var i = 0; i < resultUrls.length; i++) {
+				for(let i = 0; i < resultUrls.length; i++) {
 					resultUrls[i].textContent = resultUrls[i].textContent.replace(/ › /g, "/");
 					resultUrls[i].className += " old-google-debreadcrumbed";
 				}
 			} catch(TypeError) {} // No results found
 		}
-		var pageChangeObserver = new MutationObserver(function(mutations, mutationInstance) {
+		var pageChangeObserver = new MutationObserver(()=>{
 			removeBreadcrumbs();
 		});
 
@@ -469,8 +497,8 @@ function Replace_Search_Results() {
 		});
 	}
 
-	if(GetConfig("cleanResults")) {
-		DebugLog("Removing gimmicks and increasing density...");
+	if(getConfig("cleanResults")) {
+		log("Removing gimmicks and increasing density...");
 		css += `
 			.tF2Cxc.asEBEc, .vt6azd, .hlcw0c, .g {
 				margin-bottom: 0 !important;
@@ -478,7 +506,13 @@ function Replace_Search_Results() {
 			.MjjYud, .cUnQKe { /* General containers, People also searched for */
 				margin-bottom: 16px !important;
 			}
-			.ULSxyf:nth-child(2), #appbar, #OotqVd, #taw, #nMJCib { /* Top result extract, appbar, 404 yeti, definitions hint, Define button */
+			.ULSxyf:nth-child(2), #appbar, #OotqVd, #taw, #nMJCib {
+				/* Top result extract
+				 * Appbar
+				 * 404 yeti
+				 * Definitions hint
+				 * Define button
+				 */
 				display: none;
 			}
 			.s6JM6d, .sBbkle { /* Results container, Results tabs */
@@ -502,10 +536,16 @@ function Replace_Search_Results() {
 		`;
 	}
 
-	if(GetConfig("peopleAlsoSearchedFor")) {
-		DebugLog("Removing \"People also searched for\"...");
+	if(getConfig("peopleAlsoSearchedFor")) {
+		log("Removing \"People also searched for\"...");
 		css += `
-			#bres, .cUnQKe, .oIk2Cb, div[data-hveid="CEMQAA"], .VjDLd { /* PASF buttons, People also searched for, PASF (button edition) (also removes other search gimmicks potentially), People also ask heading, See results about right pane box */
+			#bres, .cUnQKe, .oIk2Cb, div[data-hveid="CEMQAA"], .VjDLd {
+				/* PASF buttons
+				 * People also searched for
+				 * PASF (button edition) (also removes other search gimmicks potentially)
+				 * People also ask heading
+				 * See results about right pane box
+				 */
 				display: none !important;
 			}
 			.hlcw0c { /* Always the result just before a results gimmick */
@@ -514,8 +554,8 @@ function Replace_Search_Results() {
 		`;
 	}
 
-	if(GetConfig("removePills")) {
-		DebugLog("Removing pills...");
+	if(getConfig("removePills")) {
+		log("Removing pills...");
 		css +=`
 			.IUOThf {
 				display: none;
@@ -527,16 +567,20 @@ function Replace_Search_Results() {
 	}
 
 	// Deferred 'till body is loaded so that document.body is a valid object
-	RunWhenReady("body", function(loadedElement) {
+	schedule("body", ()=>{
 		// Manually add color-scheme value for greenUrls light-dark() CSS:
 		if(getComputedStyle(document.body).getPropertyValue("background-color") != "rgb(255, 255, 255)") { // if(isDarkMode)
 			css += `
 				:root {
-					/* Overridden by Google's JS anyway, but if results page > 1, Google forgets to add in the color-scheme value */
+					/* Overridden by Google's JS anyway, but if results page > 1,
+					 * Google forgets to add in the color-scheme value.
+					 * We need this value for later light-dark() styles that
+					 * require the search results page has made up its mind
+					 */
 					color-scheme: dark;
 				}
 			`;
 		}
-		InjectCssAtHead(css, true);
+		injectCss(css, true);
 	});
 }

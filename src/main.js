@@ -7,159 +7,147 @@
 // Enables debug logging. Should be false in packed copies of this extension:
 const DEBUG = true;
 
-var logos = [
-	{"id": "nav",                    "src": browser.runtime.getURL("/resources/google/nav.png")},
-	{"id": "maps_favicon",           "src": browser.runtime.getURL("/resources/google/favicons/maps.ico")},
-	{"id": "search_favicon",         "src": browser.runtime.getURL("/resources/google/favicons/search.ico")},
-	{"id": "search_alt_favicon",     "src": browser.runtime.getURL("/resources/google/favicons/search_alt.ico")},
-	{"id": "finance_favicon",        "src": browser.runtime.getURL("/resources/google/favicons/finance.ico")},
-	{"id": "scholar_favicon",        "src": browser.runtime.getURL("/resources/google/favicons/scholar.ico")},
-	{"id": "news_favicon",           "src": browser.runtime.getURL("/resources/google/favicons/news.ico")},
-	{"id": "earth_favicon",          "src": browser.runtime.getURL("/resources/google/favicons/earth.ico")},
-	{"id": "books",                  "src": browser.runtime.getURL("/resources/google/logos/books.png")},
-	{"id": "finance_left",           "src": browser.runtime.getURL("/resources/google/logos/finance_left.png")},
-	{"id": "finance_right",          "src": browser.runtime.getURL("/resources/google/logos/finance_right.png")},
-	{"id": "g",                      "src": browser.runtime.getURL("/resources/google/logos/g.png")},
-	{"id": "maps",                   "src": browser.runtime.getURL("/resources/google/logos/maps.png")},
-	{"id": "maps_watermark_mono",    "src": browser.runtime.getURL("/resources/google/logos/maps_watermark_mono.png")},
-	{"id": "maps_watermark",         "src": browser.runtime.getURL("/resources/google/logos/maps_watermark.png")},
-	{"id": "news_left",              "src": browser.runtime.getURL("/resources/google/logos/news_left.png")},
-	{"id": "news",                   "src": browser.runtime.getURL("/resources/google/logos/news.png")},
-	{"id": "news_right",             "src": browser.runtime.getURL("/resources/google/logos/news_right.png")},
-	{"id": "patents",                "src": browser.runtime.getURL("/resources/google/logos/patents.png")},
-	{"id": "scholar",                "src": browser.runtime.getURL("/resources/google/logos/scholar.png")},
-	{"id": "search",                 "src": browser.runtime.getURL("/resources/google/logos/search.png")},
-	{"id": "shopping_left",          "src": browser.runtime.getURL("/resources/google/logos/shopping_left.png")},
-	{"id": "shopping",               "src": browser.runtime.getURL("/resources/google/logos/shopping.png")},
-	{"id": "shopping_right",         "src": browser.runtime.getURL("/resources/google/logos/shopping_right.png")},
-	{"id": "trends",                 "src": browser.runtime.getURL("/resources/google/logos/trends.png")},
-	{"id": "videos",                 "src": browser.runtime.getURL("/resources/google/logos/videos.png")},
-	{"id": "earth",                  "src": browser.runtime.getURL("/resources/google/logos/earth.png")}
+let logos = [
+	{"id": "nav",                 "src": browser.runtime.getURL("/resources/google/nav.png")},
+	{"id": "maps_favicon",        "src": browser.runtime.getURL("/resources/google/favicons/maps.ico")},
+	{"id": "search_favicon",      "src": browser.runtime.getURL("/resources/google/favicons/search.ico")},
+	{"id": "search_alt_favicon",  "src": browser.runtime.getURL("/resources/google/favicons/search_alt.ico")},
+	{"id": "finance_favicon",     "src": browser.runtime.getURL("/resources/google/favicons/finance.ico")},
+	{"id": "scholar_favicon",     "src": browser.runtime.getURL("/resources/google/favicons/scholar.ico")},
+	{"id": "news_favicon",        "src": browser.runtime.getURL("/resources/google/favicons/news.ico")},
+	{"id": "earth_favicon",       "src": browser.runtime.getURL("/resources/google/favicons/earth.ico")},
+	{"id": "books",               "src": browser.runtime.getURL("/resources/google/logos/books.png")},
+	{"id": "finance_left",        "src": browser.runtime.getURL("/resources/google/logos/finance_left.png")},
+	{"id": "finance_right",       "src": browser.runtime.getURL("/resources/google/logos/finance_right.png")},
+	{"id": "g",                   "src": browser.runtime.getURL("/resources/google/logos/g.png")},
+	{"id": "maps",                "src": browser.runtime.getURL("/resources/google/logos/maps.png")},
+	{"id": "maps_watermark_mono", "src": browser.runtime.getURL("/resources/google/logos/maps_watermark_mono.png")},
+	{"id": "maps_watermark",      "src": browser.runtime.getURL("/resources/google/logos/maps_watermark.png")},
+	{"id": "news_left",           "src": browser.runtime.getURL("/resources/google/logos/news_left.png")},
+	{"id": "news",                "src": browser.runtime.getURL("/resources/google/logos/news.png")},
+	{"id": "news_right",          "src": browser.runtime.getURL("/resources/google/logos/news_right.png")},
+	{"id": "patents",             "src": browser.runtime.getURL("/resources/google/logos/patents.png")},
+	{"id": "scholar",             "src": browser.runtime.getURL("/resources/google/logos/scholar.png")},
+	{"id": "search",              "src": browser.runtime.getURL("/resources/google/logos/search.png")},
+	{"id": "shopping_left",       "src": browser.runtime.getURL("/resources/google/logos/shopping_left.png")},
+	{"id": "shopping",            "src": browser.runtime.getURL("/resources/google/logos/shopping.png")},
+	{"id": "shopping_right",      "src": browser.runtime.getURL("/resources/google/logos/shopping_right.png")},
+	{"id": "trends",              "src": browser.runtime.getURL("/resources/google/logos/trends.png")},
+	{"id": "videos",              "src": browser.runtime.getURL("/resources/google/logos/videos.png")},
+	{"id": "earth",               "src": browser.runtime.getURL("/resources/google/logos/earth.png")}
 ];
 
-var supportedDomains = ["patents", "scholar", "books", "shopping", "news", "trends", "www", "images", "earth"];
-var supportedPages = ["/maps", "/videohp", "/finance", "/travel", "/", "/webhp", "/imghp", "/search"];
+let supportedDomains = ["patents", "scholar", "books", "shopping", "news", "trends", "www", "images", "earth"];
+let supportedPages = ["/maps", "/videohp", "/finance", "/travel", "/", "/webhp", "/imghp", "/search"];
 
-var config;
+let config;
 
-var subdomain = window.location.host.split(".")[0];
-var page = "/" + window.location.pathname.split("/")[1];
+let subdomain = window.location.host.split(".")[0];
+let page = "/" + window.location.pathname.split("/")[1];
 
-if(supportedDomains.includes(subdomain) || supportedPages.includes(page)) {
-	Main();
-} // End of execution if false
+if(supportedDomains.includes(subdomain) || supportedPages.includes(page)) main(); // End of execution if false
 
 /*
- * void Main()
+ * void main()
  * Run if page is on a supported domain. Runs unique replace.js methods to replace logos
  */
-function Main() {
-	DebugLog(
+function main() {
+	log(
 		"Welcome to Old Google v" + browser.runtime.getManifest().version + "!\n" +
 		"Copyright (c) 2021 toydotgame\n" +
 		"subdomain = \"" + subdomain + "\", page = \"" + page + "\""
 	, "info");
 	
-	LoadConfig().then(cachedConfig => {
-		config = cachedConfig;
-		DebugLog("Config loaded:", "info"); if(DEBUG) console.table(config);
+	loadConfig().then(config => {
+		log("Config loaded:", "info"); if(DEBUG) console.table(config);
 
 		switch (subdomain) {
 			case "patents":
-				Replace_Patents();
+				replace_patents();
 				break;
 			case "scholar":
-				Replace_Scholar();
+				replace_scholar();
 				break;
 			case "books":
 				if(page == "/ngrams") {
-					Replace_Ngrams();
+					replace_ngrams();
 					break;
 				}
-				Replace_Books();
+				replace_books();
 				break;
 			case "shopping":
-				Replace_Shopping();
+				replace_shopping();
 				break;
 			case "news":
-				Replace_News();
+				replace_news();
 				break;
 			case "trends":
-				Replace_Trends();
+				replace_trends();
 				break;
 			case "earth":
-				Replace_Earth();
+				replace_earth();
 				break;
 			case "www":
 			case "images":
 				switch(page) {
 					case "/maps":
-						Replace_Maps();
+						replace_maps();
 						break;
 					case "/videohp":
-						Replace_Videos();
+						replace_videos();
 						break;
 					case "/finance":
-						Replace_Finance();
+						replace_finance();
 						break;
 					case "/travel":
-						Replace_Travel();
+						replace_travel();
 						break;
 					case "/books":
-						Replace_Books(); // New Books results page
+						replace_books(); // New Books results page
 						break;
 					case "/":
 					case "/webhp":
 					case "/imghp":
-						Replace_Search_Styles();
-						Replace_Search_Home();
+						replace_search_styles();
+						replace_search_home();
 						break;
 					case "/search":
-						Replace_Search_Styles();
-						Replace_Search_Results();
+						replace_search_styles();
+						replace_search_results();
 						break;
 				}
 		}
 	}).catch(e => {
-		DebugLog(
-			"ERROR: Fatal error; exiting!\n" +
-			e +
-			" (" + e.fileName.substring(e.fileName.lastIndexOf("/") + 1) + ":" + e.lineNumber + "," + e.columnNumber + ")\n" + 
-			e.stack
-		);
+		log("ERROR: Fatal error; exiting!\n" + e
+		  + " (" + e.fileName.substring(e.fileName.lastIndexOf("/") + 1) + ":" + e.lineNumber + "," + e.columnNumber + ")\n"
+		  + e.stack, "error");
 	});
 }
 
 /*
- * String GetResource(String id)
+ * string getResource(string id)
  * Returns a moz-extension:// URI for the resource with the input
  * namespaced ID. Returns empty string if not found
  */
-function GetResource(id) {
+function getResource(id) {
 	try {
 		return logos.find(x => x.id == id).src;
-	} catch(TypeError) {
-		return "";
-	}
+	} catch(TypeError) {return ""}
 }
 
 /*
- * boolean GetConfig(String id)
- * Returns true/false for given input setting ID
+ * boolean getConfig(string id)
+ * Returns true/false for given input setting ID.
  * Returns false if key does not exist
  */
-function GetConfig(id) {
-	var value;
+function getConfig(id) {
 	try {
-		value = config.find(x => x.id == id).value;
-	} catch(TypeError) {
-		value = false;
-	}
-	return value;
+		return config.find(x => x.id == id).value;
+	} catch(TypeError) {return false}
 }
 
 /*
- * string GetCaller(boolean verbose, number level)
+ * string getCaller(boolean verbose, number level)
  * Returns a trace of the format:
  *     <module>.js:<ln>:<col>
  * or:
@@ -170,7 +158,7 @@ function GetConfig(id) {
  *   pointing within foo() (so no levels up), getCaller(0) refers to whomever
  *   called foo(), etc. Defaults to 1
  */
-function GetCaller(verbose=false, level=1) {
+function getCaller(level=1, verbose=false) {
 	level++; let caller = "", trace, funct;
 	let error = (new Error).stack.split("\n")
 	/*
@@ -194,7 +182,7 @@ function GetCaller(verbose=false, level=1) {
 }
 
 /*
- * void DebugLog(string message, string? type, string? trace)
+ * void log(string message, string? type, string? trace)
  * Fancy console.log() wrapper that only prints if the DEBUG const is true.
  * Prints an Old Google prefix alongside background colours for log types, and
  * a function/call trace to where this log was triggered from. Logs of type
@@ -254,87 +242,87 @@ function log(message, type="log", trace=undefined) {
 }
 
 /*
- * void RunWhenReady(String[] selectors | String selector, function code)
+ * void schedule(string[] selectors | string selector, function code)
  * Takes querySelector() string(s) and runs the provided code once the earliest
  * element in the array (or just the single provided element) is loaded into DOM
  * Provides a DOMObject `loadedElement` for use in the code that corresponds to
  * the aforementioned first loaded element
  */
-function RunWhenReady(selectors, code) {
-	if(typeof selectors == "string") {
-		selectors = [selectors];
-	}
-	try {
-		DebugLog("RunWhenReady(\"" + selectors.join("\", \"") + "\"):", undefined, GetCaller());
-	} catch(TypeError) {
-		DebugLog("RunWhenReady(\"" + selectors.join("\", \"") + "\"): Running...");
-	}
+function schedule(selectors, code) {
+	if(typeof selectors == "string") selectors = [selectors];
+	let instanceName = "schedule(\"" + selectors.join("\", \"") + "\")"; // Used only for logging
+	log(instanceName + " started by " + getCaller(), "info");
 
-	var loadedElement, isLoaded;
-	function GetLoadedElement(mutationInstance = null) {
-		for(var i = 0; i < selectors.length; i++) {
+	let loadedElement, isLoaded = false;
+	function getLoadedElement(mutationInstance=null) {
+		for(let i = 0; i < selectors.length; i++) {
 			try {
 				loadedElement = document.querySelector(selectors[i])
 			} catch(TypeError) {}
-			if(loadedElement != null) {
-				DebugLog("RunWhenReady(\"" + selectors.join("\", \"") + "\"): Loaded.");
-				code(loadedElement);
-				if(mutationInstance != null) { // Running in observer:
-					mutationInstance.disconnect();
-					break;
-				} // Running in function scope:
-				isLoaded = true;
+			if(loadedElement == null) continue;
+
+			log(instanceName + ": Element found, executing code and terminating...", undefined, "");
+			code(loadedElement); // Pass loaded element to caller's arrow function
+
+			if(mutationInstance != null) { // Running in observer:
+				mutationInstance.disconnect();
 				break;
-			}
+			} // Running in function scope:
+			isLoaded = true;
+			break;
 		}
 	}
 
-	GetLoadedElement(); // Run check if the element has loaded before the observer can start
-	if(isLoaded)
-		return;
+	getLoadedElement(); // Run check if the element has loaded before the observer can start
+	if(isLoaded) return;
 
-	var observer = new MutationObserver(function (mutations, mutationInstance) {
-		GetLoadedElement(mutationInstance);
+	let observer = new MutationObserver((mutations, mutationInstance) => {
+		getLoadedElement(mutationInstance);
 	});
 	observer.observe(document, {childList: true, subtree: true});
 }
 
 /*
- * void InjectCssAtHead(String styles, boolean? quickReplace)
- * Appends the given inline styles to the <head> element in a safe manner
- * Runs when the body starts loading, unless quickReplace is true
- * quickReplace is to be true if this method is called from within a
- * RunWhenReady() function that guarantees <body> has started loading
+ * void injectCss(string styles, boolean? quickReplace)
+ * Appends the given inline styles to the <head> element in a safe manner. Runs
+ * when the body starts loading, unless quickReplace is true.
+ * - quickReplace is to be true if this method is called from within a
+ *   schedule() function that guarantees <body> has started loading. Defaults to
+ *   false, but it's best practice to set it to true whenever possible to avoid
+ *   creating too many observers
  */
-function InjectCssAtHead(styles, quickReplace = false) {
-	DebugLog("Injecting CSS into document...");
-	var styleElement = document.createElement("style");
-	styleElement.appendChild(document.createTextNode(styles));
+function injectCss(styles, quickReplace=false) {
+	log("Injecting CSS into document...");
+	let tag = document.createElement("style");
+	tag.appendChild(document.createTextNode(styles));
+
 	if(quickReplace) {
-		document.head.append(styleElement);
+		document.head.append(tag);
 		return;
 	}
-	RunWhenReady("body", function(loadedElement) {
-		document.head.append(styleElement);
+
+	schedule("body", ()=>{
+		document.head.append(tag);
 	});	
 }
 
 /*
- * void SetFavicon(String id, boolean? quickReplace)
- * Sets the favicon to the resource at the provided ID, safely
- * Like in InjectCssAtHead, the same quickReplace option is available here
+ * void setFavicon(string id, boolean? quickReplace)
+ * Sets the favicon to the resource at the provided ID, safely.
+ * - Like in injectCss(), the same quickReplace option is available here
  */
-function SetFavicon(id, quickReplace = false) {
-	DebugLog("Setting favicon to " + id + "...");
-	var faviconElement = Object.assign(
-		document.createElement("link"),
-		{rel: "icon", href: GetResource(id)}
+function setFavicon(id, quickReplace=false) {
+	log("Setting favicon to " + id + "...");
+	let faviconElement = Object.assign(document.createElement("link"),
+		{rel: "icon", href: getResource(id)}
 	);
+
 	if(quickReplace) {
 		document.head.append(faviconElement);
 		return;
 	}
-	RunWhenReady("body", function(loadedElement) {
+
+	schedule("body", ()=>{
 		document.head.append(faviconElement);
 	});		
 }
