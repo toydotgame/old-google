@@ -228,6 +228,12 @@ function getResource(id) {
  * Returns false if key does not exist
  */
 function getConfig(id) {
+	if(configFailed) {
+		log("Config previously failed to load! Returning default value of \"" + id + "\"...");
+		if(id == "udm14") return false;
+		else return true;
+	}
+	
 	try {
 		return config.find(x => x.id == id).value;
 	} catch(TypeError) {
