@@ -391,7 +391,7 @@ function replace_search_home() {
 	if(subdomain != "www" || page == "/imghp") return;
 
 	// Specifically images.google.*/imghp has an SVG logo for some reason:
-	var newLogo = Object.assign(document.createElement("img"),
+	let newLogo = Object.assign(document.createElement("img"),
 		{className: "lnXdpd"}
 	);
 	schedule(".k1zIA", loadedElement => {
@@ -482,7 +482,7 @@ function replace_search_results() {
 				}
 			} catch(TypeError) {} // No results found
 		}
-		var pageChangeObserver = new MutationObserver(()=>{
+		let pageChangeObserver = new MutationObserver(()=>{
 			removeBreadcrumbs();
 		});
 
