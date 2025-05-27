@@ -297,22 +297,40 @@ function injectCss(styles, quickReplace=false) {
 	});	
 }
 
-/* void setFavicon(string id, boolean? quickReplace)
+/* void setFavicon(string id, string mode)
  * Sets the favicon to the resource at the provided ID, safely.
- * - Like in injectCss(), the same quickReplace option is available here
+ * - mode is a string that can be "normal", "quick", or "deferred". Defaults to
+ *   "normal"
+ *     - "normal" waits for <body> to begin loading before injecting the
+ *       favicon into <head>
+ *     - "quick" assumes everything is already in place, so injects the favicon
+ *       into <head> without checks. Similar to injectCss()'s quickReplace
+ *     - "deferred" is a nasty hack that is needed for some sites, because
+ *       deleting the Google-provided favicons (or just their href property)
+ *       doesn't allow our favicon to work. So instead, it mangles the href
+ *       string of all `link[rel="icon"]`s it finds
  */
-function setFavicon(id, quickReplace=false) {
+function setFavicon(id, mode="normal") {
 	log("Setting favicon to " + id + "...", undefined, getCaller());
 	let faviconElement = Object.assign(document.createElement("link"),
 		{rel: "icon", href: getResource(id)}
 	);
 
-	if(quickReplace) {
-		document.head.append(faviconElement);
-		return;
+	switch(mode) {
+		case "deferred": // Nasty
+			let favicons = document.querySelectorAll('link[rel="icon"]');
+			for(let i = 0; i < favicons.length; i++) favicons[i].href += ".old-google-removed";
+			// Run on to do a normal replacement: _Can_ be quick for Finance,
+			// but not News, etc. Doing normal for better reliability
+		case "normal":
+			schedule("body", ()=>{
+				document.head.append(faviconElement);
+			});
+			break;
+		case "quick":
+			document.head.append(faviconElement);
+			break;
+		default:
+			log("Invalid mode \"" + mode + "\" for setFavicon()!", "error", getCaller());
 	}
-
-	schedule("body", ()=>{
-		document.head.append(faviconElement);
-	});		
 }
