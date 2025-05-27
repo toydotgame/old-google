@@ -266,20 +266,28 @@ function replace_finance() {
 	log("Running replacement...");
 
 	injectCss(`
-		.gb_Ld.gb_3d, .ForAd > img {
+		.gb_Pd.gb_7d, .ForAd > img { /* "Google", drawer "Google" */
 			content: url("` + getResource("finance_left") + `");
 			height: unset;
 		}
-		.gb_qd.gb_8c, .N27tdc {
+		.gb_ud.gb_bd, .N27tdc { /* "Finance", drawer "Finance" */
 			content: url("` + getResource("finance_right") + `");
 			height: 32px;
 			padding-left: 0;
 		}
-		.ForAd > img {
+		.ForAd { /* Drawer logo container */
+			position: relative;
+			/* Parent is 48px high, this is 32.5px (img height+"Finance" padding
+			 * height). (48-32.5)÷2 = 7.75px. Sad hack for vertical align middle
+			 * because display for this element is flex
+			 */
+			top: 7.75px;
+		}
+		.ForAd > img { /* Drawer "Google" */
 			height: 32px;
 		}
-		.N27tdc {
-			padding-top: 1px;
+		.N27tdc { /* Drawer "Finance" */
+			padding-top: 0.5px;
 		}
 	`);
 
