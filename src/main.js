@@ -4,8 +4,6 @@
  * Main class containing general methods; run when a Google domain is loaded.
  */
 
-// Enables debug logging. Should be false in packed copies of this extension:
-const DEBUG = true;
 class Timings { // Store timings profiles for fun when debugging:
 	// I'm aware a fully static class is a kind of spit in the face of OOP but
 	// 1. I don't care, and
@@ -106,12 +104,6 @@ let logos = [
 let supportedDomains = ["patents", "scholar", "books", "shopping", "news", "trends", "www", "images", "earth"];
 let supportedPages = ["/maps", "/videohp", "/finance", "/travel", "/", "/webhp", "/imghp", "/search"];
 
-let config, configFailed = false;
-let observersRunning = {
-	"schedule": false,  // schedule() observers
-	"continuous": false // Indefinite observers from replace.js
-};
-
 let subdomain = window.location.host.split(".")[0];
 let page = "/" + window.location.pathname.split("/")[1];
 
@@ -143,12 +135,11 @@ async function main() {
 	Timings.startTimer("dispatch");
 	dispatch();
 	log("Old Google finished its processing after " + Timings.endTimer("dispatch") + " ms", "success");
-	if(observersRunning.schedule || observersRunning.continuous)
+	if(runningObservers.schedule || runningObservers.continuous)
 		log("Setup is done, but some observers are still running. This is usually because some replacements require constant checks for page updates", "warn", "");
 }
 
-/*
- * void dispatch()
+/* void dispatch()
  * Dispatches a replace.js function based on the values of globals `subdomain`
  * and `page`
  */
@@ -211,8 +202,7 @@ function dispatch() {
 	}
 }
 
-/*
- * string getResource(string id)
+/* string getResource(string id)
  * Returns a moz-extension:// URI for the resource with the input
  * namespaced ID. Returns empty string if not found
  */
@@ -241,106 +231,7 @@ function getConfig(id) {
 	}
 }
 
-/*
- * string getCaller(boolean verbose, number level)
- * Returns a trace of the format:
- *     <module>.js:<ln>:<col>
- * or:
- *     <function>(), <module>.js:<ln>:<col>
- * - verbose defaults to false, but when true it prints a full stack trace
- * - level refers to the number of levels up from the call the trace should be
- *   referring to, e.g. calling GetCaller(0) in function foo() returns a trace
- *   pointing within foo() (so no levels up), getCaller(0) refers to whomever
- *   called foo(), etc. Defaults to 1
- */
-function getCaller(level=1, verbose=false) {
-	level++; let caller = "", trace, funct;
-	let error = (new Error).stack.split("\n")
-	/*
-	 * string FormatLine(number index)
-	 * Given the stack trace in `error` is an array of lines, FormatLine(index)
-	 * formats the JS trace in the Old Google debug style, returning the trace
-	 * at level `index`
-	 */
-	function FormatLine(i) {
-		// Throw an error and use its stack trace to get line called from:
-		trace = error[i].split("/");
-		funct = trace[0].split("@")[0];
-		if(funct) funct += "(), ";
-		return funct + trace[4];
-	}
-
-	if(verbose)
-		for(let i = level; i < error.length-1; i++) caller += FormatLine(i) + "\n";
-	else caller = FormatLine(level);
-	return caller;
-}
-
-/*
- * void log(string message, string? type, string? trace)
- * Fancy console.log() wrapper that only prints if the DEBUG const is true.
- * Prints an Old Google prefix alongside background colours for log types, and
- * a function/call trace to where this log was triggered from. Logs of type
- * "info" cannot have a trace—automatic nor manual
- * - type can be "log", "info", "warn", or "error". Defaults to "log"
- * - trace is a manual override for the auto-generated trace. Leaving it
- *   undefined auto-generates the trace. Leaving it as an empty string will
- *   prevent printing of the trace regardless of `type`
- */
-function log(message, type="log", trace=undefined) {
-	if(!DEBUG) return;
-
-	let color = {
-		"fg": "unset",
-		"bg": "unset",
-		"presets": {
-			// Source: https://firefox-source-docs.mozilla.org/devtools-user/devtoolscolors/index.html
-			"log": "unset",
-			"info": "#4d90fe64",
-			"warn": "#e5e60064", // -40% lightness
-			"error": "#eb536864",
-			"success": "#70bf5364",
-			// Non-Mozilla palette:
-			"googleblue": "#4d90fe",
-			"gray": "#222222",
-			"white": "#ffffff"
-		}		
-	};
-	let css = {
-		get reset() {
-			return "color:reset;background-color:reset;";
-		},
-		get logo() {
-			return "color:" + color.presets.gray + ";background-color:" + color.presets.googleblue + ";";
-		},
-		get logotext() {
-			return "color:" + color.presets.white + ";background-color:" + color.presets.googleblue + ";";
-		},
-		get currentType() {
-			return "color:unset;background-color:" + color.presets[type] + ";";
-		}
-	};
-
-	if(trace == undefined) trace = getCaller();
-	if(trace != "")        trace = "\n\n%c" + trace;
-	if(type == "info"      // Make sure no trace is providable for info-based logs:
-	|| type == "success"
-	|| trace == "")        trace = "%c";
-
-	console.log(
-		"%c[%cOld Google%c]%c %c" + message + trace,
-		css.logo, css.logotext, css.logo, // Prefix styles
-		css.reset, css.currentType,       // Message styles
-		css.reset                         // Caller styles:
-		+ "font-size:9px;"
-		+ "color:" + color.presets.googleblue + ";" 
-		+ "background-color:" + color.presets.white + "11;"
-		+ "text-decoration:underline;"
-	);
-}
-
-/*
- * void schedule(string[] selectors | string selector, function code)
+/* void schedule(string[] selectors | string selector, function code)
  * Takes querySelector() string(s) and runs the provided code once the earliest
  * element in the array (or just the single provided element) is loaded into DOM
  * Provides a DOMObject `loadedElement` for use in the code that corresponds to
@@ -363,7 +254,7 @@ function schedule(selectors, code) {
 			code(loadedElement); // Pass loaded element to caller's arrow function
 
 			if(mutationInstance != null) { // Running in observer:
-				observersRunning.schedule = false;
+				runningObservers.schedule = false;
 				mutationInstance.disconnect();
 				break;
 			} // Running in function scope:
@@ -379,11 +270,10 @@ function schedule(selectors, code) {
 		getLoadedElement(mutationInstance);
 	});
 	observer.observe(document, {childList: true, subtree: true});
-	observersRunning.schedule = true;
+	runningObservers.schedule = true;
 }
 
-/*
- * void injectCss(string styles, boolean? quickReplace)
+/* void injectCss(string styles, boolean? quickReplace)
  * Appends the given inline styles to the <head> element in a safe manner. Runs
  * when the body starts loading, unless quickReplace is true.
  * - quickReplace is to be true if this method is called from within a
@@ -392,7 +282,7 @@ function schedule(selectors, code) {
  *   creating too many observers
  */
 function injectCss(styles, quickReplace=false) {
-	log("Injecting CSS into document...");
+	log("Injecting CSS into document...", undefined, getCaller());
 	let tag = document.createElement("style");
 	tag.appendChild(document.createTextNode(styles));
 
@@ -406,13 +296,12 @@ function injectCss(styles, quickReplace=false) {
 	});	
 }
 
-/*
- * void setFavicon(string id, boolean? quickReplace)
+/* void setFavicon(string id, boolean? quickReplace)
  * Sets the favicon to the resource at the provided ID, safely.
  * - Like in injectCss(), the same quickReplace option is available here
  */
 function setFavicon(id, quickReplace=false) {
-	log("Setting favicon to " + id + "...");
+	log("Setting favicon to " + id + "...", undefined, getCaller());
 	let faviconElement = Object.assign(document.createElement("link"),
 		{rel: "icon", href: getResource(id)}
 	);

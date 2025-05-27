@@ -251,7 +251,12 @@
 				"*://*.google.vu/*",
 				"*://*.google.ws/*"
 			],
-			"js": ["src/replace.js", "src/configurator.js", "src/main.js"],
+			"js": [
+				"src/common.js",
+				"src/configurator.js",
+				"src/replace.js",
+				"src/main.js"
+			],
 			"run_at": "document_start"
 		}
 	]

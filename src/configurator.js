@@ -11,44 +11,6 @@
  */
 
 let inputs = document.querySelectorAll("input");
-let options = {
-	"greenUrls": {
-		"text": {
-			"en": "Remove breadcrumbs and restore classic text colours"
-		},
-		"default": true
-	},
-	"removePills": {
-		"text": {
-			"en": "Remove pills row from the top of results"
-		},
-		"default": true
-	},
-	"squareBox": {
-		"text": {
-			"en": "Make search boxes & results favicons square"
-		},
-		"default": true
-	},
-	"cleanResults": {
-		"text": {
-			"en": "Decrease padding between results and remove useless results gimmicks"
-		},
-		"default": true
-	},
-	"peopleAlsoSearchedFor": {
-		"text": {
-			"en": "Remove \"People also searched for\""
-		},
-		"default": true
-	},
-	"udm14": {
-		"text": {
-			"en": "Auto-redirect general searches to <code>&udm=14</code> (Google's <i>Web</i> search filter)"
-		},
-		"default": false
-	}
-};
 let lang = "en"; // Future feature for multiple language support
 
 /* async object loadConfig()
@@ -87,6 +49,7 @@ function migrate(config) {
 	function updateName(oldKey, newKey) {
 		if(!config[oldKey]) return; // oldKey doesn't exist
 
+		log("Migrating legacy config option \"" + oldKey + "\" to \"" + newKey + "\"");
 		if(!config[newKey]) config[newKey] = config[oldKey];
 		delete config[oldKey];
 	}
@@ -117,7 +80,7 @@ async function setupPopup() {
 		if(config[key]) {
 			try {document.querySelector("#" + key).checked = true}
 			catch(TypeError) {
-				console.err("Invalid config option \"" + key + "\"!");
+				log("Invalid config option \"" + key + "\"!", "error");
 			}
 		}
 	}

@@ -15,7 +15,7 @@
 		<div id="title"><h1>old <img src="/resources/google/logos/search.png" /></h1></div>
 		<div id="config">
 			<p><b>Additional configuration options:</b></p>
-			
+
 			<input type="checkbox" id="greenUrls" />
 			<label for="greenUrls">greenUrls</label><br>
 
@@ -35,6 +35,8 @@
 			<label for="udm14">udm14</label>
 		</div>
 		<div id="version"><p>You are running Old Google <code id="versionString">version unknown</code>.</p></div>
+		<!-- manifest.json doesn't apply to this page, so export common.js manually -->
+		<script src="/src/common.js"></script>
 		<!-- Must call event listener after element specification -->
 		<script src="/src/configurator.js"></script>
 	</body>

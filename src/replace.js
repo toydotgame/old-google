@@ -50,7 +50,7 @@ function replace_patents() {
 
 	injectPatents(); // MutationObserver does nothing on its own for the first run, hence manual invocation
 	pageChangeObserver.observe(document, {childList: true, subtree: true});
-	observersRunning.continuous = true;
+	runningObservers.continuous = true;
 }
 
 // No delay
@@ -495,7 +495,7 @@ function replace_search_results() {
 			// Breadcrumb removal is continuous as the user scrolls, so it never stops
 			removeBreadcrumbs();
 			pageChangeObserver.observe(document, {childList: true, subtree: true});
-			observersRunning.continuous = true;
+			runningObservers.continuous = true;
 		});
 	}
 
