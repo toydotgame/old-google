@@ -51,9 +51,12 @@ let options = {
 };
 let lang = "en"; // Future feature for multiple language support
 
-/* async void loadConfig()
- * Loads the plugin config into the previously declared `config` array.
- * Bodges in defaults if no config is found
+/* async object loadConfig()
+ * Returns an object of the user's configuration (v3.0.6+ format). If no user
+ * configuration is found, will set the user's config to the defaults and return
+ * that.
+ * Also handles migration from pre-v3.0.6 format for legacy users, and cleansing
+ * unused/legacy/invalid config keys
  */
 async function loadConfig() {
 	let config; // Initialise as null if storage.sync.get() fails to download
@@ -82,6 +85,29 @@ async function loadConfig() {
 		{"id": "squareBox",             "value": true},
 		{"id": "udm14",                 "value": false}
 	];
+}
+
+/* object migrateConfig(object[] oldConfig)
+ * Given an array of objects oldConfig, migrates v2.x config names to v3.0
+ * names, and migrates pre-v3.0.6 config structure to v3.0.6 structure—thus
+ * returning a config object instead of the old-style array
+ */
+function migrateConfig(oldConfig) {
+	/* void updateName(string oldKey, string newKey)
+	 * Sets newKey to the value of oldKey (migrating from an old name to a new
+	 * name). If newKey exists, oldKey and its value are discarded instead
+	 */
+	function updateName(oldKey, newKey) {
+		let oldI = oldConfig.findIndex(i => i.id == oldKey);
+		if(oldI == -1) return; // oldKey doesn't exist
+
+		let newI = oldConfig.findIndex(i => i.id == newKey);
+		if(newI == -1) oldConfig[oldI].id = newKey; // Replace the oldKey in-place with newKey's name
+		else oldConfig.splice(oldI, 1);
+	}
+
+	updateName("padding", "cleanResults");
+	updateName("removeRandRow", "removePills");
 }
 
 /* void setupPopup()
