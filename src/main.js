@@ -218,9 +218,10 @@ function getResource(id) {
  */
 function getConfig(id) {
 	if(configFailed) {
-		log("Config previously failed to load! Returning default value of \"" + id + "\"...");
-		if(id == "udm14") return false;
-		else return true;
+		log("Config previously failed to load! Returning default value of \"" + id + "\"...", "warn");
+		
+		if(options[id]) return options[id].default;
+		return false;
 	}
 
 	try {
