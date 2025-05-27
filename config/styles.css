@@ -1,17 +1,12 @@
 /*
  * AUTHOR: toydotgame
  * CREATED ON: 2024-06-06
- * Basic as Hell styles for the config window
+ * Basic as hell styles for the config window
  */
-
-@font-face {
-	font-family: "Open Sans";
-	src: url("Open Sans.ttf");
-}
 
 body {
 	background-image: linear-gradient(aliceblue, lightskyblue);
-	font-family: "Open Sans", "Arial", sans-serif;
+	font-family: "Arial", sans-serif;
 	font-weight: 450;
 }
 
