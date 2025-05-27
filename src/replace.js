@@ -145,27 +145,37 @@ function replace_shopping() {
 	log("Running replacement...");
 
 	injectCss(`
-		.uiDkff.FAZYFf > .Ws3Esf { /* Logo */
+		.tY4xY { /* Logo */
 			content: url("` + getResource("shopping_left") + `");
-			height: unset;
+			height: 32px !important;
 		}
-		.jmaXG { /* Subtitle */
+		.nTJncc { /* Subtitle */
 			content: url("` + getResource("shopping_right") + `");
 			height: 32px;
-			padding-left: 0;
+			margin-left: 0 !important;
+		}
+		.KjnGid { /* Drawer logo */
+			content: url("` + getResource("shopping") + `");
+			height: 32px !important;
+		}
+		/* Random h2 that has no content and creates redundant padding. This is
+		 * Google's fault. They suck. This is genuinely unneeded padding. Why?
+		 */
+		#tsuid_erw1aLrhFOiXseMPweeK8Qw_7 {
+			display: none;
 		}
 	`);
-	setFavicon("search_favicon");
+	setFavicon("search_alt_favicon");
 
 	if(!getConfig("squareBox")) return;
 	
 	log("Enabling squareBox...");
 	injectCss(`
-		.z86TMb { /* Search box */
-			border-radius: 2px;
+		.RNNXgb { /* Search box */
+			border-radius: 2px !important;
 		}
-		.fYz4Vc { /* Search suggestions dropdown */
-			border-radius: 0 0 2px 2px;
+		.aajZCb { /* Search suggestions dropdown */
+			border-radius: 0 0 2px 2px !important;
 		}
 	`);
 }

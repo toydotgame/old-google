@@ -101,16 +101,15 @@ let logos = [
 	{"id": "earth",               "src": browser.runtime.getURL("/resources/google/logos/earth.png")}
 ];
 
-let supportedDomains = ["patents", "scholar", "books", "shopping", "news", "trends", "www", "images", "earth"];
-let supportedPages = ["/maps", "/videohp", "/finance", "/travel", "/", "/webhp", "/imghp", "/search"];
+let supportedDomains = ["patents", "scholar", "books", "news", "trends", "www", "images", "earth"];
+let supportedPages = ["/maps", "/videohp", "/finance", "/travel", "/", "/webhp", "/imghp", "/search", "/shopping"];
 
 let subdomain = window.location.host.split(".")[0];
 let page = "/" + window.location.pathname.split("/")[1];
 
 if(supportedDomains.includes(subdomain) || supportedPages.includes(page)) main(); // End of execution if false
 
-/*
- * async void main()
+/* async void main()
  * Run if page is on a supported domain. Runs unique replace.js methods to replace logos
  */
 async function main() {
@@ -158,9 +157,6 @@ function dispatch() {
 			}
 			replace_books();
 			break;
-		case "shopping":
-			replace_shopping();
-			break;
 		case "news":
 			replace_news();
 			break;
@@ -197,6 +193,9 @@ function dispatch() {
 				case "/search":
 					replace_search_styles();
 					replace_search_results();
+					break;
+				case "/shopping":
+					replace_shopping();
 					break;
 			}
 	}
