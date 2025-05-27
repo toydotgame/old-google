@@ -340,21 +340,6 @@ function replace_search_styles() {
 	log("Running replacement...");
 
 	let css = `
-		/* Homepage Styles */
-		.k1zIA { /* Homepage logo container */
-			margin-top: auto;
-			max-height: 92px;
-		}
-		.lnXdpd { /* Homepage logo */
-			content: url("` + getResource("search") + `");
-			width: 272px;
-			height: 92px;
-		}
-		#hplogo, .SuUcIb { /* Doodle container, Homepage doodle share button */
-			display: none;
-		}
-		
-		/* Results Page Styles */
 		#logo, .logo > a > img { /* Regular results logo, Doodle logo */
 			content: url("` + getResource("search") + `");
 			width: 96px;
@@ -367,18 +352,6 @@ function replace_search_styles() {
 	if(getConfig("squareBox")) {
 		log("Enabling squareBox...");
 		css += `
-			/* Homepage Styles */
-			/* In respective order:
-			 * /webhp: Homepage search box
-			 * /imghp: Upload container, upload textarea, upload search button,
-			 *         inner upload container
-			 */
-			.RNNXgb, .ea0Lbe, .cB9M7, .Qwbd3, .gIYJUc {
-				border-radius: 2px !important;
-			}
-			.aajZCb { /* Homepage suggestions dropdown */
-				border-radius: 0 0 2px 2px !important;
-			}
 			/* Results Page Styles */
 			.H9lube, .UnOTSe img { /* Two styles of results favicon */
 				border-radius: 2px !important;
@@ -397,6 +370,40 @@ function replace_search_styles() {
 // Run after replace_search_styles()
 function replace_search_home() {
 	log("Running replacement...");
+
+	let css = `
+		.k1zIA { /* Homepage logo container */
+			margin-top: auto;
+			max-height: 92px;
+		}
+		.lnXdpd { /* Homepage logo */
+			content: url("` + getResource("search") + `");
+			width: 272px;
+			height: 92px;
+		}
+		#hplogo, .SuUcIb { /* Doodle container, Homepage doodle share button */
+			display: none;
+		}
+	`;
+
+	if(getConfig("squareBox")) {
+		log("Enabling squareBox...");
+		css += `
+			/* In respective order:
+			 * /webhp: Homepage search box
+			 * /imghp: Upload container, upload textarea, upload search button,
+			 *         inner upload container
+			 */
+			.RNNXgb, .ea0Lbe, .cB9M7, .Qwbd3, .gIYJUc {
+				border-radius: 2px !important;
+			}
+			.aajZCb { /* Homepage suggestions dropdown */
+				border-radius: 0 0 2px 2px !important;
+			}
+		`;
+	}
+	
+	injectCss(css);
 	
 	if(subdomain != "www" || page == "/imghp") return;
 
