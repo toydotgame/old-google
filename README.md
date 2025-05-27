@@ -52,11 +52,11 @@ This includes logo replacement where possible, and custom era-appropriate favico
 * [x] [Books](https://books.google.com/)
 	* [x] [Ngrams Viewer](https://books.google.com/ngrams/)
 * [x] [Maps](https://www.google.com/maps)
-* [ ] [Finance](https://www.google.com/finance/)
-* [ ] [Shopping](https://shopping.google.com/)
-* [ ] [News](https://news.google.com/home)
-* [ ] [Travel](https://www.google.com/travel/) (including Google Flights)
-* [ ] [Trends](https://trends.google.com/trends/)
+* [x] [Finance](https://www.google.com/finance/)
+* [x] [Shopping](https://shopping.google.com/)
+* [x] [News](https://news.google.com/home)
+* [x] [Travel](https://www.google.com/travel/) (including Google Flights)
+* [x] [Trends](https://trends.google.com/trends/)
 * [x] [Google Earth](https://earth.google.com/web/) (support is rudimentary due to the fact that Google Earth is mostly a canvas, which isn't within the scope I can access)
 
 ## History
