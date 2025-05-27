@@ -299,14 +299,19 @@ function replace_travel() {
 	log("Running replacement...");
 
 	injectCss(`
-		.gb_Ld.gb_3d {
+		.gb_Pd.gb_7d {
 			content: url("` + getResource("search") + `");
 			height: unset;
 		}
 	`);
 
-	document.addEventListener("DOMContentLoaded", ()=>{ // Google defers favicon load
-		setFavicon("search_favicon", true);
+	// Google defers favicon load. This is a horrible hack to make the favicon
+	// <link>s it appends break, as removing them or just their href properties
+	// doesn't work in correctly suppressing them
+	document.addEventListener("DOMContentLoaded", ()=>{
+		let favicons = document.querySelectorAll('link[rel="icon"]');
+		for(let i = 0; i < favicons.length; i++) favicons[i].href += ".old-google-removed";
+		setFavicon("search_alt_favicon", true);
 	});
 }
 
