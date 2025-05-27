@@ -14,10 +14,10 @@ let inputs = document.querySelectorAll("input");
 let lang = "en"; // Future feature for multiple language support
 
 /* async object loadConfig()
- * Returns an object of the user's configuration (v3.0.6+ format). If no user
+ * Returns an object of the user's configuration (v3.1+ format). If no user
  * configuration is found, will set the user's config to the defaults and return
  * that.
- * Also handles migration from pre-v3.0.6 format for legacy users, and cleansing
+ * Also handles migration from pre-v3.1 format for legacy users, and cleansing
  * unused/legacy/invalid config keys
  */
 async function loadConfig() {
@@ -37,8 +37,8 @@ async function loadConfig() {
 
 /* object migrate(object config)
  * Given the user's configuration (object yielded from storage.sync.get()),
- * migrates v2.x config names to v3.0 names, and migrates pre-v3.0.6 config
- * structure to v3.0.6 structure. This can be run on outdated/
+ * migrates v2.x config names to v3.0 names, and migrates pre-v3.1 config
+ * structure to v3.1 structure. This can be run on outdated/
  * partially-out-of-date/up-to-date config objects to ensure format
  */
 function migrate(config) {
