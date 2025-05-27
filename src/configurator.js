@@ -2,15 +2,56 @@
  * AUTHOR: toydotgame
  * CREATED ON: 2024-06-06
  * Listens to checkbox state changes in the toolbar window and updates storage.
+ * Used primarily for user configuration in that popup, but also provides some
+ * functions used in other modules for config loading and handling.
+ * 
  * Because this is called by a <script> tag in popup.html that is placed AFTER
  * the page content, we can run right away with the assumption the page elements
  * are all loaded (because they are)
  */
 
 let inputs = document.querySelectorAll("input");
+let options = {
+	"greenUrls": {
+		"text": {
+			"en": "Remove breadcrumbs and restore classic text colours"
+		},
+		"default": true
+	},
+	"removePills": {
+		"text": {
+			"en": "Remove pills row from the top of results"
+		},
+		"default": true
+	},
+	"squareBox": {
+		"text": {
+			"en": "Make search boxes & results favicons square"
+		},
+		"default": true
+	},
+	"cleanResults": {
+		"text": {
+			"en": "Decrease padding between results and remove useless results gimmicks"
+		},
+		"default": true
+	},
+	"peopleAlsoSearchedFor": {
+		"text": {
+			"en": "Remove \"People also searched for\""
+		},
+		"default": true
+	},
+	"udm14": {
+		"text": {
+			"en": "Auto-redirect general searches to <code>&udm=14</code> (Google's <i>Web</i> search filter)"
+		},
+		"default": false
+	}
+};
+let lang = "en"; // Future feature for multiple language support
 
-/* 
- * async void loadConfig()
+/* async void loadConfig()
  * Loads the plugin config into the previously declared `config` array.
  * Bodges in defaults if no config is found
  */
@@ -43,7 +84,13 @@ async function loadConfig() {
 	];
 }
 
-if(window.location.protocol == "moz-extension:") { // Only run active code if its within the addon popup window
+/* void setupPopup()
+ * Sets up the popup HTML. Quits if called anywhere other than from popup.html's
+ * toolbar window
+ */
+function setupPopup() {
+	if(window.location.protocol != "moz-extension:") return;
+
 	// Get inputs from config and set "checked" value on page load:
 	document.addEventListener("DOMContentLoaded", async ()=>{
 		let config = await loadConfig();
@@ -65,5 +112,14 @@ if(window.location.protocol == "moz-extension:") { // Only run active code if it
 		});
 	}
 
+	// Set the text contents of elements on the page:
+	for(let i = 0; i < inputs.length; i++) {
+		let id = inputs[i].id;
+		let label = document.querySelector('label[for="' + id + '"]');
+		console.log("id: " + id + ", label: " + label + ", content: " + options[id].text[lang]);
+		if(label) label.innerHTML = options[id].text[lang]; // Not unsafe because the options object is hardcoded
+	}
 	document.querySelector("#versionString").textContent = "v" + browser.runtime.getManifest().version;
 }
+
+setupPopup();

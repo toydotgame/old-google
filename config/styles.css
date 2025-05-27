@@ -37,6 +37,10 @@ img {
 	text-shadow: 1px 1px 3.5px #44444480;
 }
 
+#config p {
+	margin: 0; /* Consequence of no border-box or margin/padding resets in body selector */
+}
+
 input {
 	box-shadow: 1px 1px 3.5px #44444480;
 }
