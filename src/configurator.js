@@ -142,7 +142,6 @@ function setupPopup() {
 	for(let i = 0; i < inputs.length; i++) {
 		let id = inputs[i].id;
 		let label = document.querySelector('label[for="' + id + '"]');
-		console.log("id: " + id + ", label: " + label + ", content: " + options[id].text[lang]);
 		if(label) label.innerHTML = options[id].text[lang]; // Not unsafe because the options object is hardcoded
 	}
 	document.querySelector("#versionString").textContent = "v" + browser.runtime.getManifest().version;
