@@ -143,6 +143,7 @@ async function main() {
  * and `page`
  */
 function dispatch() {
+	replace_de_google_sans();
 	switch(subdomain) {
 		case "patents":
 			replace_patents();

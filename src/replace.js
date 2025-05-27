@@ -595,3 +595,30 @@ function replace_search_results() {
 		injectCss(css, true);
 	});
 }
+
+// Run first on all pages
+function replace_de_google_sans() {
+	log("Removing Google Sans...");
+
+	let css = `
+		/* Search box */
+		#APjFqb, .aajZCb, #fprs, #oc-search-input, #ngram-query, #searchInput, .fontBodyMedium, .ZAGvjd, .KfXsid {
+			/* Search area <textarea>,
+			 * homepage suggestions dropdown
+			 * "Showing results for" text
+			 * Google Books search box
+			 * Ngrams viewer search box
+			 * Patents search box
+			 * Maps search box & results
+			 * News search box (placeholder and input elements' common class)
+			 * News dropdown result text
+			 */
+			font-family: "Arial", sans-serif !important;
+		}
+		.UUbT9 b { /* Homepage dropdown bold suggestion text */
+			font-family: unset !important;
+		}
+	`;
+
+	injectCss(css);
+}
