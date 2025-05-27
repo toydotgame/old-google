@@ -222,8 +222,7 @@ function getResource(id) {
 	} catch(TypeError) {return ""}
 }
 
-/*
- * boolean getConfig(string id)
+/* boolean getConfig(string id)
  * Returns true/false for given input setting ID.
  * Returns false if key does not exist
  */
@@ -233,9 +232,9 @@ function getConfig(id) {
 		if(id == "udm14") return false;
 		else return true;
 	}
-	
+
 	try {
-		return config.find(x => x.id == id).value;
+		return config[id];
 	} catch(TypeError) {
 		log("Failed to get config value for \"" + id + "\"!", "error");
 		return false;

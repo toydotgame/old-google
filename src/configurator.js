@@ -59,82 +59,75 @@ let lang = "en"; // Future feature for multiple language support
  * unused/legacy/invalid config keys
  */
 async function loadConfig() {
-	let config; // Initialise as null if storage.sync.get() fails to download
-	config = await browser.storage.sync.get().then(result => {
-		let values = Object.entries(result);
-		for(let i = 0; i < values.length; i++)
-			values[i] = {"id": values[i][0], "value": values[i][1][0]};
-		return values;
-	});
-	if(config != null && config.length > 0) return config;
+	let config; // Initialise as null if storage.sync.get() fails
+	config = await browser.storage.sync.get();
+	// If config is null, storage.sync.get() failed. If the length of the object
+	// is falsy, then there's no config for this user. Ergo, if this is true and
+	// truthy respectively, there must be a user config, which we return.
+	// getConfig() in main.js handles missing config keys—we're just loading it
+	if(config != null && Object.keys(config).length) return config;
 	
-	// Default settings: (if no user config exists)
-	browser.storage.sync.set({
-		greenUrls:             [true],
-		cleanResults:          [true],
-		peopleAlsoSearchedFor: [true],
-		removePills:           [true],
-		squareBox:             [true],
-		udm14:                 [false]
-	});
-	return [
-		{"id": "greenUrls",             "value": true},
-		{"id": "cleanResults",          "value": true},
-		{"id": "peopleAlsoSearchedFor", "value": true},
-		{"id": "removePills",           "value": true},
-		{"id": "squareBox",             "value": true},
-		{"id": "udm14",                 "value": false}
-	];
+	// Return defaults if no user config exists:
+	for(let key in options) config[key] = options[key].default;
+	await browser.storage.sync.set(config); // Save defaults to user config
+	return config;
 }
 
-/* object migrateConfig(object[] oldConfig)
- * Given an array of objects oldConfig, migrates v2.x config names to v3.0
- * names, and migrates pre-v3.0.6 config structure to v3.0.6 structure—thus
- * returning a config object instead of the old-style array
+/* object migrate(object config)
+ * Given the user's configuration (object yielded from storage.sync.get()),
+ * migrates v2.x config names to v3.0 names, and migrates pre-v3.0.6 config
+ * structure to v3.0.6 structure. This can be run on outdated/
+ * partially-out-of-date/up-to-date config objects to ensure format
  */
-function migrateConfig(oldConfig) {
+function migrate(config) {
 	/* void updateName(string oldKey, string newKey)
 	 * Sets newKey to the value of oldKey (migrating from an old name to a new
 	 * name). If newKey exists, oldKey and its value are discarded instead
 	 */
 	function updateName(oldKey, newKey) {
-		let oldI = oldConfig.findIndex(i => i.id == oldKey);
-		if(oldI == -1) return; // oldKey doesn't exist
+		if(!config[oldKey]) return; // oldKey doesn't exist
 
-		let newI = oldConfig.findIndex(i => i.id == newKey);
-		if(newI == -1) oldConfig[oldI].id = newKey; // Replace the oldKey in-place with newKey's name
-		else oldConfig.splice(oldI, 1);
+		if(!config[newKey]) config[newKey] = config[oldKey];
+		delete config[oldKey];
 	}
 
 	updateName("padding", "cleanResults");
 	updateName("removeRandRow", "removePills");
+
+	// Old config options were stored as boolean[] of length 1. We only adapt
+	// the entries we know are Arrays because4 they are 
+	for(let key in config)
+		if(Array.isArray(config[key]))
+			config[key] = config[key][0];
+
+	return config;
 }
 
 /* void setupPopup()
  * Sets up the popup HTML. Quits if called anywhere other than from popup.html's
  * toolbar window
  */
-function setupPopup() {
+async function setupPopup() {
 	if(window.location.protocol != "moz-extension:") return;
 
 	// Get inputs from config and set "checked" value on page load:
-	document.addEventListener("DOMContentLoaded", async ()=>{
-		let config = await loadConfig();
+	let config = await loadConfig();
 
-		for(let i = 0; i < config.length; i++) {
-			if(config[i].value) {
-				try {document.querySelector("#" + config[i].id).checked = true}
-				catch(TypeError) { // ID of found option is a legacy name not in use on the popup:
-					log("User has legacy config option \"" + config[i].id + "\" in their browser! This will be ignored.", "warn");
-				}
+	for(let key in config) {
+		if(config[key]) {
+			try {document.querySelector("#" + key).checked = true}
+			catch(TypeError) {
+				console.err("Invalid config option \"" + key + "\"!");
 			}
 		}
-	});
+	}
 
 	// Event listen for check changes and save to config:
 	for(let i = 0; i < inputs.length; i++) {
 		inputs[i].addEventListener("change", ()=>{
-			browser.storage.sync.set({[this.id]: [this.checked]});
+			// inputs[i].id|checked is evaluated at event dispatch time, so each
+			// input does correctly get their respective storage.sync.set() cmd:
+			browser.storage.sync.set({[inputs[i].id]: inputs[i].checked});
 		});
 	}
 
