@@ -196,12 +196,12 @@ function replace_trends() {
 	log("Running replacement...");
 
 	injectCss(`
-		.gb_Ld.gb_3d { /* Homepage logo */
+		.gb_Pd.gb_7d { /* Homepage logo */
 			content: url("` + getResource("trends") + `");
 			height: unset;
 			vertical-align: middle;
 		}
-		.gb_qd.gb_8c { /* Homepage subtitle */
+		.gb_ud.gb_bd { /* Homepage subtitle */
 			display:none;
 		}
 		.google-logo { /* Results logo and drawer logo */
