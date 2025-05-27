@@ -251,7 +251,7 @@ function schedule(selectors, code) {
 			} catch(TypeError) {}
 			if(loadedElement == null) continue;
 
-			log(instanceName + ": Element found, executing code and terminating...", undefined, "");
+			log(instanceName + ": Element found, executing code and terminating...", undefined, getCaller(3));
 			code(loadedElement); // Pass loaded element to caller's arrow function
 
 			if(mutationInstance != null) { // Running in observer:
