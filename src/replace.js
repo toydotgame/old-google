@@ -413,6 +413,11 @@ function replace_search_home() {
 function replace_search_results() {
 	log("Running replacement...");
 
+	schedule("#fprs", typoNotif => {
+		// Should be safe because replacement value is hardcoded
+		typoNotif.innerHTML = typoNotif.innerHTML.replace("These are results for", "Showing results for");
+	}); // Not optimal because this observer never closes on non-typo searches
+
 	if(getConfig("udm14")) {
 		if(new URLSearchParams(window.location.search).get("udm") == null) {
 			window.location.replace(window.location + "&udm=14");

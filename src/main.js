@@ -254,7 +254,7 @@ function schedule(selectors, code) {
 			log(instanceName + ": Element found, executing code and terminating...", undefined, getCaller(3));
 			code(loadedElement); // Pass loaded element to caller's arrow function
 
-			if(mutationInstance != null) { // Running in observer:
+			if(mutationInstance) { // Running in observer:
 				runningObservers.schedule = false;
 				mutationInstance.disconnect();
 				break;
