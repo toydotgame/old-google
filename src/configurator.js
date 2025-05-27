@@ -1,7 +1,10 @@
 /*
  * AUTHOR: toydotgame
  * CREATED ON: 2024-06-06
- * Listens to checkbox state changes in the toolbar window and updates storage
+ * Listens to checkbox state changes in the toolbar window and updates storage.
+ * Because this is called by a <script> tag in popup.html that is placed AFTER
+ * the page content, we can run right away with the assumption the page elements
+ * are all loaded (because they are)
  */
 
 let inputs = document.querySelectorAll("input");
