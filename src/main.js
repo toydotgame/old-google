@@ -297,7 +297,7 @@ function injectCss(styles, quickReplace=false) {
 	});	
 }
 
-/* void setFavicon(string id, string mode)
+/* void setFavicon(string id, string? mode)
  * Sets the favicon to the resource at the provided ID, safely.
  * - mode is a string that can be "normal", "quick", or "deferred". Defaults to
  *   "normal"

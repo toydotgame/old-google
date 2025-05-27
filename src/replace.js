@@ -175,20 +175,18 @@ function replace_news() {
 	log("Running replacement...");
 
 	injectCss(`
-		.gb_Ld.gb_3d { /* Logo */
+		.gb_Pd.gb_7d { /* Logo */
 			content: url("` + getResource("news_left") + `");
 			height: unset;
 		}
-		.gb_qd.gb_8c { /* Subtitle */
+		.gb_ud.gb_bd { /* Subtitle */
 			content: url("` + getResource("news_right") + `");
 			height: 32px;
 			padding-left: 0;
 		}
 	`);
 
-	document.addEventListener("DOMContentLoaded", ()=>{ // Like with Finance, News defers the favicon horribly too
-		setFavicon("news_favicon", true);
-	});
+	setFavicon("news_favicon", "deferred");
 }
 
 // No delay
@@ -232,9 +230,7 @@ function replace_maps() {
 			background-size: 324px;
 		}
 	`);
-	schedule('link[rel="shortcut icon"', ()=>{ // Maps defers its favicon for some reason so we wait for it (because CSS injection is too fast)
-		setFavicon("maps_favicon", true);
-	});
+	setFavicon("maps_favicon", "deferred");
 }
 
 // No delay
@@ -287,11 +283,8 @@ function replace_finance() {
 		}
 	`);
 
-	// Finance favicon is super deferred for some reason, and even then the
-	// below patch sometimes doesn't work.
-	document.addEventListener("DOMContentLoaded", ()=>{
-		setFavicon("finance_favicon", true);
-	});
+
+	setFavicon("finance_favicon", "deferred");
 }
 
 // No delay
@@ -305,14 +298,7 @@ function replace_travel() {
 		}
 	`);
 
-	// Google defers favicon load. This is a horrible hack to make the favicon
-	// <link>s it appends break, as removing them or just their href properties
-	// doesn't work in correctly suppressing them
-	document.addEventListener("DOMContentLoaded", ()=>{
-		let favicons = document.querySelectorAll('link[rel="icon"]');
-		for(let i = 0; i < favicons.length; i++) favicons[i].href += ".old-google-removed";
-		setFavicon("search_alt_favicon", true);
-	});
+	setFavicon("search_alt_favicon", "deferred");
 }
 
 // No delay
