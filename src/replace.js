@@ -383,6 +383,10 @@ function replace_search_styles() {
 		.IormK { /* Doodle background */
 			display:none;
 		}
+
+		.emcav .iblpc { /* Dropdown enabled search box class+left-hand search icon */
+			padding-right: 10px !important;
+		}
 	`;
 
 	if(getConfig("squareBox")) {
