@@ -419,7 +419,7 @@ function replace_search_results() {
 	}); // Not optimal because this observer never closes on non-typo searches
 
 	if(getConfig("udm14")) {
-		if(new URLSearchParams(window.location.search).get("udm") == null) {
+		if(!(new URLSearchParams(window.location.search).get("udm"))) {
 			window.location.replace(window.location + "&udm=14");
 			log("Redirected from non-udm=14 page");
 		}
