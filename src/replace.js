@@ -542,12 +542,15 @@ function replace_search_results() {
 			.MjjYud, .cUnQKe { /* General containers, People also searched for */
 				margin-bottom: 16px !important;
 			}
-			.ULSxyf:nth-child(2), #appbar, #OotqVd, #taw, #nMJCib {
+			.ULSxyf:nth-child(2), #appbar, #OotqVd, #taw, #nMJCib, .kb0PBd:has(div[role="list"]), .rLrQHf, .M8OgIe {
 				/* Top result extract
 				 * Appbar
 				 * 404 yeti
 				 * Definitions hint
 				 * Define button
+				 * Result pills row
+				 * Search predictions gimmick area on the right
+				 * Gemini response
 				 */
 				display: none;
 			}
@@ -560,9 +563,6 @@ function replace_search_results() {
 			}
 			.UUbT9 { /* Search predictions */
 				width: 565px !important;
-			}
-			.rLrQHf, .M8OgIe { /* Search predictions gimmick area on the right, Gemini response */
-				display: none;
 			}
 			.DKV0Md { /* Result title gap below site info line */
 				margin-top: 10px !important;
