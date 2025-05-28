@@ -160,8 +160,9 @@ function replace_shopping() {
 		}
 		/* Random h2 that has no content and creates redundant padding. This is
 		 * Google's fault. They suck. This is genuinely unneeded padding. Why?
+		 * Not only that, but the id of the element is dynamic for some reason?
 		 */
-		#tsuid_erw1aLrhFOiXseMPweeK8Qw_7 {
+		.Z2z9ye h2[id] {
 			display: none;
 		}
 	`);
