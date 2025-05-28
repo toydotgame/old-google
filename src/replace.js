@@ -552,7 +552,6 @@ function replace_search_results() {
 				display: none;
 			}
 			.s6JM6d, .sBbkle { /* Results container, Results tabs */
-				margin-left: calc(var(--center-abs-margin) / 1.5);
 				padding-left: 0;
 			}
 			.RNNXgb { /* Search box */
