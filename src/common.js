@@ -32,6 +32,12 @@ let options = {
 		},
 		"default": true
 	},
+	"removeSearchButton": {
+		"text": {
+			"en": "Remove the search button from the end of the search box"
+		},
+		"default": false
+	},
 	"peopleAlsoSearchedFor": {
 		"text": {
 			"en": "Remove \"People also searched for\""
