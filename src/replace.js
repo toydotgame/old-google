@@ -566,11 +566,15 @@ function replace_search_results() {
 				padding-left: 0;
 			}
 			.RNNXgb { /* Search box */
+				/* Arbitrary limit on max width of search box, duplicated by the
+				 * predictions container below. I think this limit comes from a
+				 * genuine 2011–2013-era Google search box size. I think
+				 */
 				max-width: 565px;
 				margin: unset !important;
 			}
 			.UUbT9 { /* Search predictions */
-				width: 565px !important;
+				max-width: 565px !important;
 			}
 			.DKV0Md { /* Result title gap below site info line */
 				margin-top: 10px !important;
