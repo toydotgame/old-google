@@ -563,10 +563,10 @@ function replace_search_results() {
 				 * Result pills row
 				 * Search predictions gimmick area on the right
 				 * Gemini response
-				 * Search bar clear/mic/images button container
+				 * Search bar clear/mic/images button container (requires !important)
 				 * Search bar search button
 				 */
-				display: none;
+				display: none !important;
 			}
 			.s6JM6d, .sBbkle { /* Results container, Results tabs */
 				padding-left: 0;
