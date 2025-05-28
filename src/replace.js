@@ -383,10 +383,6 @@ function replace_search_styles() {
 		.IormK { /* Doodle background */
 			display:none;
 		}
-
-		.emcav .iblpc { /* Dropdown enabled search box class+left-hand search icon */
-			padding-right: 10px !important;
-		}
 	`;
 
 	if(getConfig("squareBox")) {
@@ -414,6 +410,15 @@ function replace_search_styles() {
 			}
 		`;
 	}
+
+	if(getConfig("cleanResults")) {
+		log("Removing search box extra buttons...");
+		css += `
+			.dRYYxd { /* Search bar clear/mic/images button container */
+				display: none !important;
+			}
+		`;
+	}
 	
 	injectCss(css);
 	setFavicon("search_favicon");
@@ -422,6 +427,15 @@ function replace_search_styles() {
 // Run after replace_search_styles()
 function replace_search_home() {
 	log("Running replacement...");
+
+	injectCss(`
+		.iblpc { /* Left-hand search icon */
+			/* Same as the replace_search_results() equivalent, but we need this
+			 * to apply without the selected class from the search box too
+			 */
+			padding-right: 10px !important;
+		}
+	`);
 	
 	if(subdomain != "www" || page == "/imghp") return;
 
@@ -457,6 +471,9 @@ function replace_search_results() {
 			height: 24px !important;
 			padding: 0 8px !important;
 			filter: drop-shadow(1px 1px 3px #000);
+		}
+		.emcav .iblpc { /* Dropdown enabled search box class+left-hand search icon */
+			padding-right: 10px !important;
 		}
 
 		/* Footer "Goooooooooogle" page selector */
@@ -554,7 +571,7 @@ function replace_search_results() {
 			.MjjYud, .cUnQKe { /* General containers, People also searched for */
 				margin-bottom: 16px !important;
 			}
-			.ULSxyf:nth-child(2), #appbar, #OotqVd, #taw, #nMJCib, .kb0PBd:has(div[role="list"]), .rLrQHf, .M8OgIe, .dRYYxd {
+			.ULSxyf:nth-child(2), #appbar, #OotqVd, #taw, #nMJCib, .kb0PBd:has(div[role="list"]), .rLrQHf, .M8OgIe {
 				/* Top result extract
 				 * Appbar
 				 * 404 yeti
@@ -563,9 +580,8 @@ function replace_search_results() {
 				 * Result pills row
 				 * Search predictions gimmick area on the right
 				 * Gemini response
-				 * Search bar clear/mic/images button container (requires !important)
 				 */
-				display: none !important;
+				display: none;
 			}
 			.s6JM6d, .sBbkle { /* Results container, Results tabs */
 				padding-left: 0;
