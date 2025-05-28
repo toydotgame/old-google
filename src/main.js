@@ -224,12 +224,11 @@ function getConfig(id) {
 		return false;
 	}
 
-	try {
-		return config[id];
-	} catch(TypeError) {
-		log("Failed to get config value for \"" + id + "\"!", "error");
-		return false;
-	}
+	let value = config[id];
+	if(value != null) return value;
+	
+	log("Failed to get config value for \"" + id + "\"!", "error");
+	return false;
 }
 
 /* void schedule(string[] selectors | string selector, function code)
