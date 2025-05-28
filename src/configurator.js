@@ -28,7 +28,7 @@ async function loadConfig() {
 	// truthy respectively, there must be a user config, which we return.
 	// getConfig() in main.js handles missing config keys—we're just loading it
 	if(config != null && Object.keys(config).length) {
-		config = migrate(config);
+		config = await migrate(config);
 		return config;
 	}
 	
@@ -44,7 +44,7 @@ async function loadConfig() {
  * structure to v3.1 structure. This can be run on outdated/
  * partially-out-of-date/up-to-date config objects to ensure format
  */
-function migrate(config) {
+async function migrate(config) {
 	/* void updateName(string oldKey, string newKey)
 	 * Sets newKey to the value of oldKey (migrating from an old name to a new
 	 * name). If newKey exists, oldKey and its value are discarded instead
@@ -65,8 +65,13 @@ function migrate(config) {
 	for(let key in config)
 		if(Array.isArray(config[key])) config[key] = config[key][0];
 	// Finally, add default values of options users do not have configs for:
-	for(let key in options)
-		if(!config[key]) config[key] = options[key].default;
+	for(let key in options) {
+		if(config[key] != null) continue; // Must explicitly check for null values, not truthy, to see if the key does not exist
+		
+		log(key + " does not exist, setting to default: " + options[key].default);
+		config[key] = options[key].default;
+		await browser.storage.sync.set({[key]: config[key]}); // Save before continuing
+	}
 
 	return config;
 }
