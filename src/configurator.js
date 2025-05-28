@@ -61,10 +61,12 @@ function migrate(config) {
 	updateName("removeRandRow", "removePills");
 
 	// Old config options were stored as boolean[] of length 1. We only adapt
-	// the entries we know are Arrays because4 they are 
+	// the entries we know are Arrays because they are 
 	for(let key in config)
-		if(Array.isArray(config[key]))
-			config[key] = config[key][0];
+		if(Array.isArray(config[key])) config[key] = config[key][0];
+	// Finally, add default values of options users do not have configs for:
+	for(let key in options)
+		if(!config[key]) config[key] = options[key].default;
 
 	return config;
 }
