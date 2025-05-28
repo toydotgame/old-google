@@ -123,7 +123,7 @@ async function main() {
 		config = await loadConfig();
 		log("Config loaded:", "info"); if(DEBUG) console.table(config);
 	} catch {
-		log("Config loading failed catastrophically! Choosing to quit instead of continue");
+		log("Config loading failed catastrophically! Choosing to quit instead of continue", "error");
 		if(!DEBUG) return;
 		// If debugging, continue execution, but enable a flag to warn whenever
 		// config values are fetched:
