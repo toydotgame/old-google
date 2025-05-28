@@ -447,6 +447,14 @@ function replace_search_results() {
 	}
 
 	let css = `
+		.FgNLaf { /* Search box narrow viewport logo container */
+			content: url("` + getResource("g") + `");
+			width: 24px !important;
+			height: 24px !important;
+			padding: 0 8px !important;
+			filter: drop-shadow(1px 1px 3px #000);
+		}
+
 		/* Footer "Goooooooooogle" page selector */
 		.SJajHc {
 			background: url("` + getResource("nav") + `") no-repeat !important;
