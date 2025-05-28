@@ -27,7 +27,10 @@ async function loadConfig() {
 	// is falsy, then there's no config for this user. Ergo, if this is true and
 	// truthy respectively, there must be a user config, which we return.
 	// getConfig() in main.js handles missing config keys—we're just loading it
-	if(config != null && Object.keys(config).length) return config;
+	if(config != null && Object.keys(config).length) {
+		config = migrate(config);
+		return config;
+	}
 	
 	// Return defaults if no user config exists:
 	for(let key in options) config[key] = options[key].default;
