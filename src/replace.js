@@ -165,6 +165,14 @@ function replace_shopping() {
 		.Z2z9ye h2[id] {
 			display: none;
 		}
+
+		/* Styles taken from replace_search_styles(), as Shopping has the same search bar as Search */
+		:root {
+			color-scheme: light dark !important;
+		}
+		.RNNXgb { /* Search box */
+			background-color: light-dark(#fff, #303134) !important;
+		}
 	`);
 	setFavicon("search_alt_favicon");
 
@@ -363,6 +371,9 @@ function replace_search_styles() {
 		#hplogo, .SuUcIb { /* Doodle container, Homepage doodle share button */
 			display: none;
 		}
+		.RNNXgb { /* Search box */
+			background-color: light-dark(#fff, #303134) !important; /* Colour taken from dark mode :hover bg */
+		}
 		
 		/* Results Page Styles */
 		#logo, .logo > a > img { /* Regular results logo, Doodle logo */
@@ -491,8 +502,7 @@ function replace_search_results() {
 			}
 		`;
 		
-		/*
-		 * void removeBreadcrumbs()
+		/* void removeBreadcrumbs()
 		 * Function called on every page update, replacing the fancy formatted
 		 * page addresses in results with regular slashes. Old-formatted results
 		 * are marked as .old-google-debreadcrumbed, and are thus ineligible for
