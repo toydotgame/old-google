@@ -560,8 +560,7 @@ function replace_search_results() {
 				margin: unset !important;
 			}
 			.UUbT9 { /* Search predictions */
-				width: 567px !important;
-				margin-top: -2px !important;
+				width: 565px !important;
 			}
 			.rLrQHf, .M8OgIe { /* Search predictions gimmick area on the right, Gemini response */
 				display: none;
