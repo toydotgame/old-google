@@ -340,6 +340,15 @@ function replace_search_styles() {
 	log("Running replacement...");
 
 	let css = `
+		:root {
+			/* Google forgets to specify color scheme on the hp (properly at
+			 * least), and on results pages 2+ (when not reloading). Specifying
+			 * a \`light dark\` color-scheme manually enables us to use
+			 * \`light-dark()\` without error
+			 */
+			color-scheme: light dark !important;
+		}
+
 		/* Homepage Styles */
 		.k1zIA { /* Homepage logo container */
 			margin-top: auto;
@@ -582,23 +591,7 @@ function replace_search_results() {
 		`;
 	}
 
-	// Deferred 'till body is loaded so that document.body is a valid object
-	schedule("body", ()=>{
-		// Manually add color-scheme value for greenUrls light-dark() CSS:
-		if(getComputedStyle(document.body).getPropertyValue("background-color") != "rgb(255, 255, 255)") { // if(isDarkMode)
-			css += `
-				:root {
-					/* Overridden by Google's JS anyway, but if results page > 1,
-					 * Google forgets to add in the color-scheme value.
-					 * We need this value for later light-dark() styles that
-					 * require the search results page has made up its mind
-					 */
-					color-scheme: dark;
-				}
-			`;
-		}
-		injectCss(css, true);
-	});
+	injectCss(css);
 }
 
 // Run first on all pages
