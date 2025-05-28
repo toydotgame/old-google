@@ -220,13 +220,13 @@ function getConfig(id) {
 	if(configFailed) {
 		log("Config previously failed to load! Returning default value of \"" + id + "\"...", "warn", getCaller());
 		
-		if(options[id]) return options[id].default;
+		if(options[id] != null) return options[id].default;
 		return false;
 	}
 
 	let value = config[id];
 	if(value != null) return value;
-	
+
 	log("Failed to get config value for \"" + id + "\"!", "error");
 	return false;
 }
