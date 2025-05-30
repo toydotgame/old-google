@@ -566,7 +566,7 @@ function replace_search_results() {
 			.MjjYud, .cUnQKe { /* General containers, People also searched for */
 				margin-bottom: 16px !important;
 			}
-			.ULSxyf:nth-child(2), data-st-tgt="appbar", #OotqVd, #taw, #nMJCib, .kb0PBd:has(div[role="list"]), .rLrQHf, .M8OgIe, #bqHHPb div[data-hveid="CBMQAA"], .GeEc1b {
+			.ULSxyf:nth-child(2), div[data-st-tgt="appbar"], #OotqVd, #taw, #nMJCib, .kb0PBd:has(div[role="list"]), .rLrQHf, .M8OgIe, #bqHHPb div[data-hveid="CBMQAA"], .GeEc1b {
 				/* Top result extract
 				 * Appbar
 				 * 404 yeti
