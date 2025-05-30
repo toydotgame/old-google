@@ -68,7 +68,8 @@ let runningObservers = {
  *   undefined auto-generates the trace. Leaving it as an empty string will
  *   prevent printing of the trace regardless of `type`
  * - ignoreDebug, when true, will print always regardless of the DEBUG state.
- *   Defaults to "false" (normal behaviour)
+ *   Defaults to "false" (normal behaviour). An ignoreDebug message will be sent
+ *   without a stack trace
  */
 function log(message, type="log", trace=undefined, ignoreDebug=false) {
 	if(!DEBUG && !ignoreDebug) return;
@@ -104,11 +105,12 @@ function log(message, type="log", trace=undefined, ignoreDebug=false) {
 		}
 	};
 
-	if(trace == undefined) trace = getCaller();
+	if(trace == undefined) trace = getCaller(); // Returns "NOT DEBUGGING" if !DEBUG
 	if(trace != "")        trace = "\n\n%c" + trace;
 	if(type == "info"      // Make sure no trace is providable for info-based logs:
 	|| type == "success"
-	|| trace == "")        trace = "%c";
+	|| trace == ""
+	|| ignoreDebug)        trace = "%c";
 
 	console.log(
 		"%c[%cOld Google%c]%c %c" + message + trace,
@@ -134,6 +136,8 @@ function log(message, type="log", trace=undefined, ignoreDebug=false) {
  *   called foo(), etc. Defaults to 1
  */
 function getCaller(level=1, verbose=false) {
+	if(!DEBUG) return "NOT DEBUGGING";
+	
 	level++; let caller = "", trace, funct;
 	let error = (new Error).stack.split("\n");
 	/* string FormatLine(number index)
