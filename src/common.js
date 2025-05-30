@@ -137,8 +137,8 @@ function log(message, type="log", trace=undefined, ignoreDebug=false) {
  */
 function getCaller(level=1, verbose=false) {
 	if(!DEBUG) return "NOT DEBUGGING";
-	
-	level++; let caller = "", trace, funct;
+
+	level++; let caller = "";
 	let error = (new Error).stack.split("\n");
 	/* string FormatLine(number index)
 	 * Given the stack trace in `error` is an array of lines, FormatLine(index)
@@ -147,8 +147,8 @@ function getCaller(level=1, verbose=false) {
 	 */
 	function FormatLine(i) {
 		// Throw an error and use its stack trace to get line called from:
-		trace = error[i].split("/");
-		funct = trace[0].split("@")[0];
+		let trace = error[i].split("/");
+		let funct = trace[0].split("@")[0];
 		if(funct) funct += "(), ";
 		return funct + trace[4];
 	}
