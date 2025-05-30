@@ -191,6 +191,10 @@ function dispatch() {
 					replace_search_home();
 					break;
 				case "/search":
+					if(new URLSearchParams(window.location.search).get("udm") == "28") {
+						replace_shopping();
+						break;
+					}
 					replace_search_styles();
 					replace_search_results();
 					break;
