@@ -497,7 +497,7 @@ function replace_search_results() {
 		}
 		
 		.YmvwI, .Lu57id { /* Results tabs text, "More" dropdown */
-			font-family: "Arial", sans-serif-medium, sans-serif;
+			font-family: "Arial", sans-serif-medium, sans-serif !important;
 		}
 	`;
 
