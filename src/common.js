@@ -57,7 +57,7 @@ let runningObservers = {
 	"continuous": false // Indefinite observers from replace.js
 };
 
-/* void log(string message, string? type, string? trace)
+/* void log(string message, string? type, string? trace, boolean? ignoreDebug)
  * Fancy console.log() wrapper that only prints if the DEBUG const is true.
  * Prints an Old Google prefix alongside background colours for log types, and
  * a function/call trace to where this log was triggered from. Logs of type
@@ -66,9 +66,11 @@ let runningObservers = {
  * - trace is a manual override for the auto-generated trace. Leaving it
  *   undefined auto-generates the trace. Leaving it as an empty string will
  *   prevent printing of the trace regardless of `type`
+ * - ignoreDebug, when true, will print always regardless of the DEBUG state.
+ *   Defaults to "false" (normal behaviour)
  */
-function log(message, type="log", trace=undefined) {
-	if(!DEBUG) return;
+function log(message, type="log", trace=undefined, ignoreDebug=false) {
+	if(!DEBUG && !ignoreDebug) return;
 
 	let color = {
 		"fg": "unset",
