@@ -568,7 +568,7 @@ function replace_search_results() {
 			.MjjYud, .cUnQKe { /* General containers, People also searched for */
 				margin-bottom: 16px !important;
 			}
-			.ULSxyf:nth-child(2), #appbar, #OotqVd, #taw, #nMJCib, .kb0PBd:has(div[role="list"]), .rLrQHf, .M8OgIe {
+			.ULSxyf:nth-child(2), #appbar, #OotqVd, #taw, #nMJCib, .kb0PBd:has(div[role="list"]), .rLrQHf, .M8OgIe, #bqHHPb div[data-hveid="CBMQAA"] {
 				/* Top result extract
 				 * Appbar
 				 * 404 yeti
@@ -577,6 +577,7 @@ function replace_search_results() {
 				 * Result pills row
 				 * Search predictions gimmick area on the right
 				 * Gemini response
+				 * "Short videos" results tab
 				 */
 				display: none;
 			}
