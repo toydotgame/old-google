@@ -71,35 +71,35 @@ class Timings { // Store timings profiles for fun when debugging:
 	}
 }
 
-let logos = [
-	{"id": "nav",                 "src": browser.runtime.getURL("/resources/google/nav.png")},
-	{"id": "maps_favicon",        "src": browser.runtime.getURL("/resources/google/favicons/maps.ico")},
-	{"id": "search_favicon",      "src": browser.runtime.getURL("/resources/google/favicons/search.ico")},
-	{"id": "search_alt_favicon",  "src": browser.runtime.getURL("/resources/google/favicons/search_alt.ico")},
-	{"id": "finance_favicon",     "src": browser.runtime.getURL("/resources/google/favicons/finance.ico")},
-	{"id": "scholar_favicon",     "src": browser.runtime.getURL("/resources/google/favicons/scholar.ico")},
-	{"id": "news_favicon",        "src": browser.runtime.getURL("/resources/google/favicons/news.ico")},
-	{"id": "earth_favicon",       "src": browser.runtime.getURL("/resources/google/favicons/earth.ico")},
-	{"id": "books",               "src": browser.runtime.getURL("/resources/google/logos/books.png")},
-	{"id": "finance_left",        "src": browser.runtime.getURL("/resources/google/logos/finance_left.png")},
-	{"id": "finance_right",       "src": browser.runtime.getURL("/resources/google/logos/finance_right.png")},
-	{"id": "g",                   "src": browser.runtime.getURL("/resources/google/logos/g.png")},
-	{"id": "maps",                "src": browser.runtime.getURL("/resources/google/logos/maps.png")},
-	{"id": "maps_watermark_mono", "src": browser.runtime.getURL("/resources/google/logos/maps_watermark_mono.png")},
-	{"id": "maps_watermark",      "src": browser.runtime.getURL("/resources/google/logos/maps_watermark.png")},
-	{"id": "news_left",           "src": browser.runtime.getURL("/resources/google/logos/news_left.png")},
-	{"id": "news",                "src": browser.runtime.getURL("/resources/google/logos/news.png")},
-	{"id": "news_right",          "src": browser.runtime.getURL("/resources/google/logos/news_right.png")},
-	{"id": "patents",             "src": browser.runtime.getURL("/resources/google/logos/patents.png")},
-	{"id": "scholar",             "src": browser.runtime.getURL("/resources/google/logos/scholar.png")},
-	{"id": "search",              "src": browser.runtime.getURL("/resources/google/logos/search.png")},
-	{"id": "shopping_left",       "src": browser.runtime.getURL("/resources/google/logos/shopping_left.png")},
-	{"id": "shopping",            "src": browser.runtime.getURL("/resources/google/logos/shopping.png")},
-	{"id": "shopping_right",      "src": browser.runtime.getURL("/resources/google/logos/shopping_right.png")},
-	{"id": "trends",              "src": browser.runtime.getURL("/resources/google/logos/trends.png")},
-	{"id": "videos",              "src": browser.runtime.getURL("/resources/google/logos/videos.png")},
-	{"id": "earth",               "src": browser.runtime.getURL("/resources/google/logos/earth.png")}
-];
+let logos = {
+	"nav":                 browser.runtime.getURL("/resources/google/nav.png"),
+	"maps_favicon":        browser.runtime.getURL("/resources/google/favicons/maps.ico"),
+	"search_favicon":      browser.runtime.getURL("/resources/google/favicons/search.ico"),
+	"search_alt_favicon":  browser.runtime.getURL("/resources/google/favicons/search_alt.ico"),
+	"finance_favicon":     browser.runtime.getURL("/resources/google/favicons/finance.ico"),
+	"scholar_favicon":     browser.runtime.getURL("/resources/google/favicons/scholar.ico"),
+	"news_favicon":        browser.runtime.getURL("/resources/google/favicons/news.ico"),
+	"earth_favicon":       browser.runtime.getURL("/resources/google/favicons/earth.ico"),
+	"books":               browser.runtime.getURL("/resources/google/logos/books.png"),
+	"finance_left":        browser.runtime.getURL("/resources/google/logos/finance_left.png"),
+	"finance_right":       browser.runtime.getURL("/resources/google/logos/finance_right.png"),
+	"g":                   browser.runtime.getURL("/resources/google/logos/g.png"),
+	"maps":                browser.runtime.getURL("/resources/google/logos/maps.png"),
+	"maps_watermark_mono": browser.runtime.getURL("/resources/google/logos/maps_watermark_mono.png"),
+	"maps_watermark":      browser.runtime.getURL("/resources/google/logos/maps_watermark.png"),
+	"news_left":           browser.runtime.getURL("/resources/google/logos/news_left.png"),
+	"news":                browser.runtime.getURL("/resources/google/logos/news.png"),
+	"news_right":          browser.runtime.getURL("/resources/google/logos/news_right.png"),
+	"patents":             browser.runtime.getURL("/resources/google/logos/patents.png"),
+	"scholar":             browser.runtime.getURL("/resources/google/logos/scholar.png"),
+	"search":              browser.runtime.getURL("/resources/google/logos/search.png"),
+	"shopping_left":       browser.runtime.getURL("/resources/google/logos/shopping_left.png"),
+	"shopping":            browser.runtime.getURL("/resources/google/logos/shopping.png"),
+	"shopping_right":      browser.runtime.getURL("/resources/google/logos/shopping_right.png"),
+	"trends":              browser.runtime.getURL("/resources/google/logos/trends.png"),
+	"videos":              browser.runtime.getURL("/resources/google/logos/videos.png"),
+	"earth":               browser.runtime.getURL("/resources/google/logos/earth.png")
+};
 
 let supportedDomains = ["patents", "scholar", "books", "news", "trends", "www", "images", "earth"];
 let supportedPages = ["/maps", "/videohp", "/finance", "/travel", "/", "/webhp", "/imghp", "/search", "/shopping"];
@@ -207,9 +207,12 @@ function dispatch() {
  * namespaced ID. Returns empty string if not found
  */
 function getResource(id) {
-	try {
-		return logos.find(x => x.id == id).src;
-	} catch(TypeError) {return ""}
+	if(logos[id] == null) {
+		log("Couldn't find resource with ID \"" + id + "\"!", "error", getCaller());
+		return "";
+	}
+
+	return logos[id];
 }
 
 /* boolean getConfig(string id)
