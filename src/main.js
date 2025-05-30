@@ -123,10 +123,9 @@ async function main() {
 		config = await loadConfig();
 		log("Config loaded:", "info"); if(DEBUG) console.table(config);
 	} catch {
-		log("Config loading failed catastrophically! Choosing to quit instead of continue", "error");
-		if(!DEBUG) return;
-		// If debugging, continue execution, but enable a flag to warn whenever
-		// config values are fetched:
+		log("Config loading failed catastrophically! Choosing to quit instead of continue", "error", undefined, true);
+		// Continue execution, but enable a flag to warn whenever config values
+		// are fetched:
 		configFailed = true;
 	}
 	log("Addon initialisation finished after " + Timings.endTimer("init") + " ms", "info");
@@ -221,7 +220,7 @@ function getResource(id) {
  */
 function getConfig(id) {
 	if(configFailed) {
-		log("Config previously failed to load! Returning default value of \"" + id + "\"...", "warn", getCaller());
+		log("Config previously failed to load! Returning default value of \"" + id + "\"...", "warn", getCaller(), true);
 		
 		if(options[id] != null) return options[id].default;
 		return false;
