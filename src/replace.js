@@ -578,9 +578,9 @@ function replace_search_results() {
 				 * Search predictions gimmick area on the right
 				 * Gemini response
 				 * "Short videos" results tab
-				 * "Results are personalised" in footer
+				 * "Results are personalised" in footer (requires !important)
 				 */
-				display: none;
+				display: none !important;
 			}
 			.s6JM6d, .sBbkle { /* Results container, Results tabs */
 				padding-left: 0;
