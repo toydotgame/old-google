@@ -25,15 +25,12 @@ function replace_patents() {
 			h1.style-scope.landing-page { /* Homepage subtitle */
 				display: none;
 			}
-			.lockup-brand.style-scope.search-header { /* Results subtitle */
+			.product-name.style-scope.search-header { /* Results subtitle */
 				display: none;
 			}
-			.lockup-logo.search-header { /* Results logo */
+			.google-logo.search-header { /* Results logo */
 				background: no-repeat url("` + getResource("patents") + `");
 				background-size: contain;
-			}
-			.layout.horizontal.leftheader.style-scope.search-header { /* Results logo container */
-				width: 79px;
 			}
 		`);
 	}
