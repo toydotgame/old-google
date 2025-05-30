@@ -104,9 +104,9 @@ let logos = {
 let supportedDomains = ["patents", "scholar", "books", "news", "trends", "www", "images", "earth"];
 let supportedPages = ["/maps", "/videohp", "/finance", "/travel", "/", "/webhp", "/imghp", "/search", "/shopping"];
 
-let subdomain = window.location.host.split(".")[0];
-let page = "/" + window.location.pathname.split("/")[1];
-let udm = new URLSearchParams(window.location.search).get("udm");
+subdomain = window.location.host.split(".")[0];
+page = "/" + window.location.pathname.split("/")[1];
+udm = new URLSearchParams(window.location.search).get("udm");
 
 if(supportedDomains.includes(subdomain) || supportedPages.includes(page)) main(); // End of execution if false
 
@@ -192,7 +192,7 @@ function dispatch() {
 					replace_search_home();
 					break;
 				case "/search":
-					if(new URLSearchParams(window.location.search).get("udm") == "28") {
+					if(udm == "28") {
 						replace_shopping();
 						break;
 					}

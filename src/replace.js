@@ -454,11 +454,9 @@ function replace_search_results() {
 		typoNotif.innerHTML = typoNotif.innerHTML.replace("These are results for", "Showing results for");
 	}); // Not optimal because this observer never closes on non-typo searches
 
-	if(getConfig("udm14")) {
-		if(!(new URLSearchParams(window.location.search).get("udm"))) {
-			window.location.replace(window.location + "&udm=14");
-			log("Redirected from non-udm=14 page");
-		}
+	if(getConfig("udm14") && udm == null) {
+		window.location.replace(window.location + "&udm=14");
+		log("Redirected from \"All\" to &udm=14");
 	}
 
 	let css = `

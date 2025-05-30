@@ -51,6 +51,7 @@ let options = {
 		"default": false
 	}
 };
+let subdomain, page, udm;
 let config, configFailed = false;
 let runningObservers = {
 	"schedule": false,  // schedule() observers
