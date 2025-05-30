@@ -91,7 +91,7 @@ function replace_books() {
 		#oc-search-logo { /* Homepage subtitle */
 			display: none;
 		}
-		.gb_Ld.gb_Ec { /* Classic Books results logo */
+		.gb_Pd.gb_Ic { /* Classic Books results logo */
 			background: no-repeat url("` + getResource("books") + `");
 			background-size: contain;
 			background-position: 0 0;
