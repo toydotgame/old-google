@@ -159,7 +159,7 @@ function replace_shopping() {
 		 * Google's fault. They suck. This is genuinely unneeded padding. Why?
 		 * Not only that, but the id of the element is dynamic for some reason?
 		 */
-		.Z2z9ye h2[id] {
+		.Z2z9ye h2[id]:empty {
 			display: none;
 		}
 
