@@ -142,16 +142,16 @@ function replace_shopping() {
 	log("Running replacement...");
 
 	injectCss(`
-		.tY4xY { /* Logo */
+		.tY4xY, .ueTbEe { /* Homepage logo, results logo */
 			content: url("` + getResource("shopping_left") + `");
 			height: 32px !important;
 		}
-		.nTJncc { /* Subtitle */
+		.nTJncc, .nTJncc { /* Homepage subtitle, results subtitle */
 			content: url("` + getResource("shopping_right") + `");
 			height: 32px;
 			margin-left: 0 !important;
 		}
-		.KjnGid { /* Drawer logo */
+		.KjnGid, .KjnGid { /* Homepage drawer logo, results drawer logo */
 			content: url("` + getResource("shopping") + `");
 			height: 32px !important;
 		}
