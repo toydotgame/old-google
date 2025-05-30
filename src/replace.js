@@ -498,7 +498,7 @@ function replace_search_results() {
 			width: 52px !important;
 		}
 		
-		.YmvwI { /* Results tabs text */
+		.YmvwI, .Lu57id { /* Results tabs text, "More" dropdown */
 			font-family: "Arial", sans-serif-medium, sans-serif;
 		}
 	`;
