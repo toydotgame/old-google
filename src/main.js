@@ -106,6 +106,7 @@ let supportedPages = ["/maps", "/videohp", "/finance", "/travel", "/", "/webhp",
 
 let subdomain = window.location.host.split(".")[0];
 let page = "/" + window.location.pathname.split("/")[1];
+let udm = new URLSearchParams(window.location.search).get("udm");
 
 if(supportedDomains.includes(subdomain) || supportedPages.includes(page)) main(); // End of execution if false
 
@@ -116,7 +117,7 @@ async function main() {
 	log(
 		"Welcome to Old Google v" + browser.runtime.getManifest().version + "!\n" +
 		"Copyright (c) 2021 toydotgame\n" +
-		"subdomain = \"" + subdomain + "\", page = \"" + page + "\""
+		"subdomain = \"" + subdomain + "\", page = \"" + page + "\", udm = \"" + udm + "\""
 	, "info");
 	
 	try {
