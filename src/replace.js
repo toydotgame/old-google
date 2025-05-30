@@ -141,7 +141,7 @@ function replace_ngrams() {
 function replace_shopping() {
 	log("Running replacement...");
 
-	injectCss(`
+	let css = `
 		.tY4xY, .ueTbEe { /* Homepage logo, results logo */
 			content: url("` + getResource("shopping_left") + `");
 			height: 32px !important;
@@ -170,20 +170,22 @@ function replace_shopping() {
 		.RNNXgb { /* Search box */
 			background-color: light-dark(#fff, #303134) !important;
 		}
-	`);
-	setFavicon("search_alt_favicon");
+	`;
 
-	if(!getConfig("squareBox")) return;
-	
-	log("Enabling squareBox...");
-	injectCss(`
-		.RNNXgb { /* Search box */
-			border-radius: 2px !important;
-		}
-		.aajZCb { /* Search suggestions dropdown */
-			border-radius: 0 0 2px 2px !important;
-		}
-	`);
+	if(getConfig("squareBox")) {
+		log("Enabling squareBox...");
+		css += `
+			.RNNXgb { /* Search box */
+				border-radius: 2px !important;
+			}
+			.aajZCb { /* Search suggestions dropdown */
+				border-radius: 0 0 2px 2px !important;
+			}
+		`;
+	}
+
+	injectCss(css);
+	setFavicon("search_alt_favicon");
 }
 
 // No delay
@@ -201,7 +203,6 @@ function replace_news() {
 			padding-left: 0;
 		}
 	`);
-
 	setFavicon("news_favicon", "deferred");
 }
 
@@ -253,7 +254,7 @@ function replace_maps() {
 function replace_videos() {
 	log("Running replacement...");
 
-	injectCss(`
+	let css = `
 		.lnXdpd { /* Homepage logo */
 			content: url("` + getResource("videos") + `");
 			height: 96px;
@@ -261,20 +262,22 @@ function replace_videos() {
 		.T8VaVe { /* Homepage subtitle */
 			display: none;
 		}
-	`);
-	setFavicon("search_alt_favicon");
+	`;
 
-	if(!getConfig("squareBox")) return;
-	
-	log("Enabling squareBox...");
-	injectCss(`
-		.RNNXgb { /* Search box */
-			border-radius: 2px !important;
-		}
-		.aajZCb { /* Suggestions dropdown */
-			border-radius: 0 0 2px 2px !important;
-		}
-	`);
+	if(getConfig("squareBox")) {
+		log("Enabling squareBox...");
+		css += `
+			.RNNXgb { /* Search box */
+				border-radius: 2px !important;
+			}
+			.aajZCb { /* Suggestions dropdown */
+				border-radius: 0 0 2px 2px !important;
+			}
+		`;
+	}
+
+	injectCss(css);
+	setFavicon("search_alt_favicon");
 }
 
 // No delay
@@ -306,8 +309,6 @@ function replace_finance() {
 			padding-top: 0.5px;
 		}
 	`);
-
-
 	setFavicon("finance_favicon", "deferred");
 }
 
@@ -321,7 +322,6 @@ function replace_travel() {
 			height: unset;
 		}
 	`);
-
 	setFavicon("search_alt_favicon", "deferred");
 }
 
@@ -449,15 +449,15 @@ function replace_search_home() {
 function replace_search_results() {
 	log("Running replacement...");
 
-	schedule("#fprs", typoNotif => {
-		// Should be safe because replacement value is hardcoded
-		typoNotif.innerHTML = typoNotif.innerHTML.replace("These are results for", "Showing results for");
-	}); // Not optimal because this observer never closes on non-typo searches
-
 	if(getConfig("udm14") && udm == null) {
 		window.location.replace(window.location + "&udm=14");
 		log("Redirected from \"All\" to &udm=14");
 	}
+
+	schedule("#fprs", typoNotif => {
+		// Should be safe because replacement value is hardcoded
+		typoNotif.innerHTML = typoNotif.innerHTML.replace("These are results for", "Showing results for");
+	}); // Not optimal because this observer never closes on non-typo searches
 
 	let css = `
 		.FgNLaf { /* Search box narrow viewport logo container */
@@ -646,7 +646,7 @@ function replace_search_results() {
 function replace_de_google_sans() {
 	log("Removing Google Sans...");
 
-	let css = `
+	injectCss(`
 		/* Search box */
 		#APjFqb, .aajZCb, #fprs, #oc-search-input, #ngram-query, #searchInput, .fontBodyMedium, .ZAGvjd, .KfXsid {
 			/* Search area <textarea>,
@@ -664,7 +664,5 @@ function replace_de_google_sans() {
 		.UUbT9 b { /* Homepage dropdown bold suggestion text */
 			font-family: unset !important;
 		}
-	`;
-
-	injectCss(css);
+	`);
 }

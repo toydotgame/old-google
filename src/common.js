@@ -5,7 +5,7 @@
  */
 
 // Enables debug logging. Should be false in packed copies of this extension:
-const DEBUG = true;
+const DEBUG = false;
 
 let options = {
 	"greenUrls": {
