@@ -28,11 +28,13 @@ async function loadConfig() {
 	// truthy respectively, there must be a user config, which we return.
 	// getConfig() in main.js handles missing config keys—we're just loading it
 	if(config != null && Object.keys(config).length) {
+		log("Config found");
 		config = await migrate(config);
 		return config;
 	}
 	
 	// Return defaults if no user config exists:
+	log("No user config exists, setting to defaults...");
 	for(let key in options) config[key] = options[key].default;
 	await browser.storage.sync.set(config); // Save defaults to user config
 	return config;
@@ -100,6 +102,7 @@ async function setupPopup() {
 		inputs[i].addEventListener("change", ()=>{
 			// inputs[i].id|checked is evaluated at event dispatch time, so each
 			// input does correctly get their respective storage.sync.set() cmd:
+			log(inputs[i].id + " changed to " + inputs[i].checked);
 			browser.storage.sync.set({[inputs[i].id]: inputs[i].checked});
 		});
 	}
