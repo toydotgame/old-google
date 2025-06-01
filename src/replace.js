@@ -628,8 +628,8 @@ function replace_search_results() {
 	if(getConfig("removeShortVideos")) {
 		log("Removing short videos tab...");
 		css += `
-			#bqHHPb div[data-hveid="CA8QAA"][role="listitem"] .YmvwI { /* "Short videos" results tab */
-				display: none !important;
+			#bqHHPb div[role="listitem"] > a[href*="&udm=39"] > .YmvwI { /* "Short videos" results tab */
+				display: none;
 			}
 		`;
 	}
