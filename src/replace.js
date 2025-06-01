@@ -566,7 +566,7 @@ function replace_search_results() {
 			.MjjYud, .cUnQKe { /* General containers, People also searched for */
 				margin-bottom: 16px !important;
 			}
-			.ULSxyf:nth-child(2), #OotqVd, #taw, #nMJCib, .kb0PBd:has(div[role="list"]), .rLrQHf, .M8OgIe, #bqHHPb div[data-hveid="CBMQAA"], .GeEc1b {
+			.ULSxyf:nth-child(2), #OotqVd, #taw, #nMJCib, .kb0PBd:has(div[role="list"]), .rLrQHf, .M8OgIe, #bqHHPb div[data-hveid="CA8QAA"][role="listitem"] .YmvwI, .GeEc1b {
 				/* Top result extract
 				 * 404 yeti
 				 * Definitions hint
