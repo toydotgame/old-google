@@ -566,7 +566,7 @@ function replace_search_results() {
 			.MjjYud, .cUnQKe { /* General containers, People also searched for */
 				margin-bottom: 16px !important;
 			}
-			.ULSxyf:nth-child(2), #OotqVd, #taw, #nMJCib, .kb0PBd:has(div[role="list"]), .rLrQHf, .M8OgIe, #bqHHPb div[data-hveid="CA8QAA"][role="listitem"] .YmvwI, .GeEc1b {
+			.ULSxyf:nth-child(2), #OotqVd, #taw, #nMJCib, .kb0PBd:has(div[role="list"]), .rLrQHf, .M8OgIe, .GeEc1b {
 				/* Top result extract
 				 * 404 yeti
 				 * Definitions hint
@@ -574,7 +574,6 @@ function replace_search_results() {
 				 * Result pills row
 				 * Search predictions gimmick area on the right
 				 * Gemini response
-				 * "Short videos" results tab
 				 * "Results are personalised" in footer (requires !important)
 				 */
 				display: none !important;
@@ -622,6 +621,15 @@ function replace_search_results() {
 			}
 			.hlcw0c { /* Always the result just before a results gimmick */
 				margin-bottom: 0 !important;
+			}
+		`;
+	}
+
+	if(getConfig("removeShortVideos")) {
+		log("Removing short videos tab...");
+		css += `
+			#bqHHPb div[data-hveid="CA8QAA"][role="listitem"] .YmvwI { /* "Short videos" results tab */
+				display: none !important;
 			}
 		`;
 	}

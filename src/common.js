@@ -5,7 +5,7 @@
  */
 
 // Enables debug logging. Should be false in packed copies of this extension:
-const DEBUG = false;
+const DEBUG = true;
 
 let options = {
 	"greenUrls": {
@@ -41,6 +41,12 @@ let options = {
 	"peopleAlsoSearchedFor": {
 		"text": {
 			"en": "Remove \"People also searched for\""
+		},
+		"default": true
+	},
+	"removeShortVideos": {
+		"text": {
+			"en": "Remove the \"Short videos\" tab"
 		},
 		"default": true
 	},
