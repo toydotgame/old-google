@@ -23,6 +23,7 @@ let lang = "en"; // Future feature for multiple language support
 async function loadConfig() {
 	let config; // Initialise as null if storage.sync.get() fails
 	config = await browser.storage.sync.get();
+	console.log(config);
 	// If config is null, storage.sync.get() failed. If the length of the object
 	// is falsy, then there's no config for this user. Ergo, if this is true and
 	// truthy respectively, there must be a user config, which we return.
@@ -99,11 +100,12 @@ async function setupPopup() {
 
 	// Event listen for check changes and save to config:
 	for(let i = 0; i < inputs.length; i++) {
-		inputs[i].addEventListener("change", ()=>{
+		inputs[i].addEventListener("change", async ()=>{
 			// inputs[i].id|checked is evaluated at event dispatch time, so each
 			// input does correctly get their respective storage.sync.set() cmd:
 			log(inputs[i].id + " changed to " + inputs[i].checked);
-			browser.storage.sync.set({[inputs[i].id]: inputs[i].checked});
+			await browser.storage.sync.set({[inputs[i].id]: inputs[i].checked});
+			console.log(await browser.storage.sync.get([inputs[i].id]));
 		});
 	}
 
