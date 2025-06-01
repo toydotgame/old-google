@@ -90,7 +90,7 @@ async function setupPopup() {
 		if(config[key]) {
 			try {document.querySelector("#" + key).checked = true}
 			catch(TypeError) {
-				log("Invalid config option \"" + key + "\"!", "error");
+				log("Config option for \"" + key + "\" does not exist in the popup!", "error");
 			}
 		}
 	}
