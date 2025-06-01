@@ -5,7 +5,7 @@
  */
 
 // Enables debug logging. Should be false in packed copies of this extension:
-const DEBUG = true;
+const DEBUG = false;
 
 let options = {
 	"greenUrls": {
@@ -111,7 +111,7 @@ function log(message, type="log", trace=undefined, ignoreDebug=false) {
 		}
 	};
 
-	if(trace == undefined) trace = getCaller(); // Returns "NOT DEBUGGING" if !DEBUG
+	if(trace == undefined) trace = getCaller();
 	if(trace != "")        trace = "\n\n%c" + trace;
 	if(type == "info"      // Make sure no trace is providable for info-based logs:
 	|| type == "success"
@@ -142,10 +142,9 @@ function log(message, type="log", trace=undefined, ignoreDebug=false) {
  *   called foo(), etc. Defaults to 1
  */
 function getCaller(level=1, verbose=false) {
-	if(!DEBUG) return "NOT DEBUGGING";
-
 	level++; let caller = "";
 	let error = (new Error).stack.split("\n");
+	if(level >= error.length) level = error.length-1;
 	/* string FormatLine(number index)
 	 * Given the stack trace in `error` is an array of lines, FormatLine(index)
 	 * formats the JS trace in the Old Google debug style, returning the trace
@@ -153,7 +152,7 @@ function getCaller(level=1, verbose=false) {
 	 */
 	function FormatLine(i) {
 		// Throw an error and use its stack trace to get line called from:
-		let trace = error[i].split("/");
+		let trace = error[0].split("/");
 		let funct = trace[0].split("@")[0];
 		if(funct) funct += "(), ";
 		return funct + trace[4];
